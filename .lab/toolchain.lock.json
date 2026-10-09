@@ -1,0 +1,1613 @@
+{
+  "schema": "lab-toolchain-lock-v1",
+  "checked_at": "2026-10-09T15:35:14.095032+00:00",
+  "selection_complete": true,
+  "installation_performed": true,
+  "tools": [
+    {
+      "name": "Python",
+      "version": "3.14.4",
+      "platform": "linux-x86_64",
+      "source_url": "https://packages.ubuntu.com/resolute/python3.14",
+      "install_path": "/usr/bin/python3.14",
+      "runtime": "Existing Ubuntu interpreter; isolated venv .lab/venvs/unitypy only",
+      "artifact_sha256": null,
+      "verification_source": [
+        ".lab/private/logs/task-1-recovery/inventory.stdout",
+        ".lab/private/logs/task-1-recovery/package_origins.stdout"
+      ],
+      "published_checksum": null,
+      "checksum_comparison": "EXISTING_SYSTEM_PACKAGE; no installer hash invented",
+      "artifact_size_bytes": null,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [
+        "No system replacement or global pip.",
+        "venv is present; ensurepip and python3.14-venv are absent.",
+        "Use venv --without-pip and the pinned pip wheel through PYTHONPATH for local bootstrap in task 3. No get-pip script or system package installation.",
+        "Task 3 created venv --without-pip and bootstrapped pinned pip wheel locally; interpreter unchanged."
+      ],
+      "existing_package": {
+        "name": "python3.14",
+        "version": "3.14.4-1ubuntu0.2",
+        "origin": "Ubuntu resolute-updates/main amd64; see package_origins.stdout"
+      },
+      "installation_status": "EXISTING_INTERPRETER_WITH_LOCAL_VENV",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-3",
+        "return_codes": {
+          "venv": 0,
+          "version": 0,
+          "pip_check": 0
+        },
+        "sample_result": "Python 3.14.4 isolated venv; pinned pip bootstrap/install works. UnityPy decoding limitation recorded separately."
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/python-unitypy-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "dotnet-sdk",
+      "version": "10.0.401",
+      "platform": "linux-x86_64",
+      "source_url": "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.401/dotnet-sdk-10.0.401-linux-x64.tar.gz",
+      "install_path": ".lab/tools/dotnet",
+      "runtime": "Bundled Microsoft.NETCore.App 10.0.12; native Ubuntu libraries",
+      "artifact_sha256": "137268c8ad939c064ff1ee2a6fdf0899d8725377114ea012fbd1ad5fa2550418",
+      "verification_source": [
+        "https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json",
+        ".lab/private/sources/task-1/dotnet_10_releases.body",
+        ".lab/private/sources/task-1-recovery/dotnet_ubuntu.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha512",
+        "value": "51c8b999af9e8dd9998c9edc5944e19a90788862068acd38694e098889054ce8c23d4f0c5cccfa16bf187d044562359e5ee69a9f8ad0bbe913ba90311fbce25b"
+      },
+      "checksum_comparison": "MATCH; official published sha512",
+      "artifact_size_bytes": 240059572,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:02:41.522594+00:00",
+      "notes": [
+        "SDK chosen for dotnet tool install; not a source-build requirement of ILSpyCmd.",
+        "Task 2 installed locally from checksum-verified locked Microsoft archive."
+      ],
+      "native_packages": [
+        "ca-certificates",
+        "libbrotli1",
+        "libc6",
+        "libgcc-s1",
+        "libgssapi-krb5-2",
+        "libicu78",
+        "libssl3t64",
+        "libstdc++6",
+        "tzdata",
+        "zlib1g"
+      ],
+      "native_packages_inventory": ".lab/private/logs/task-1-fix-1/dotnet-native-packages.json",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; not a published SHA256",
+      "local_artifact_sha256": "137268c8ad939c064ff1ee2a6fdf0899d8725377114ea012fbd1ad5fa2550418",
+      "local_artifact_path": ".lab/private/downloads/task-2/dotnet-sdk.tar.gz",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-2",
+        "commands": [
+          "dotnet --version",
+          "dotnet --info",
+          "dotnet --list-runtimes",
+          "dotnet tool install ilspycmd --tool-path .lab/tools/ilspy --version 11.1.0.9782 --source .lab/private/downloads/task-2/nuget-feed"
+        ],
+        "return_codes": 0,
+        "sample_result": "Exact-version local tool installation succeeded",
+        "validation_path": ".lab/private/logs/task-2/install-ilspy.stdout",
+        "scope": "SDK/runtime and one real game class only; no whole-assembly decompilation or new suites"
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/dotnet-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "ILSpyCmd",
+      "version": "11.1.0.9782",
+      "platform": "linux-x86_64",
+      "source_url": "https://api.nuget.org/v3-flatcontainer/ilspycmd/11.1.0.9782/ilspycmd.11.1.0.9782.nupkg",
+      "install_path": ".lab/tools/ilspy",
+      "runtime": "Microsoft.NETCore.App >=10.0.0, major 10; selected SDK 10.0.401 bundles runtime 10.0.12",
+      "artifact_sha256": "74c07facaf1850c78a779fc509031f756e1c0de24b1a536f3363d7ef81ce001f",
+      "verification_source": [
+        "https://api.nuget.org/v3/catalog0/data/2026.09.23.06.00.50/ilspycmd.11.1.0.9782.json",
+        ".lab/private/sources/task-1-recovery/ilspy_catalog.body",
+        ".lab/private/sources/task-1/ilspycmd_11_1_0_nupkg.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha512-base64",
+        "value": "F7Clu/rYWPt9fClDLzZgWXI0N2/Rt44t5tOukOYUZt1tI8kwZTCY8zEZVgIr7eTkJQhuZFJW6RJ8HzRClwnIQg=="
+      },
+      "checksum_comparison": "MATCH; official published sha512-base64; NuGet signature NOT_VERIFIED",
+      "artifact_size_bytes": 4632113,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:02:41.522594+00:00",
+      "notes": [
+        "Task 2 installed locally; reused checksum-verified locked NuGet archive offline."
+      ],
+      "metadata_archive_path": ".lab/private/sources/task-1/ilspycmd_11_1_0_nupkg.body",
+      "runtime_config": {
+        "runtimeOptions": {
+          "tfm": "net10.0",
+          "framework": {
+            "name": "Microsoft.NETCore.App",
+            "version": "10.0.0"
+          },
+          "configProperties": {
+            "System.GC.Server": true,
+            "System.Globalization.Invariant": true,
+            "System.Globalization.PredefinedCulturesOnly": true,
+            "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+            "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
+          }
+        }
+      },
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; not a published SHA256",
+      "local_artifact_sha256": "74c07facaf1850c78a779fc509031f756e1c0de24b1a536f3363d7ef81ce001f",
+      "local_artifact_path": ".lab/private/downloads/task-2/nuget-feed/ilspycmd.11.1.0.9782.nupkg",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-2",
+        "commands": [
+          "ilspycmd --version",
+          "ilspycmd -l c \"$MANAGED/Assembly-CSharp.dll\"",
+          "ilspycmd -r \"$MANAGED\" -t WeaponManager \"$MANAGED/Assembly-CSharp.dll\""
+        ],
+        "return_codes": 0,
+        "sample_result": "WeaponManager, Player_move_c and PhotonNetwork listed; WeaponManager readable: 108 method bodies and UnityEngine references; empty stderr; no detected decompilation diagnostics",
+        "validation_path": ".lab/smoke/ilspy/validation.json",
+        "scope": "SDK/runtime and one real game class only; no whole-assembly decompilation or new suites"
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/ilspy-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "Temurin-JDK",
+      "version": "21.0.12.1+1-LTS",
+      "platform": "linux-x86_64",
+      "source_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+      "install_path": ".lab/tools/java",
+      "runtime": "OpenJDK HotSpot 21 LTS, Linux glibc x64; CLI usage headless",
+      "artifact_sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+      "verification_source": [
+        "https://github.com/adoptium/temurin21-binaries/releases/tag/jdk-21.0.12.1%2B1",
+        ".lab/private/sources/task-1-recovery/jdk21_assets_latest.body",
+        ".lab/private/sources/task-1-recovery/temurin_install.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94"
+      },
+      "checksum_comparison": "MATCH; locked official published SHA256",
+      "artifact_size_bytes": 207473347,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:16:36.451334+00:00",
+      "notes": [
+        "Selected instead of previously discovered JRE to supply JAVA_HOME consistently for Android CLI too. No Gradle installation.",
+        "Task 4: pinned local installation, official SHA256 matches. Minimal version and one real functional sample; no new suites/reviews."
+      ],
+      "published_signature_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sig",
+      "published_checksum_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sha256.txt",
+      "native_packages": [
+        "libc6",
+        "libgcc-s1",
+        "libstdc++6",
+        "zlib1g",
+        "ca-certificates"
+      ],
+      "optional_gui_packages": [
+        "libx11-6",
+        "libxext6",
+        "libxi6",
+        "libxrender1",
+        "libxtst6",
+        "libfreetype6",
+        "fontconfig",
+        "libasound2t64"
+      ],
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; independent comparison with locked published SHA256",
+      "local_artifact_sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+      "local_artifact_path": ".lab/private/downloads/task-4/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-4",
+        "commands": [
+          "java -version",
+          "jadx --single-class com.prime31.UnityPlayerNativeActivity --single-class-output .lab/smoke/android/jadx-bootstrap --threads-count 1 unpacked/apk/classes.dex",
+          "java -jar \"$LAB_APKTOOL_JAR\" d --only-manifest --no-src --no-assets --jobs 1 --frame-path .lab/private/apktool-framework --output .lab/smoke/android/decoded-manifest .lab/smoke/android/original.apk"
+        ],
+        "return_codes": 0,
+        "sample_result": "Temurin build 21.0.12.1+1-LTS; pinned JADX and Apktool run successfully with local JAVA_HOME.",
+        "validation_path": ".lab/smoke/android/validation.json",
+        "scope": "Local headless runtime: java -version and actual JADX/Apktool commands; no GUI/JDK compilation/SDK certification. Release signature not verified."
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/java-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "JADX",
+      "version": "1.5.6",
+      "platform": "linux-x86_64",
+      "source_url": "https://github.com/skylot/jadx/releases/download/v1.5.6/jadx-1.5.6.zip",
+      "install_path": ".lab/tools/jadx",
+      "runtime": "Java >=11 64-bit; selected Temurin 21.0.12.1+1-LTS",
+      "artifact_sha256": "545ea2be9c242511bc145755cf4bda2485ade42966e096f8b4d3da2a230e8974",
+      "verification_source": [
+        "https://github.com/skylot/jadx/releases/tag/v1.5.6",
+        ".lab/private/sources/task-1/jadx_latest.body",
+        ".lab/private/sources/task-1-recovery/jadx_readme.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "545ea2be9c242511bc145755cf4bda2485ade42966e096f8b4d3da2a230e8974"
+      },
+      "checksum_comparison": "MATCH; locked official published SHA256",
+      "artifact_size_bytes": 72646741,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:16:36.451334+00:00",
+      "notes": [
+        "Release binary only. JADX build JDK >=17 is distinct from its Java >=11 runtime.",
+        "Task 4: pinned local installation, official SHA256 matches. Minimal version and one real functional sample; no new suites/reviews."
+      ],
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; independent comparison with locked published SHA256",
+      "local_artifact_sha256": "545ea2be9c242511bc145755cf4bda2485ade42966e096f8b4d3da2a230e8974",
+      "local_artifact_path": ".lab/private/downloads/task-4/jadx-1.5.6.zip",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-4",
+        "commands": [
+          "jadx --version",
+          "jadx --help",
+          "jadx --single-class com.prime31.UnityPlayerNativeActivity --single-class-output .lab/smoke/android/jadx-bootstrap --threads-count 1 unpacked/apk/classes.dex"
+        ],
+        "return_codes": 0,
+        "sample_result": "Authorized com.prime31.UnityPlayerNativeActivity substitution; 18 method bodies, six Android imports, no detected decompilation errors. Initial Manifest constants-only sample retained, not functional certification.",
+        "validation_path": ".lab/smoke/android/validation.json",
+        "scope": "One functional Android bootstrap class and five recovered manifest values; no gameplay/full DEX/resource certification, rebuild, signing or APK execution."
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/jadx-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "Apktool",
+      "version": "3.0.3",
+      "platform": "linux-x86_64",
+      "source_url": "https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar",
+      "install_path": ".lab/tools/apktool",
+      "runtime": "Java >=8; selected Temurin 21.0.12.1+1-LTS; invoke java -jar",
+      "artifact_sha256": "dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423",
+      "verification_source": [
+        "https://github.com/iBotPeaches/Apktool/releases/tag/v3.0.3",
+        ".lab/private/sources/task-1/apktool_latest.body",
+        ".lab/private/sources/task-1-recovery/apktool_install.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423"
+      },
+      "checksum_comparison": "MATCH; locked official published SHA256",
+      "artifact_size_bytes": 15478013,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:16:36.451334+00:00",
+      "notes": [
+        "Decode only; aapt/aapt2 source-build dependencies are not required for the planned decode.",
+        "Task 4: pinned local installation, official SHA256 matches. Minimal version and one real functional sample; no new suites/reviews."
+      ],
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; independent comparison with locked published SHA256",
+      "local_artifact_sha256": "dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423",
+      "local_artifact_path": ".lab/private/downloads/task-4/apktool_3.0.3.jar",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-4",
+        "commands": [
+          "java -jar \"$LAB_APKTOOL_JAR\" --version",
+          "java -jar \"$LAB_APKTOOL_JAR\" --help",
+          "java -jar \"$LAB_APKTOOL_JAR\" d --only-manifest --no-src --no-assets --jobs 1 --frame-path .lab/private/apktool-framework --output .lab/smoke/android/decoded-manifest .lab/smoke/android/original.apk"
+        ],
+        "return_codes": 0,
+        "sample_result": "XML readable: package com.pixel.gun3d; Apktool normalized metadata in apktool.yml: versionCode 1191, versionName 11.3.1, minSdk 15, targetSdk 24. Ten unresolved app-resource attribute warnings with only-manifest mode; these fields verified.",
+        "validation_path": ".lab/smoke/android/validation.json",
+        "scope": "only-manifest; raw dex/resources and libraries copied by Apktool, not decompiled/exported; unresolved app resource attributes are not certified"
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/apktool-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "AssetRipper",
+      "version": "2.0.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://github.com/AssetRipper/AssetRipper/releases/download/2.0.0/AssetRipper_linux_x64.tar.xz",
+      "install_path": ".lab/tools/assetripper",
+      "runtime": "Published NativeAOT self-contained Linux x64 executable AssetRipper.GUI.Free; no external .NET runtime",
+      "artifact_sha256": "6f5d4352d36795b944243eb3ec790ec37dbca6d6756e52605bc8616e042d384e",
+      "verification_source": [
+        "https://github.com/AssetRipper/AssetRipper/releases/tag/2.0.0",
+        ".lab/private/sources/task-1/assetripper_releases.body",
+        ".lab/private/sources/task-1-recovery/assetripper_publish_actual.body",
+        ".lab/private/sources/task-1-recovery/assetripper_csproj.body",
+        ".lab/private/sources/task-1-recovery/dotnet_nativeaot.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "6f5d4352d36795b944243eb3ec790ec37dbca6d6756e52605bc8616e042d384e"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 30834604,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [
+        "Published on Ubuntu 22.04; .NET 10 SDK/clang are build-time only.",
+        "Invariant globalization; inspect executable/shared-library NEEDED entries before execution in task 3.",
+        "Use Free edition only and UI on loopback; do not export full OBB."
+      ],
+      "native_packages": [
+        "libc6",
+        "libgcc-s1",
+        "libstdc++6",
+        "zlib1g",
+        "libssl3t64"
+      ],
+      "local_artifact_sha256": "6f5d4352d36795b944243eb3ec790ec37dbca6d6756e52605bc8616e042d384e",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/AssetRipper_linux_x64.tar.xz",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "One independent globalgamemanagers sample with 27 Managed assemblies; import/processing only. No full OBB export, audio or runtime checks; UI final exit code not observed.",
+        "commands": [
+          "AssetRipper.GUI.Free --version",
+          "AssetRipper.GUI.Free --help",
+          "AssetRipper.GUI.Free --headless --port 58317 --log-path <private log>",
+          "ss -ltnp",
+          "POST /LoadFolder path=<independent sample with Managed>"
+        ],
+        "return_codes": {
+          "version": 0,
+          "help": 0,
+          "ss": 0,
+          "sample_http": 0,
+          "ui_process_exit": "NOT_OBSERVED; controlled SIGTERM"
+        },
+        "sample_result": "Unity 5.3.7p1 recognized; Mono backend, 27 assemblies; finished import/processing; 7975 omitted references (sample limitation), zero error/exception log lines; loopback verified and listener closed"
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/assetripper-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "UnityPy",
+      "version": "1.25.4",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/46/33/ce57aefa2b3059be43ef14b3bb67cdaffdac19e34bbcba88129f45660472/unitypy-1.25.4-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.8",
+      "artifact_sha256": "2b3ecb5b063bd4e8962540bd1790d5211becc3a6dd1be6fbe8896bd61fd086d1",
+      "verification_source": [
+        "https://pypi.org/pypi/UnityPy/1.25.4/json",
+        ".lab/private/sources/task-1/unitypy_pypi.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "2b3ecb5b063bd4e8962540bd1790d5211becc3a6dd1be6fbe8896bd61fd086d1"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 1330820,
+      "status": "PARTIAL",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [
+        "Default extras only; no ttgen/full/tests/dev.",
+        "All default direct/transitive dependencies pinned in this lock; compatible wheel tags found for Python 3.14, except pure-Python tpk_ar sdist. Actual imports and object parsing deferred to task 3."
+      ],
+      "artifact_filename": "unitypy-1.25.4-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "requires_dist": [
+        "lz4",
+        "brotli",
+        "Pillow",
+        "texture2ddecoder>=1.0.5",
+        "etcpak",
+        "astc-encoder-py>=0.1.12",
+        "fmod_toolkit",
+        "fsspec",
+        "attrs",
+        "tpk_ar",
+        "typetreegeneratorapi>=0.0.10; extra == \"ttgen\"",
+        "unitypy[ttgen]; extra == \"full\"",
+        "pytest; extra == \"tests\"",
+        "pillow; extra == \"tests\"",
+        "psutil; extra == \"tests\"",
+        "unitypy[full]; extra == \"tests\"",
+        "ruff; extra == \"dev\"",
+        "unitypy[tests]; extra == \"dev\""
+      ],
+      "role": "tool",
+      "local_artifact_sha256": "2b3ecb5b063bd4e8962540bd1790d5211becc3a6dd1be6fbe8896bd61fd086d1",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/unitypy-1.25.4-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "PARTIAL",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "One independent globalgamemanagers sample: load/enumeration pass, PlayerSettings decode fails. No retry, version change or full corpus validation.",
+        "commands": [
+          "python --version",
+          "UnityPy package version",
+          "pip check",
+          "pip freeze --all",
+          "UnityPy.load(globalgamemanagers), enumerate, read PlayerSettings"
+        ],
+        "return_codes": {
+          "version": 0,
+          "pip_check": 0,
+          "freeze": 0,
+          "sample": 1
+        },
+        "sample_result": "Loaded real globalgamemanagers; Unity 5.3.7p1, 18 objects/types enumerated; PlayerSettings read failed with EOFError: read_str out of bounds. No retry or extra package installed."
+      },
+      "closure_version_check": {
+        "status": "PASS",
+        "return_code": 0,
+        "log_prefix": ".lab/private/logs/task-6/python-unitypy-version",
+        "scope": "Clean Bash with only .lab/env.sh; version/path check only, functional evidence retained separately."
+      }
+    },
+    {
+      "name": "lz4",
+      "version": "4.4.5",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/f1/01/d52c7b11eaa286d49dae619c0eec4aabc0bf3cda7a7467eb77c62c4471f3/lz4-4.4.5-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.9",
+      "artifact_sha256": "0bba042ec5a61fa77c7e380351a61cb768277801240249841defd2ff0a10742f",
+      "verification_source": [
+        "https://pypi.org/pypi/lz4/4.4.5/json",
+        ".lab/private/sources/task-1-recovery/pypi_lz4.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "0bba042ec5a61fa77c7e380351a61cb768277801240249841defd2ff0a10742f"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 1368661,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "lz4-4.4.5-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "requires_dist": [
+        "pytest!=3.3.0; extra == \"tests\"",
+        "psutil; extra == \"tests\"",
+        "pytest-cov; extra == \"tests\"",
+        "sphinx>=1.6.0; extra == \"docs\"",
+        "sphinx_bootstrap_theme; extra == \"docs\"",
+        "flake8; extra == \"flake8\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "0bba042ec5a61fa77c7e380351a61cb768277801240249841defd2ff0a10742f",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/lz4-4.4.5-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "brotli",
+      "version": "1.2.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/f3/2f/0976d5b097ff8a22163b10617f76b2557f15f0f39d6a0fe1f02b1a53e92b/brotli-1.2.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; no Requires-Python constraint in metadata",
+      "artifact_sha256": "cf9cba6f5b78a2071ec6fb1e7bd39acf35071d90a81231d67e92d637776a6a63",
+      "verification_source": [
+        "https://pypi.org/pypi/brotli/1.2.0/json",
+        ".lab/private/sources/task-1-recovery/pypi_brotli.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "cf9cba6f5b78a2071ec6fb1e7bd39acf35071d90a81231d67e92d637776a6a63"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 1419861,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "brotli-1.2.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "requires_dist": [],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "cf9cba6f5b78a2071ec6fb1e7bd39acf35071d90a81231d67e92d637776a6a63",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/brotli-1.2.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "Pillow",
+      "version": "12.3.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/5c/44/c85361f65dbe00eea8576ee467c768d25129989efb76e94f205e9ca9bb46/pillow-12.3.0-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.10",
+      "artifact_sha256": "251bf95b67017e27b13d82f5b326234ca62d70f9cf4c2b9032de2358a3b12c7b",
+      "verification_source": [
+        "https://pypi.org/pypi/Pillow/12.3.0/json",
+        ".lab/private/sources/task-1-recovery/pypi_pillow.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "251bf95b67017e27b13d82f5b326234ca62d70f9cf4c2b9032de2358a3b12c7b"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 6936962,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "pillow-12.3.0-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "requires_dist": [
+        "furo; extra == \"docs\"",
+        "olefile; extra == \"docs\"",
+        "sphinx>=8.2; extra == \"docs\"",
+        "sphinx-autobuild; extra == \"docs\"",
+        "sphinx-copybutton; extra == \"docs\"",
+        "sphinx-inline-tabs; extra == \"docs\"",
+        "sphinxext-opengraph; extra == \"docs\"",
+        "olefile; extra == \"fpx\"",
+        "olefile; extra == \"mic\"",
+        "arro3-compute; extra == \"test-arrow\"",
+        "arro3-core; extra == \"test-arrow\"",
+        "nanoarrow; extra == \"test-arrow\"",
+        "pyarrow; extra == \"test-arrow\"",
+        "coverage>=7.4.2; extra == \"tests\"",
+        "defusedxml; extra == \"tests\"",
+        "markdown2; extra == \"tests\"",
+        "olefile; extra == \"tests\"",
+        "packaging; extra == \"tests\"",
+        "pytest; extra == \"tests\"",
+        "pytest-cov; extra == \"tests\"",
+        "pytest-timeout; extra == \"tests\"",
+        "pytest-xdist; extra == \"tests\"",
+        "setuptools; extra == \"tests\"",
+        "trove-classifiers>=2024.10.12; extra == \"tests\"",
+        "defusedxml; extra == \"xmp\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "251bf95b67017e27b13d82f5b326234ca62d70f9cf4c2b9032de2358a3b12c7b",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/pillow-12.3.0-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "texture2ddecoder",
+      "version": "1.0.6",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/8b/89/4bb28293d4b49834386a81e9f89008dc872da5ee0564e370f560e16869a2/texture2ddecoder-1.0.6-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.7",
+      "artifact_sha256": "09b98ea4d66e21aca42558727dc609a8a952e2b6eb09d0ee8e0e52ba14b7848a",
+      "verification_source": [
+        "https://pypi.org/pypi/texture2ddecoder/1.0.6/json",
+        ".lab/private/sources/task-1-recovery/pypi_texture2ddecoder.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "09b98ea4d66e21aca42558727dc609a8a952e2b6eb09d0ee8e0e52ba14b7848a"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 399552,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "texture2ddecoder-1.0.6-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "requires_dist": [
+        "pytest>=8.3.3; extra == \"tests\"",
+        "pillow>=10.4.0; extra == \"tests\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "09b98ea4d66e21aca42558727dc609a8a952e2b6eb09d0ee8e0e52ba14b7848a",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/texture2ddecoder-1.0.6-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "etcpak",
+      "version": "0.9.15",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/d1/b1/07d7955b6c25aa5c56c427125a32ea8431e61edf4df79a54e14329b3a7f7/etcpak-0.9.15-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.7",
+      "artifact_sha256": "b75248c4869c7fddf1e5bba4be02a504da08cffb17434dcdb5bc618869d4ea0a",
+      "verification_source": [
+        "https://pypi.org/pypi/etcpak/0.9.15/json",
+        ".lab/private/sources/task-1-recovery/pypi_etcpak.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "b75248c4869c7fddf1e5bba4be02a504da08cffb17434dcdb5bc618869d4ea0a"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 2610903,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "etcpak-0.9.15-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "requires_dist": [
+        "archspec>=0.2",
+        "pytest>=8.3.3; extra == \"tests\"",
+        "pillow>=10.4.0; extra == \"tests\"",
+        "imagehash>=4.3.1; extra == \"tests\"",
+        "texture2ddecoder; extra == \"tests\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "b75248c4869c7fddf1e5bba4be02a504da08cffb17434dcdb5bc618869d4ea0a",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/etcpak-0.9.15-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "astc-encoder-py",
+      "version": "0.1.12",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/08/a3/4a0399ef6f14cf3738eafb14cc89d890bdc8eae2b5c5eaaf6ab74495c9af/astc_encoder_py-0.1.12-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.7",
+      "artifact_sha256": "1a3c0efc3187e06fd1d5992a986220a5921498c35c44d1edbd9b2971c71a8a4f",
+      "verification_source": [
+        "https://pypi.org/pypi/astc-encoder-py/0.1.12/json",
+        ".lab/private/sources/task-1-recovery/pypi_astc-encoder-py.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "1a3c0efc3187e06fd1d5992a986220a5921498c35c44d1edbd9b2971c71a8a4f"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 4764225,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "astc_encoder_py-0.1.12-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "requires_dist": [
+        "archspec>=0.2",
+        "pytest>=8.3.3; extra == \"tests\"",
+        "pillow>=10.4.0; extra == \"tests\"",
+        "imagehash>=4.3.1; extra == \"tests\"",
+        "psutil>=6.0.0; extra == \"tests\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "1a3c0efc3187e06fd1d5992a986220a5921498c35c44d1edbd9b2971c71a8a4f",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/astc_encoder_py-0.1.12-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "fmod_toolkit",
+      "version": "0.1.3",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/ab/db/b11623615ddbdda3f5c68acd04da2b25ae32fc7668c488538c4092f4f1a2/fmod_toolkit-0.1.3-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.8",
+      "artifact_sha256": "7ea99e5b8792e28c6a678ba55d929737c0a93faea0b66998f2bbadd09e06065d",
+      "verification_source": [
+        "https://pypi.org/pypi/fmod_toolkit/0.1.3/json",
+        ".lab/private/sources/task-1-recovery/pypi_fmod_toolkit.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "7ea99e5b8792e28c6a678ba55d929737c0a93faea0b66998f2bbadd09e06065d"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 700410,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [
+        "Wheel bundles FMOD Engine 2.00.10. No vendor account/login/download or audio playback needed for the selected sample. Audit bundled notices before installation; stop if an explicit license-acceptance step is required. Audio compatibility not certified."
+      ],
+      "artifact_filename": "fmod_toolkit-0.1.3-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "requires_dist": [
+        "pyfmodex>=0.7.2",
+        "ruff; extra == \"dev\"",
+        "fmod-toolkit[tests]; extra == \"dev\"",
+        "pytest; extra == \"tests\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "7ea99e5b8792e28c6a678ba55d929737c0a93faea0b66998f2bbadd09e06065d",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/fmod_toolkit-0.1.3-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      },
+      "license_audit": {
+        "log_paths": [
+          ".lab/private/logs/task-3/fmod-notice-LICENSE",
+          ".lab/private/logs/task-3/fmod-metadata.txt"
+        ],
+        "result": "Only MIT wrapper notice supplied; bundled FMOD vendor notice absent. No explicit acceptance step, account or audio use performed; audio licensing/compatibility not certified."
+      }
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.9.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/6c/c0/a98505f18594f1bce828bb159cec0fcf9860562f1a2c85913409fc8f3d9e/fsspec-2026.9.0-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.10",
+      "artifact_sha256": "8dd6e646e99ea382bd85f97a45e6b526a442d79423a7dc673f1e2756d05fcb5f",
+      "verification_source": [
+        "https://pypi.org/pypi/fsspec/2026.9.0/json",
+        ".lab/private/sources/task-1-recovery/pypi_fsspec.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "8dd6e646e99ea382bd85f97a45e6b526a442d79423a7dc673f1e2756d05fcb5f"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 221738,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "fsspec-2026.9.0-py3-none-any.whl",
+      "requires_dist": [
+        "adlfs; extra == \"abfs\"",
+        "adlfs; extra == \"adl\"",
+        "pyarrow>=1; extra == \"arrow\"",
+        "dask; extra == \"dask\"",
+        "distributed; extra == \"dask\"",
+        "pre-commit; extra == \"dev\"",
+        "ruff>=0.5; extra == \"dev\"",
+        "numpydoc; extra == \"doc\"",
+        "sphinx; extra == \"doc\"",
+        "sphinx-design; extra == \"doc\"",
+        "sphinx-rtd-theme; extra == \"doc\"",
+        "yarl; extra == \"doc\"",
+        "dropbox; extra == \"dropbox\"",
+        "dropboxdrivefs; extra == \"dropbox\"",
+        "requests; extra == \"dropbox\"",
+        "adlfs; extra == \"full\"",
+        "aiohttp!=4.0.0a0,!=4.0.0a1; extra == \"full\"",
+        "dask; extra == \"full\"",
+        "distributed; extra == \"full\"",
+        "dropbox; extra == \"full\"",
+        "dropboxdrivefs; extra == \"full\"",
+        "fusepy; extra == \"full\"",
+        "gcsfs>=2026.4.0; extra == \"full\"",
+        "libarchive-c; extra == \"full\"",
+        "ocifs; extra == \"full\"",
+        "panel; extra == \"full\"",
+        "paramiko; extra == \"full\"",
+        "pyarrow>=1; extra == \"full\"",
+        "pygit2; extra == \"full\"",
+        "requests; extra == \"full\"",
+        "s3fs>=2026.6.0; extra == \"full\"",
+        "smbprotocol; extra == \"full\"",
+        "tqdm; extra == \"full\"",
+        "fusepy; extra == \"fuse\"",
+        "gcsfs>=2026.4.0; extra == \"gcs\"",
+        "pygit2; extra == \"git\"",
+        "requests; extra == \"github\"",
+        "gcsfs>=2026.4.0; extra == \"gs\"",
+        "panel; extra == \"gui\"",
+        "pyarrow>=1; extra == \"hdfs\"",
+        "aiohttp!=4.0.0a0,!=4.0.0a1; extra == \"http\"",
+        "libarchive-c; extra == \"libarchive\"",
+        "ocifs; extra == \"oci\"",
+        "s3fs>=2026.6.0; extra == \"s3\"",
+        "paramiko; extra == \"sftp\"",
+        "smbprotocol; extra == \"smb\"",
+        "paramiko; extra == \"ssh\"",
+        "aiohttp!=4.0.0a0,!=4.0.0a1; extra == \"test\"",
+        "numpy; extra == \"test\"",
+        "pytest; extra == \"test\"",
+        "pytest-asyncio!=0.22.0; extra == \"test\"",
+        "pytest-benchmark; extra == \"test\"",
+        "pytest-cov; extra == \"test\"",
+        "pytest-mock; extra == \"test\"",
+        "pytest-recording; extra == \"test\"",
+        "pytest-rerunfailures; extra == \"test\"",
+        "requests; extra == \"test\"",
+        "aiobotocore<3.0.0,>=2.5.4; extra == \"test-downstream\"",
+        "dask[dataframe,test]; extra == \"test-downstream\"",
+        "moto[server]<5,>4; extra == \"test-downstream\"",
+        "pytest-timeout; extra == \"test-downstream\"",
+        "xarray; extra == \"test-downstream\"",
+        "zarr; extra == \"test-downstream\"",
+        "adlfs; extra == \"test-full\"",
+        "aiohttp!=4.0.0a0,!=4.0.0a1; extra == \"test-full\"",
+        "backports-zstd; python_version < \"3.14\" and extra == \"test-full\"",
+        "cloudpickle; extra == \"test-full\"",
+        "dask; extra == \"test-full\"",
+        "distributed; extra == \"test-full\"",
+        "dropbox; extra == \"test-full\"",
+        "dropboxdrivefs; extra == \"test-full\"",
+        "fastparquet; extra == \"test-full\"",
+        "fusepy; extra == \"test-full\"",
+        "gcsfs>=2026.4.0; extra == \"test-full\"",
+        "jinja2; extra == \"test-full\"",
+        "kerchunk; extra == \"test-full\"",
+        "libarchive-c; extra == \"test-full\"",
+        "lz4; extra == \"test-full\"",
+        "notebook; extra == \"test-full\"",
+        "numpy; extra == \"test-full\"",
+        "ocifs; extra == \"test-full\"",
+        "pandas<3.0.0; extra == \"test-full\"",
+        "panel; extra == \"test-full\"",
+        "paramiko; extra == \"test-full\"",
+        "pyarrow>=1; extra == \"test-full\"",
+        "pyftpdlib; extra == \"test-full\"",
+        "pygit2; extra == \"test-full\"",
+        "pytest; extra == \"test-full\"",
+        "pytest-asyncio!=0.22.0; extra == \"test-full\"",
+        "pytest-benchmark; extra == \"test-full\"",
+        "pytest-cov; extra == \"test-full\"",
+        "pytest-mock; extra == \"test-full\"",
+        "pytest-recording; extra == \"test-full\"",
+        "pytest-rerunfailures; extra == \"test-full\"",
+        "python-snappy; extra == \"test-full\"",
+        "requests; extra == \"test-full\"",
+        "s3fs>=2026.6.0; extra == \"test-full\"",
+        "smbprotocol; extra == \"test-full\"",
+        "tqdm; extra == \"test-full\"",
+        "urllib3; extra == \"test-full\"",
+        "zarr<3.2.0; extra == \"test-full\"",
+        "zstandard; python_version < \"3.14\" and extra == \"test-full\"",
+        "tqdm; extra == \"tqdm\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "8dd6e646e99ea382bd85f97a45e6b526a442d79423a7dc673f1e2756d05fcb5f",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/fsspec-2026.9.0-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/64/b4/17d4b0b2a2dc85a6df63d1157e028ed19f90d4cd97c36717afef2bc2f395/attrs-26.1.0-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.9",
+      "artifact_sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+      "verification_source": [
+        "https://pypi.org/pypi/attrs/26.1.0/json",
+        ".lab/private/sources/task-1-recovery/pypi_attrs.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 67548,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "attrs-26.1.0-py3-none-any.whl",
+      "requires_dist": [],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/attrs-26.1.0-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "tpk_ar",
+      "version": "0.2.4",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/fa/02/654a73cbd323970b5c1551881968dbadec1d697984fff5fdd33b66764dfc/tpk_ar-0.2.4.tar.gz",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.8",
+      "artifact_sha256": "d64897e5a0bcddd58e8a7d4dd922f372da984a0f98bc3b460ec869aab906ee78",
+      "verification_source": [
+        "https://pypi.org/pypi/tpk_ar/0.2.4/json",
+        ".lab/private/sources/task-1-recovery/pypi_tpk_ar.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "d64897e5a0bcddd58e8a7d4dd922f372da984a0f98bc3b460ec869aab906ee78"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 10796,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [
+        "Pure-Python sdist, no native compiler needed. Build offline using pinned setuptools/wheel/packaging in isolated venv with --no-build-isolation; no unpinned build resolver.",
+        "Task 3 built and installed offline; source hash and local wheel hash are distinct."
+      ],
+      "artifact_filename": "tpk_ar-0.2.4.tar.gz",
+      "requires_dist": [
+        "typing_extensions; python_version < \"3.11\"",
+        "brotli; extra == \"brotli\"",
+        "lz4; extra == \"lz4\"",
+        "brotli; extra == \"full\"",
+        "lz4; extra == \"full\"",
+        "pytest; extra == \"tests\"",
+        "tpk_ar[full]; extra == \"tests\"",
+        "ruff; extra == \"dev\"",
+        "pyperf; extra == \"dev\"",
+        "snakeviz; extra == \"dev\"",
+        "tpk_ar[tests]; extra == \"dev\""
+      ],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "d64897e5a0bcddd58e8a7d4dd922f372da984a0f98bc3b460ec869aab906ee78",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/tpk_ar-0.2.4.tar.gz",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested",
+        "sample_result": "Pinned offline bootstrap/install and pure-Python tpk_ar wheel build succeeded; pip check rc0"
+      },
+      "local_built_wheel": {
+        "path": ".lab/private/downloads/task-3/tpk_ar-0.2.4-py3-none-any.whl",
+        "sha256": "a4ac4274ca8b3370b7787286c82de8ffd1fd0d8e3391423450734bace1bb5ebf",
+        "origin": "LOCAL_BUILD from verified pinned sdist; not published checksum",
+        "build": "pip wheel --no-index --no-deps --no-build-isolation; pinned setuptools/wheel/packaging; no native compilation"
+      }
+    },
+    {
+      "name": "archspec",
+      "version": "0.2.6",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/15/12/7f9edf5a5a547ce0421e8f120c157b3602eabb12147ffea95eefbd55a94e/archspec-0.2.6-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; !=2.7.*,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=3.6",
+      "artifact_sha256": "22463371fe8e9fa92fa144bf320cb445373a99f2ca6a5914c890e0c0b7816f8f",
+      "verification_source": [
+        "https://pypi.org/pypi/archspec/0.2.6/json",
+        ".lab/private/sources/task-1-recovery/pypi_archspec.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "22463371fe8e9fa92fa144bf320cb445373a99f2ca6a5914c890e0c0b7816f8f"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 81818,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "archspec-0.2.6-py3-none-any.whl",
+      "requires_dist": [],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "22463371fe8e9fa92fa144bf320cb445373a99f2ca6a5914c890e0c0b7816f8f",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/archspec-0.2.6-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "pyfmodex",
+      "version": "0.7.2",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/2c/7b/f7fdcdf6a6e8fd951c41e91baae8c1cecfffc2ed3199157afd6ab5728716/pyfmodex-0.7.2-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.6,<4.0",
+      "artifact_sha256": "1c42112b788e80ee7b4b57ae25bbbc0a98eb1e32a8e7c9e1246698cdf72efa9d",
+      "verification_source": [
+        "https://pypi.org/pypi/pyfmodex/0.7.2/json",
+        ".lab/private/sources/task-1-recovery/pypi_pyfmodex.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "1c42112b788e80ee7b4b57ae25bbbc0a98eb1e32a8e7c9e1246698cdf72efa9d"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 126703,
+      "status": "INSTALLED_FUNCTIONAL_PENDING",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "pyfmodex-0.7.2-py3-none-any.whl",
+      "requires_dist": [],
+      "role": "UnityPy runtime dependency",
+      "local_artifact_sha256": "1c42112b788e80ee7b4b57ae25bbbc0a98eb1e32a8e7c9e1246698cdf72efa9d",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/pyfmodex-0.7.2-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "INSTALLED_FUNCTIONAL_PENDING",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested"
+      }
+    },
+    {
+      "name": "pip",
+      "version": "26.2.1",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/f3/6e/1736e5b4ae2b778ef2f81c47d797de9f891d4d8acb047a24ca37a60294dd/pip-26.2.1-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.10",
+      "artifact_sha256": "71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e",
+      "verification_source": [
+        "https://pypi.org/pypi/pip/26.2.1/json",
+        ".lab/private/sources/task-1-recovery/pip_pypi.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 1816632,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "pip-26.2.1-py3-none-any.whl",
+      "requires_dist": [],
+      "role": "local-bootstrap/build",
+      "local_artifact_sha256": "71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/pip-26.2.1-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested",
+        "sample_result": "Pinned offline bootstrap/install and pure-Python tpk_ar wheel build succeeded; pip check rc0"
+      }
+    },
+    {
+      "name": "setuptools",
+      "version": "84.0.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/95/9c/c510029fc6ef33a6275cd2c5d3cecd6613dfd6aa401d57c54f1c18852ccf/setuptools-84.0.0-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.10",
+      "artifact_sha256": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "verification_source": [
+        "https://pypi.org/pypi/setuptools/84.0.0/json",
+        ".lab/private/sources/task-1-recovery/pypi_setuptools.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 818216,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "setuptools-84.0.0-py3-none-any.whl",
+      "requires_dist": [
+        "pytest!=8.1.*,>=6; extra == \"test\"",
+        "virtualenv>=13.0.0; extra == \"test\"",
+        "wheel>=0.44.0; extra == \"test\"",
+        "pip>=19.1; extra == \"test\"",
+        "packaging>=24.2; extra == \"test\"",
+        "jaraco.envs>=2.2; extra == \"test\"",
+        "pytest-xdist>=3; extra == \"test\"",
+        "jaraco.path>=3.7.2; extra == \"test\"",
+        "build[virtualenv]>=1.0.3; extra == \"test\"",
+        "filelock>=3.4.0; extra == \"test\"",
+        "ini2toml[lite]>=0.14; extra == \"test\"",
+        "tomli-w>=1.0.0; extra == \"test\"",
+        "pytest-timeout; extra == \"test\"",
+        "pytest-perf; sys_platform != \"cygwin\" and extra == \"test\"",
+        "jaraco.develop>=7.21; (python_version >= \"3.9\" and sys_platform != \"cygwin\") and extra == \"test\"",
+        "pytest-home>=0.5; extra == \"test\"",
+        "pytest-subprocess; extra == \"test\"",
+        "pyproject-hooks!=1.1; extra == \"test\"",
+        "jaraco.test>=5.5; extra == \"test\"",
+        "sphinx>=3.5; extra == \"doc\"",
+        "jaraco.packaging>=9.3; extra == \"doc\"",
+        "rst.linker>=1.9; extra == \"doc\"",
+        "furo; extra == \"doc\"",
+        "sphinx-lint; extra == \"doc\"",
+        "jaraco.tidelift>=1.4; extra == \"doc\"",
+        "pygments-github-lexers==0.0.5; extra == \"doc\"",
+        "sphinx-favicon; extra == \"doc\"",
+        "sphinx-inline-tabs; extra == \"doc\"",
+        "sphinx-reredirects; extra == \"doc\"",
+        "sphinxcontrib-towncrier; extra == \"doc\"",
+        "sphinx-notfound-page<2,>=1; extra == \"doc\"",
+        "pyproject-hooks!=1.1; extra == \"doc\"",
+        "towncrier<24.7; extra == \"doc\"",
+        "packaging>=24.2; extra == \"core\"",
+        "more_itertools>=8.8; extra == \"core\"",
+        "jaraco.text>=3.7; extra == \"core\"",
+        "importlib_metadata>=6; python_version < \"3.10\" and extra == \"core\"",
+        "tomli>=2.0.1; python_version < \"3.11\" and extra == \"core\"",
+        "wheel>=0.43.0; extra == \"core\"",
+        "jaraco.functools>=4; extra == \"core\"",
+        "more_itertools; extra == \"core\"",
+        "pytest-checkdocs>=2.14; extra == \"check\"",
+        "pytest-ruff>=0.2.1; sys_platform != \"cygwin\" and extra == \"check\"",
+        "ruff>=0.13.0; sys_platform != \"cygwin\" and extra == \"check\"",
+        "pytest-cov; extra == \"cover\"",
+        "pytest-enabler>=3.4; extra == \"enabler\"",
+        "pytest-mypy>=1.0.1; platform_python_implementation != \"PyPy\" and extra == \"type\"",
+        "mypy==1.18.*; extra == \"type\"",
+        "importlib_metadata>=7.0.2; python_version < \"3.10\" and extra == \"type\"",
+        "jaraco.develop>=7.21; sys_platform != \"cygwin\" and extra == \"type\""
+      ],
+      "role": "local-bootstrap/build",
+      "local_artifact_sha256": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/setuptools-84.0.0-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested",
+        "sample_result": "Pinned offline bootstrap/install and pure-Python tpk_ar wheel build succeeded; pip check rc0"
+      }
+    },
+    {
+      "name": "wheel",
+      "version": "0.48.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/2e/29/69cfbb602cd91690c55d38ba9fe53e6a7e76a6fa647bf38f19c138d25449/wheel-0.48.0-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.9",
+      "artifact_sha256": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "verification_source": [
+        "https://pypi.org/pypi/wheel/0.48.0/json",
+        ".lab/private/sources/task-1-recovery/pypi_wheel.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 33320,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "wheel-0.48.0-py3-none-any.whl",
+      "requires_dist": [
+        "packaging>=24.0"
+      ],
+      "role": "local-bootstrap/build",
+      "local_artifact_sha256": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/wheel-0.48.0-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested",
+        "sample_result": "Pinned offline bootstrap/install and pure-Python tpk_ar wheel build succeeded; pip check rc0"
+      }
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "platform": "linux-x86_64",
+      "source_url": "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl",
+      "install_path": ".lab/venvs/unitypy",
+      "runtime": "CPython 3.14.4 normal GIL ABI; glibc 2.43; >=3.9",
+      "artifact_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "verification_source": [
+        "https://pypi.org/pypi/packaging/26.3/json",
+        ".lab/private/sources/task-1-recovery/pypi_packaging.body"
+      ],
+      "published_checksum": {
+        "algorithm": "sha256",
+        "value": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+      },
+      "checksum_comparison": "MATCH; official published SHA256",
+      "artifact_size_bytes": 129956,
+      "status": "PASS",
+      "checked_at": "2026-10-09T15:09:02.848954+00:00",
+      "notes": [],
+      "artifact_filename": "packaging-26.3-py3-none-any.whl",
+      "requires_dist": [],
+      "role": "local-bootstrap/build",
+      "local_artifact_sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "artifact_sha256_origin": "LOCAL_COMPUTATION; comparison with separately stored published SHA256",
+      "local_artifact_path": ".lab/private/downloads/task-3/packaging-26.3-py3-none-any.whl",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "PASS",
+        "log_directory": ".lab/private/logs/task-3",
+        "validation_path": ".lab/smoke/assets/validation.json",
+        "scope": "Installed pinned dependency; pip check rc0 and UnityPy sample load succeeded; standalone dependency functionality not tested",
+        "sample_result": "Pinned offline bootstrap/install and pure-Python tpk_ar wheel build succeeded; pip check rc0"
+      }
+    },
+    {
+      "name": "Android-command-line-tools",
+      "version": "17.0",
+      "platform": "linux-x86_64",
+      "source_url": "https://dl.google.com/android/repository/commandlinetools-linux-12700392_latest.zip",
+      "install_path": ".lab/tools/android-sdk/cmdline-tools/17.0",
+      "runtime": "JDK >=17 per both published launchers; local Temurin JDK 21.0.12.1+1-LTS; sdkmanager startup rc0",
+      "artifact_sha256": "330f0db00456c26d0a7e6c7793a022fe170e5dbc03472f76e121db37cb6d4744",
+      "verification_source": [
+        ".lab/private/sources/task-1/android_repository.body",
+        "https://developer.android.com/tools/sdkmanager",
+        ".lab/private/sources/task-1-recovery/sdkmanager_17_launcher.txt",
+        ".lab/private/sources/task-1-recovery/avdmanager_17_launcher.txt"
+      ],
+      "published_checksum": {
+        "algorithm": "sha1",
+        "value": "da3424ea38b72d85258174a76aa286b7d4e0b700"
+      },
+      "checksum_comparison": "MATCH; Google published sha1; artifact_sha256 is separately computed local SHA256",
+      "artifact_size_bytes": 163426701,
+      "status": "CLI_READY",
+      "checked_at": "2026-10-09T15:35:14.095032+00:00",
+      "notes": [
+        "Direct user si authorizes android-sdk-license only for cmdline-tools 17.0 build12700392 and Platform-Tools 37.0.1; no emulator/image installation or other license/host/runtime authorization.",
+        "Exact pinned URL downloaded; published Google SHA1 matched; local SHA256 recorded separately. Safe ZIP extraction to previously absent target; umask077 and >=10 GiB free budget maintained.",
+        "License accepted through documented sdkmanager --licenses; only android-sdk-license received y, seven other licenses declined. SDKmanager wrote the license file; no bypass or fabricated hash.",
+        "Only CLI/path/source.properties checks; no ADB server/devices, Android boot, ABI, network isolation or restoration validation. RUNTIME_READY remains BLOCKED.",
+        "Supervisor-approved stable 17.0 instead of 23.0; pinned build12700392 filename is not a floating latest selection.",
+        "sdkmanager --list_installed rc0 omits manually extracted cmdline-tools (no package.xml); version 17.0 confirmed by sdkmanager --version and source.properties. No metadata fabricated or reinstallation attempted."
+      ],
+      "sdk_package": "cmdline-tools;17.0",
+      "license_ref": "android-sdk-license",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "CLI_READY",
+        "commands": [
+          "source .lab/env.sh",
+          "sdkmanager --sdk_root=\"$ANDROID_HOME\" --version",
+          "readlink -f \"$(command -v sdkmanager)\"",
+          "cat .lab/tools/android-sdk/cmdline-tools/17.0/source.properties",
+          "sdkmanager --sdk_root=\"$ANDROID_HOME\" --list_installed"
+        ],
+        "return_codes": {
+          "clean_shell": 0,
+          "version": 0,
+          "local_paths": 0,
+          "source_properties": 0,
+          "list_installed": 0,
+          "license_acceptance": 0
+        },
+        "sample_result": "sdkmanager 17.0 launches with local JDK21; source.properties Pkg.Revision=17.0 and Pkg.Path=cmdline-tools;17.0. Not enumerated by installed listing.",
+        "profile_path": "docs/lab/dispositivo-laboratorio.md",
+        "log_directory": ".lab/private/logs/task-5-sdk",
+        "scope": "CLI version/path/metadata only; not a functional runtime PASS"
+      },
+      "license_acceptance": {
+        "identifier": "android-sdk-license",
+        "status": "ACCEPTED_SDK_ADB_ONLY",
+        "evidence": ".lab/private/logs/task-5-sdk/license-acceptance.json",
+        "transcript": ".lab/private/logs/task-5-sdk/licenses-retry1.transcript",
+        "accepted_text_sha256": "331c061c2746ff5ea5362ee812805753698828214541e9ad5ed443c4fc792e9a",
+        "sdkmanager_persisted_license_hash": "24333f8a63b6825ea9c5514f83c2829b004d1fee"
+      }
+    },
+    {
+      "name": "Android-platform-tools-ADB",
+      "version": "37.0.1",
+      "platform": "linux-x86_64",
+      "source_url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip",
+      "install_path": ".lab/tools/android-sdk/platform-tools",
+      "runtime": "Linux x64 native executable; no Java runtime for adb",
+      "artifact_sha256": "d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1",
+      "verification_source": [
+        ".lab/private/sources/task-1/android_repository.body",
+        "https://developer.android.com/tools/sdkmanager"
+      ],
+      "published_checksum": {
+        "algorithm": "sha1",
+        "value": "477254aa5f903c15cf51001717bdf347fb6b53e0"
+      },
+      "checksum_comparison": "MATCH; Google published sha1; artifact_sha256 is separately computed local SHA256",
+      "artifact_size_bytes": 9054187,
+      "status": "INSTALLED",
+      "checked_at": "2026-10-09T15:35:14.095032+00:00",
+      "notes": [
+        "Direct user si authorizes android-sdk-license only for cmdline-tools 17.0 build12700392 and Platform-Tools 37.0.1; no emulator/image installation or other license/host/runtime authorization.",
+        "Exact pinned URL downloaded; published Google SHA1 matched; local SHA256 recorded separately. Safe ZIP extraction to previously absent target; umask077 and >=10 GiB free budget maintained.",
+        "License accepted through documented sdkmanager --licenses; only android-sdk-license received y, seven other licenses declined. SDKmanager wrote the license file; no bypass or fabricated hash.",
+        "Only CLI/path/source.properties checks; no ADB server/devices, Android boot, ABI, network isolation or restoration validation. RUNTIME_READY remains BLOCKED."
+      ],
+      "sdk_package": "platform-tools",
+      "license_ref": "android-sdk-license",
+      "installation_status": "INSTALLED",
+      "functional_verification": {
+        "status": "CLI_READY",
+        "commands": [
+          "source .lab/env.sh",
+          "adb version",
+          "readlink -f \"$(command -v adb)\"",
+          "cat .lab/tools/android-sdk/platform-tools/source.properties",
+          "sdkmanager --sdk_root=\"$ANDROID_HOME\" --list_installed"
+        ],
+        "return_codes": {
+          "clean_shell": 0,
+          "version": 0,
+          "local_paths": 0,
+          "source_properties": 0,
+          "list_installed": 0,
+          "license_acceptance": 0
+        },
+        "sample_result": "ADB protocol 1.0.41, distribution 37.0.1-15733141; source.properties and installed listing confirm 37.0.1. No device connection tested.",
+        "profile_path": "docs/lab/dispositivo-laboratorio.md",
+        "log_directory": ".lab/private/logs/task-5-sdk",
+        "scope": "CLI version/path/metadata only; not a functional runtime PASS"
+      },
+      "license_acceptance": {
+        "identifier": "android-sdk-license",
+        "status": "ACCEPTED_SDK_ADB_ONLY",
+        "evidence": ".lab/private/logs/task-5-sdk/license-acceptance.json",
+        "transcript": ".lab/private/logs/task-5-sdk/licenses-retry1.transcript",
+        "accepted_text_sha256": "331c061c2746ff5ea5362ee812805753698828214541e9ad5ed443c4fc792e9a",
+        "sdkmanager_persisted_license_hash": "24333f8a63b6825ea9c5514f83c2829b004d1fee"
+      }
+    },
+    {
+      "name": "Android-emulator",
+      "version": "37.2.12",
+      "platform": "linux-x86_64",
+      "source_url": "https://dl.google.com/android/repository/emulator-linux_x64-16428233.zip",
+      "install_path": ".lab/tools/android-sdk/emulator",
+      "runtime": "Linux x64, KVM read/write and CPU virtualization, isolated lab only; 16 GB RAM vendor recommendation",
+      "artifact_sha256": null,
+      "verification_source": [
+        ".lab/private/sources/task-1/android_repository.body",
+        "https://developer.android.com/tools/sdkmanager"
+      ],
+      "published_checksum": {
+        "algorithm": "sha1",
+        "value": "cd7362ea55dfb86a418958138dc396e74165dd01"
+      },
+      "checksum_comparison": "NOT_DOWNLOADED",
+      "artifact_size_bytes": 349654171,
+      "status": "BLOCKED",
+      "checked_at": "2026-10-09T14:36:28.188208+00:00",
+      "notes": [
+        "Official android-sdk-license acceptance is NOT authorized; do not download/install/accept with sdkmanager.",
+        "Published SHA1 only in repository XML; SHA256 unknown until approved download, not invented."
+      ],
+      "sdk_package": "emulator",
+      "license_ref": "android-sdk-license",
+      "installation_status": "NOT_INSTALLED_LICENSE_BLOCKED",
+      "functional_verification": {
+        "status": "BLOCKED",
+        "commands": [],
+        "return_codes": null,
+        "sample_result": "Not installed or executed: android-sdk-license acceptance not authorized. No device configured or booted.",
+        "profile_path": "docs/lab/dispositivo-laboratorio.md"
+      }
+    },
+    {
+      "name": "Android-system-image",
+      "version": "1",
+      "platform": "linux-x86_64",
+      "source_url": "https://dl.google.com/android/repository/sys-img/android/x86-25_r01.zip",
+      "install_path": ".lab/tools/android-sdk/system-images/android-25/default/x86",
+      "runtime": "Android 7.1 API 25 x86 32-bit guest; selected emulator 37.2.12; actual ro.product.cpu.abilist validation deferred",
+      "artifact_sha256": null,
+      "verification_source": [
+        ".lab/private/sources/task-1-recovery/android_sysimg.body",
+        "https://developer.android.com/tools/sdkmanager"
+      ],
+      "published_checksum": {
+        "algorithm": "sha1",
+        "value": "78ce7eb1387d598685633b9f7cbb300c3d3aeb5f"
+      },
+      "checksum_comparison": "NOT_DOWNLOADED",
+      "artifact_size_bytes": 316695942,
+      "status": "BLOCKED",
+      "checked_at": "2026-10-09T14:36:28.188208+00:00",
+      "notes": [
+        "Official android-sdk-license acceptance is NOT authorized; do not download/install/accept with sdkmanager.",
+        "Published SHA1 only in repository XML; SHA256 unknown until approved download, not invented.",
+        "No Google-account requirement for default AOSP image. No claim of boot, ABI effectiveness, or game compatibility."
+      ],
+      "sdk_package": "system-images;android-25;default;x86",
+      "license_ref": "android-sdk-license",
+      "installation_status": "NOT_INSTALLED_LICENSE_BLOCKED",
+      "functional_verification": {
+        "status": "BLOCKED",
+        "commands": [],
+        "return_codes": null,
+        "sample_result": "Not installed or executed: android-sdk-license acceptance not authorized. No device configured or booted.",
+        "profile_path": "docs/lab/dispositivo-laboratorio.md"
+      }
+    }
+  ],
+  "budget": {
+    "minimum_free_bytes": 10737418240,
+    "minimum_free_gib": 10,
+    "policy_owner": "laboratory, not vendor requirement",
+    "free_bytes_at_selection": 235126513664,
+    "static_peak_reserve_bytes": 5368709120,
+    "runtime_peak_reserve_bytes": 12884901888,
+    "reserve_note": "Conservative working allowances including archives, extracted distributions, cache, bounded smoke output and one AVD; not measured expansion sizes. Recheck df before each download/extraction/export and stop if free minus planned peak <10 GiB.",
+    "known_download_bytes": 1192733940
+  },
+  "capabilities": {
+    "STATIC_READY": "DEFERRED",
+    "RUNTIME_READY": "BLOCKED",
+    "ILSPY_READY": "PASS",
+    "ASSET_TOOLS_READY": "PARTIAL",
+    "UNITYPY_READY": "PARTIAL",
+    "ASSETRIPPER_READY": "PASS",
+    "ANDROID_STATIC_READY": "PASS"
+  },
+  "administrative_gates": [
+    {
+      "status": "GRANTED_SDK_ADB_ONLY",
+      "action": "Current direct user si authorizes android-sdk-license for Command-line Tools 17.0 build12700392 and Platform-Tools/ADB 37.0.1 only; documented sdkmanager license flow completed rc0.",
+      "license_identifier": "android-sdk-license",
+      "authorized_distributions": {
+        "cmdline-tools;17.0": "17.0 build12700392",
+        "platform-tools": "37.0.1"
+      },
+      "license_acceptance_evidence": ".lab/private/logs/task-5-sdk/license-acceptance.json",
+      "excluded_scope": "No emulator/system-image/AVD/Build-Tools installation, other licenses, KVM/groups/host/network changes, Android/APK execution or device queries authorized. Shared license file does not confer installation permission.",
+      "checked_at": "2026-10-09T15:35:14.095032+00:00"
+    },
+    {
+      "status": "BLOCKED",
+      "action": "Authorize emulator and system-image installation separately. Existing blocked entries remain uninstalled; SDK/ADB license acceptance does not authorize their installation."
+    },
+    {
+      "status": "BLOCKED",
+      "action": "Authorize administrator-managed read/write access to /dev/kvm (e.g. membership of kvm followed by session renewal). No group/perms changed."
+    },
+    {
+      "status": "BLOCKED",
+      "action": "Authorize and verify APK network isolation/rollback before any emulator boot or game execution. No firewall/network changes."
+    }
+  ],
+  "native_packages_evidence": ".lab/private/logs/task-1-fix-1/native_packages.stdout",
+  "native_packages_pending": [],
+  "selection_rulings": [
+    "Supervisor-approved: select stable cmdline-tools 17.0 instead of 23.0 to preserve sdkmanager/avdmanager and avoid the new native Android CLI outside scope; risk: future repositories/commands may require a separately selected and tested CLI update."
+  ],
+  "host_resource_concerns": [
+    "Host has about 11 GiB RAM versus 16 GB emulator documentation recommendation; no emulator boot or compatibility claimed."
+  ],
+  "notes": [
+    "No source-build toolchain, Unity Editor, Gradle, Ghidra or Frida required.",
+    "Android filename commandlinetools-linux-12700392_latest.zip is the vendor build-number-pinned filename, NOT a latest alias; replay the exact URL and checksum and cmdline-tools;17.0 only.",
+    "Task 1 status concerns selection only: no tool marked PASS before version AND functional validation.",
+    "Existing baseline and independent sample copies reused per recovery instruction; no initial massive rehash."
+  ],
+  "deferred_tools": [
+    {
+      "name": "Ghidra",
+      "status": "DEFERRED",
+      "reason": "No installation; requires a technical need and concrete acceptance check."
+    },
+    {
+      "name": "Frida",
+      "status": "DEFERRED",
+      "reason": "No installation; requires a technical need and concrete acceptance check."
+    },
+    {
+      "name": "advanced-capture",
+      "status": "DEFERRED",
+      "reason": "No installation; requires a technical need and concrete acceptance check."
+    },
+    {
+      "name": "dnSpyEx",
+      "status": "DEFERRED",
+      "reason": "No installation; requires a technical need and concrete acceptance check."
+    },
+    {
+      "name": "signing-tools-including-Build-Tools-apksigner",
+      "status": "DEFERRED",
+      "reason": "No installation; requires a technical need and concrete acceptance check."
+    }
+  ],
+  "closure": {
+    "checked_at": "2026-10-09T15:21:41.355075+00:00",
+    "scope": "Tasks 5/6 minimal closure; no SDK/device setup, new suites/reviews, corpus hashes or preflight repetition.",
+    "clean_shell": {
+      "status": "PASS",
+      "path_log_prefix": ".lab/private/logs/task-6/local-paths",
+      "version_logs": ".lab/private/logs/task-6",
+      "note": "Versions do not confer functional PASS; task 2-4 evidence reused."
+    },
+    "static_functional_passes": [
+      "ILSpyCmd",
+      "AssetRipper",
+      "JADX",
+      "Apktool"
+    ],
+    "static_limitation": "UnityPy 1.25.4 PARTIAL: PlayerSettings EOFError: read_str out of bounds; STATIC_READY requires all five tools functional.",
+    "runtime_profile": "docs/lab/dispositivo-laboratorio.md",
+    "runtime_checks": {
+      "adb_device_visible": "BLOCKED",
+      "compatible_32_bit_abi": "NOT_TESTED",
+      "guest_storage": "NOT_TESTED",
+      "network_isolation": "BLOCKED_NOT_VERIFIED",
+      "restoration": "NOT_TESTED"
+    },
+    "free_bytes_final": 233015799808,
+    "minimum_free_bytes_met": true,
+    "disk_log_prefix": ".lab/private/logs/task-6/disk-final",
+    "processes": {
+      "status": "PASS",
+      "log_prefix": ".lab/private/logs/task-6/runtime-processes-final",
+      "scope": "No AssetRipper/ADB/emulator/QEMU/python HTTP server processes detected; no stops necessary. Initial self-match rc1 retained, corrected check rc0."
+    },
+    "assetripper_listener": {
+      "status": "CLOSED",
+      "log_prefix": ".lab/private/logs/task-6/assetripper-listener",
+      "port": 58317
+    },
+    "process_change": "Per-task reviews, review rounds, new suites/unit tests and snapshots/diffs/mass inventories cancelled by user request.",
+    "permitted_scope": "Limited Managed class analysis, bootstrap DEX/manifest and AssetRipper sample; exclude UnityPy decode-dependent tasks, audio/full OBB certification and Android execution."
+  }
+}

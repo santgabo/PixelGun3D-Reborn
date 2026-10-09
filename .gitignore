@@ -1,0 +1,54 @@
+# Original game packages and extracted third-party content.
+/apk+obb-original/
+/unpacked/
+
+# Local lab installations, private state and copied game samples.
+/.lab/private/
+/.lab/tools/
+/.lab/venvs/
+/.lab/samples/
+
+# Generated smoke-test output; retain the authored preflight scripts.
+/.lab/smoke/*
+!/.lab/smoke/task-1/
+
+# Python environments and caches.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Build output, dependencies and temporary files.
+node_modules/
+/dist/
+/build/
+/coverage/
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+
+# Credentials and machine-specific environment files.
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Local editor and OS metadata.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
