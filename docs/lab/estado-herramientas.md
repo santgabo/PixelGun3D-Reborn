@@ -1,5 +1,15 @@
 # Estado del laboratorio — instalación local
 
+## Actualización runtime — 2026-10-09
+
+Corrida autorizada **20261009T213202Z**: Emulator **37.2.12.0** y AOSP **Android7.1.1/API25/default/x86 r1** instalados desde artefactos fijados/verificados. Command-line Tools 17.0/ADB 37.0.1 copiados a SDK local independiente; JDK primario solo lectura. SDKmanager genera metadata oficial del emulador, con 398 archivos idénticos al ZIP fijado. **RUNTIME_READY=PASS acotado:** boot/ABI/storage/Accounts0, aislamiento/ADB y restauración comprobados; dos originales al tutorial, cámara en segundo. Sin firewall ni cambios administrativos. TCG sin KVM, lento/no soportado; no implica gameplay completo ni servicios online.
+
+[Perfil actual](dispositivo-laboratorio.md), [hitos y límites](../analysis/ejecucion-controlada.md), [procedimiento/reversión](preparacion-runtime.md). Recursos siguen PARTIAL y `STATIC_READY=DEFERRED`; no se instalan herramientas opcionales sin necesidad. Logs originales/código/AVD privados; sin commits ni delegación en esta continuación.
+
+## Historial del Plan 1
+
+Las secciones siguientes conservan el estado y autorizaciones anteriores al Plan 2. Sus referencias a emulador no autorizado o ejecución pendiente son **históricas**, no el estado actual de arriba.
+
 Fecha: 2026-10-09. Tareas 1–4 instaladas con alcance mínimo; continuación acotada de tarea 5: SDK/ADB instalados, runtime aún BLOCKED. Tarea 6 cerrada; parser UnityPy parcial.
 La selección está fijada en `.lab/toolchain.lock.json`. .NET, ILSpyCmd, UnityPy, AssetRipper, JDK, JADX, Apktool, Command-line Tools 17.0 y Platform-Tools/ADB 37.0.1 instalados localmente; no se ha ejecutado el APK. Revisiones por tarea, rondas y suites adicionales canceladas por petición del usuario; la evidencia histórica se conserva.
 Resumen y próximos pasos: [avances del laboratorio](avances.md). Checklist actualizado: [plan 1](../superpowers/plans/2026-10-09-01-instalacion-verificacion-herramientas.md).

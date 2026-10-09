@@ -7,6 +7,7 @@
 /.lab/tools/
 /.lab/venvs/
 /.lab/samples/
+/.lab/runs/
 
 # Generated smoke-test output; retain the authored preflight scripts.
 /.lab/smoke/*

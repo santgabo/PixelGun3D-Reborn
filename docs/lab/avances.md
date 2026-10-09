@@ -2,7 +2,17 @@
 
 Actualizado: **2026-10-09**. Referencia: [plan 1 de instalación y verificación](../superpowers/plans/2026-10-09-01-instalacion-verificacion-herramientas.md).
 
-## Resumen
+## Estado actual — continuación autorizada del Plan 2
+
+**Runtime offline comprobado en `20261009T213202Z`:** Emulator 37.2.12.0 e imagen AOSP Android7.1.1/API25/default/x86 r1 instalados/verificados; dos sesiones del APK/OBB originales alcanzaron el tutorial y la segunda comprobó cámara/avance del aviso. Namespace bubblewrap sin salida, ADB continuo, cero cuentas y restauración fría verificados. **Sin tocar firewall, grupos/KVM, originales ni perfiles.** KVM sigue inaccesible; TCG observado es lento/no soportado, válido solo para la prueba acotada. Sin commits/delegación.
+
+El análisis estático anterior procesó cuatro ensamblados y el staging; piloto de recursos sigue PARTIAL. [Conclusiones actuales](../analysis/conclusiones-y-bloqueos.md), [ejecución y límites](../analysis/ejecucion-controlada.md), [preparación y reversión](preparacion-runtime.md).
+
+No hace falta nueva autorización ni acción administrativa para el mecanismo ya comprobado. **Firewall sigue excluido hasta propuesta/rollback aprobados**; cualquier experimento online es una decisión separada. Menú principal, movimiento/disparo y lectura OBB trazada no certificados.
+
+## Historial del Plan 1 — resumen
+
+**Las secciones siguientes conservan el estado anterior a Plan 2.** Sus permisos/instalaciones pendientes y afirmaciones de no arranque corresponden a ese historial, no al estado actual descrito arriba.
 
 Instalación local de herramientas realizada bajo `.lab/`, con versiones y procedencia fijadas en `.lab/toolchain.lock.json`. Se ejecutaron subagentes con thinking **high**, no xhigh. Por indicación del usuario se priorizó la instalación y se cancelaron revisiones por tarea y suites adicionales; se conservaron comprobaciones mínimas de integridad, versiones y muestras reales.
 

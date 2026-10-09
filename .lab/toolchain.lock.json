@@ -1,6 +1,6 @@
 {
   "schema": "lab-toolchain-lock-v1",
-  "checked_at": "2026-10-09T15:35:14.095032+00:00",
+  "checked_at": "2026-10-09T22:06:31.505917+00:00",
   "selection_complete": true,
   "installation_performed": true,
   "tools": [
@@ -1418,32 +1418,35 @@
       "platform": "linux-x86_64",
       "source_url": "https://dl.google.com/android/repository/emulator-linux_x64-16428233.zip",
       "install_path": ".lab/tools/android-sdk/emulator",
-      "runtime": "Linux x64, KVM read/write and CPU virtualization, isolated lab only; 16 GB RAM vendor recommendation",
-      "artifact_sha256": null,
+      "runtime": "Linux x64; observed API25/x86 reference with TCG/software renderer in isolated bubblewrap; KVM inaccessible, no claim of supported performance",
+      "artifact_sha256": "b08fc43d8608d2955f607f1b287beb525041e730086bdca3af152accac3af9c1",
       "verification_source": [
-        ".lab/private/sources/task-1/android_repository.body",
-        "https://developer.android.com/tools/sdkmanager"
+        ".lab/runs/20261009T213202Z/docs/sdk-repository.xml",
+        ".lab/runs/20261009T213202Z/reports/sdkmanager-emulator-pinned-match.json",
+        ".lab/runs/20261009T213202Z/reports/runtime-results.json"
       ],
       "published_checksum": {
         "algorithm": "sha1",
         "value": "cd7362ea55dfb86a418958138dc396e74165dd01"
       },
-      "checksum_comparison": "NOT_DOWNLOADED",
+      "checksum_comparison": "PUBLISHED_SHA1_MATCH; local SHA256 separately recorded",
       "artifact_size_bytes": 349654171,
-      "status": "BLOCKED",
-      "checked_at": "2026-10-09T14:36:28.188208+00:00",
+      "status": "PASS",
+      "checked_at": "2026-10-09T22:06:31.505917+00:00",
       "notes": [
-        "Official android-sdk-license acceptance is NOT authorized; do not download/install/accept with sdkmanager.",
-        "Published SHA1 only in repository XML; SHA256 unknown until approved download, not invented."
+        "Latest user explicitly authorized necessary installation/preparation, excluding firewall until plan+rollback approved; existing android-sdk-license reused without fabrication.",
+        "Pinned stable artifact matches fresh official XML. Official sdkmanager metadata; 398 files identical to verified ZIP, package.xml only addition.",
+        "Software TCG cold boot and two original offline reference trials observed; no KVM or host firewall/group modifications. PASS limited to those checks."
       ],
       "sdk_package": "emulator",
       "license_ref": "android-sdk-license",
-      "installation_status": "NOT_INSTALLED_LICENSE_BLOCKED",
+      "installation_status": "INSTALLED_PINNED_VERIFIED",
       "functional_verification": {
-        "status": "BLOCKED",
-        "commands": [],
-        "return_codes": null,
-        "sample_result": "Not installed or executed: android-sdk-license acceptance not authorized. No device configured or booted.",
+        "status": "PASS",
+        "commands": ["logs/emulator-version.json", "logs/isolated-android-boot.json", "logs/original-reference-trial-1.json", "logs/original-reference-trial-2.json"],
+        "evidence_base": ".lab/runs/20261009T213202Z/",
+        "return_codes": [0, 0, 0, 0],
+        "sample_result": "Binary 37.2.12.0 build16428233; API25/x86 boot, egress denial with ADB, restoration and two original tutorial references. Camera function in second only; TCG unsupported/slow, main menu and complete gameplay not certified.",
         "profile_path": "docs/lab/dispositivo-laboratorio.md"
       }
     },
@@ -1453,33 +1456,35 @@
       "platform": "linux-x86_64",
       "source_url": "https://dl.google.com/android/repository/sys-img/android/x86-25_r01.zip",
       "install_path": ".lab/tools/android-sdk/system-images/android-25/default/x86",
-      "runtime": "Android 7.1 API 25 x86 32-bit guest; selected emulator 37.2.12; actual ro.product.cpu.abilist validation deferred",
-      "artifact_sha256": null,
+      "runtime": "Observed Android7.1.1/API25/x86 32-bit guest; Accounts0, storage, cold restoration and namespace isolation verified",
+      "artifact_sha256": "a9908b08e295e00cf03261f7f276744cf31ba8be6a065a063239e2a14a57b3da",
       "verification_source": [
-        ".lab/private/sources/task-1-recovery/android_sysimg.body",
-        "https://developer.android.com/tools/sdkmanager"
+        ".lab/runs/20261009T213202Z/docs/image-repository.xml",
+        ".lab/runs/20261009T213202Z/logs/install/system-image-integrity.json",
+        ".lab/runs/20261009T213202Z/runtime/trial-1/ready.json"
       ],
       "published_checksum": {
         "algorithm": "sha1",
         "value": "78ce7eb1387d598685633b9f7cbb300c3d3aeb5f"
       },
-      "checksum_comparison": "NOT_DOWNLOADED",
+      "checksum_comparison": "PUBLISHED_SHA1_MATCH; local SHA256 separately recorded",
       "artifact_size_bytes": 316695942,
-      "status": "BLOCKED",
-      "checked_at": "2026-10-09T14:36:28.188208+00:00",
+      "status": "PASS",
+      "checked_at": "2026-10-09T22:06:31.505917+00:00",
       "notes": [
-        "Official android-sdk-license acceptance is NOT authorized; do not download/install/accept with sdkmanager.",
-        "Published SHA1 only in repository XML; SHA256 unknown until approved download, not invented.",
-        "No Google-account requirement for default AOSP image. No claim of boot, ABI effectiveness, or game compatibility."
+        "Necessary installation explicitly authorized in current continuation; existing accepted android-sdk-license reused.",
+        "Fresh stable official metadata, size and SHA1 matched; independently recorded SHA256 local.",
+        "Guest reports API25/Android7.1.1/x86, Accounts0; two original tutorials and second camera check observed offline, not whole-game certification."
       ],
       "sdk_package": "system-images;android-25;default;x86",
       "license_ref": "android-sdk-license",
-      "installation_status": "NOT_INSTALLED_LICENSE_BLOCKED",
+      "installation_status": "INSTALLED_PINNED_VERIFIED",
       "functional_verification": {
-        "status": "BLOCKED",
-        "commands": [],
-        "return_codes": null,
-        "sample_result": "Not installed or executed: android-sdk-license acceptance not authorized. No device configured or booted.",
+        "status": "PASS",
+        "commands": ["logs/sdk-installed-complete.json", "logs/create-avd-retry.json", "logs/original-reference-trial-1.json", "logs/original-reference-trial-2.json"],
+        "evidence_base": ".lab/runs/20261009T213202Z/",
+        "return_codes": [0, 0, 0, 0],
+        "sample_result": "Official image revision1; actual API25/Android7.1.1/x86 ABI, Accounts0/storage, marker-absence restoration and two original offline trials verified.",
         "profile_path": "docs/lab/dispositivo-laboratorio.md"
       }
     }
@@ -1496,37 +1501,50 @@
   },
   "capabilities": {
     "STATIC_READY": "DEFERRED",
-    "RUNTIME_READY": "BLOCKED",
+    "RUNTIME_READY": "PASS",
     "ILSPY_READY": "PASS",
     "ASSET_TOOLS_READY": "PARTIAL",
     "UNITYPY_READY": "PARTIAL",
     "ASSETRIPPER_READY": "PASS",
     "ANDROID_STATIC_READY": "PASS"
   },
+  "runtime_continuation": {
+    "run_id": "20261009T213202Z",
+    "evidence_base": ".lab/runs/20261009T213202Z/",
+    "latest_authorization": "Necessary installations and autonomous non-firewall preparation granted; firewall requires proposal and rollback before approval",
+    "firewall_authorized": false,
+    "firewall_modified": false,
+    "kvm_access": false,
+    "tcg_observed": true,
+    "ready_scope": "Bounded original offline reference only; tutorial startup reproduced twice and camera checked in second; main menu, full gameplay, service availability and traced OBB reads not proven",
+    "report": "reports/runtime-results.json",
+    "cleanup": "runtime/final-cleanup.json",
+    "prior_static_run": "20261009T191951Z"
+  },
   "administrative_gates": [
     {
-      "status": "GRANTED_SDK_ADB_ONLY",
-      "action": "Current direct user si authorizes android-sdk-license for Command-line Tools 17.0 build12700392 and Platform-Tools/ADB 37.0.1 only; documented sdkmanager license flow completed rc0.",
+      "status": "HISTORICAL_GRANTED_SDK_ADB_ONLY",
+      "action": "Historical initial si authorized android-sdk-license for Command-line Tools17.0 and Platform-Tools37.0.1 only; latest runtime_continuation expands necessary installation scope.",
       "license_identifier": "android-sdk-license",
       "authorized_distributions": {
         "cmdline-tools;17.0": "17.0 build12700392",
         "platform-tools": "37.0.1"
       },
       "license_acceptance_evidence": ".lab/private/logs/task-5-sdk/license-acceptance.json",
-      "excluded_scope": "No emulator/system-image/AVD/Build-Tools installation, other licenses, KVM/groups/host/network changes, Android/APK execution or device queries authorized. Shared license file does not confer installation permission.",
+      "excluded_scope": "Historical exclusion before current user authorization; shared license alone never implied permission. Current permitted/excluded scope is runtime_continuation; no firewall modification authorized.",
       "checked_at": "2026-10-09T15:35:14.095032+00:00"
     },
     {
-      "status": "BLOCKED",
-      "action": "Authorize emulator and system-image installation separately. Existing blocked entries remain uninstalled; SDK/ADB license acceptance does not authorize their installation."
+      "status": "PASS",
+      "action": "Current user authorized necessary installation; exact emulator37.2.12 and API25/default/x86r1 installed and verified."
     },
     {
-      "status": "BLOCKED",
-      "action": "Authorize administrator-managed read/write access to /dev/kvm (e.g. membership of kvm followed by session renewal). No group/perms changed."
+      "status": "DEFERRED",
+      "action": "KVM remains inaccessible and sudo requires interactive authentication; no group/perms changes or bypass. Bounded TCG reference observed successfully, so administrative intervention not required now."
     },
     {
-      "status": "BLOCKED",
-      "action": "Authorize and verify APK network isolation/rollback before any emulator boot or game execution. No firewall/network changes."
+      "status": "PASS",
+      "action": "Temporary bubblewrap namespace, only loopback/no external routes; TCP ENETUNREACH, guest ping failure and ADB continuity/restoration verified before originals. Host firewall untouched and still unauthorized for changes."
     }
   ],
   "native_packages_evidence": ".lab/private/logs/task-1-fix-1/native_packages.stdout",
@@ -1535,7 +1553,7 @@
     "Supervisor-approved: select stable cmdline-tools 17.0 instead of 23.0 to preserve sdkmanager/avdmanager and avoid the new native Android CLI outside scope; risk: future repositories/commands may require a separately selected and tested CLI update."
   ],
   "host_resource_concerns": [
-    "Host has about 11 GiB RAM versus 16 GB emulator documentation recommendation; no emulator boot or compatibility claimed."
+    "Host RAM below 16GB emulator recommendation; observed 2GiB RAM/one-vCPU TCG reference works, not performance or long-session compatibility certification."
   ],
   "notes": [
     "No source-build toolchain, Unity Editor, Gradle, Ghidra or Frida required.",
@@ -1571,6 +1589,8 @@
     }
   ],
   "closure": {
+    "historical": true,
+    "superseded_runtime_by": "runtime_continuation:20261009T213202Z",
     "checked_at": "2026-10-09T15:21:41.355075+00:00",
     "scope": "Tasks 5/6 minimal closure; no SDK/device setup, new suites/reviews, corpus hashes or preflight repetition.",
     "clean_shell": {

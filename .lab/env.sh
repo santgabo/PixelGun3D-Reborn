@@ -3,10 +3,13 @@
 # UnityPy 1.25.4 (Python 3.14 venv), AssetRipper Free 2.0.0,
 # Temurin JDK 21.0.12.1+1-LTS, JADX 1.5.6, Apktool 3.0.3,
 # Android Command-line Tools 17.0 (build 12700392) and Platform-Tools/ADB 37.0.1.
-# SDK/ADB CLI_READY only; android-sdk-license accepted for these two packages.
-# UnityPy object decoding is partial: STATIC_READY=DEFERRED.
-# RUNTIME_READY=BLOCKED; emulator/image installation is not authorized.
-# KVM, device ABI, network isolation and restoration remain unverified.
+# Historical static environment; some tools live in the adjacent primary checkout.
+# Runtime continuation 20261009T213202Z installed emulator/image with new authorization.
+# UnityPy object decoding remains partial: STATIC_READY=DEFERRED.
+# Runtime reference passed on API25/x86 TCG in isolated bubblewrap; KVM inaccessible.
+# This file does NOT isolate network or start runtime. Never launch the game outside
+# its verified namespace. Private runtime env/commands live in that run; see
+# docs/lab/preparacion-runtime.md. No firewall/host administrative changes made.
 # Invoke Apktool explicitly: java -jar "$LAB_APKTOOL_JAR" (decode only).
 # Sourcing neither starts tools nor certifies readiness.
 export LAB_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
