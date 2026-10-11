@@ -2,7 +2,9 @@
 
 Fecha: 2026-10-10. **Estado: stack recomendado aprobado por el usuario; investigación conservada como fundamento.** El usuario solicitó documentar el plan sin implementar en esta sesión. Véanse el [diseño](../superpowers/specs/2026-10-10-03-port-web-sin-unity-design.md) y el [Plan 3](../superpowers/plans/2026-10-10-03-reimplementacion-web-single-player.md); sus criterios detallados quedan para revisión previa a ejecución.
 
-## 1. Alcance confirmado
+**Cambio de alcance 2026-10-11:** el usuario solicitó un slice de tres mapas con Arena, tienda y multiplayer real propio. El diseño/Plan 3 enlazados arriba sustituyen las restricciones históricas de cobertura completa y servicios dummy de esta investigación. El fundamento del cliente se conserva; servidor Node/TypeScript/WebSocket y contenedor son propuestas nuevas cuya compatibilidad/paquetes se validan en 3B.1, no conclusiones de esta investigación anterior.
+
+## 1. Alcance histórico de la investigación
 
 - Reimplementación sin Unity Editor, runtime Unity ni exportación Unity WebGL.
 - Navegadores de escritorio; móviles fuera de esta iteración.

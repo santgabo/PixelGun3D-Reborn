@@ -1,203 +1,125 @@
-# Plan 3 — Diseño del port web sin Unity
+# Plan 3 — Diseño del vertical slice web, Arena y multijugador local
 
-**Fecha:** 2026-10-10. **Estado:** documentación del alcance y stack aprobados en conversación; especificación detallada para revisión junto al plan. **No autoriza ejecución en esta sesión.**
+**Revisión:** 2026-10-11. Sustituye el alcance anterior de port completo/single player. Petición del usuario: reformular la documentación, sin implementar el juego en esta sesión.
 
-**Plan asociado:** [Plan 3 — implementación](../plans/2026-10-10-03-reimplementacion-web-single-player.md).
-**Base técnica:** [investigación de tecnologías](../../analysis/tecnologias-port-web.md).
+**Plan:** [Plan 3 y sus entregas](../plans/2026-10-10-03-reimplementacion-web-single-player.md). **Después:** [roadmap pendiente](../pendientes/roadmap.md). Se conserva el nombre histórico del archivo del Plan 3 para no romper enlaces.
 
-## 1. Objetivo y prioridad
+## 1. Resultado esperado y alcance
 
-Reimplementar Pixel Gun 3D 11.3.1 para navegadores de escritorio, completamente sin Unity. El servidor Linux headless entrega archivos por HTTP a una MacBook en la LAN; la MacBook ejecuta simulación, audio y renderizado.
+Al terminar el Plan 3 debe existir una primera iteración jugable: abrir el navegador, recorrer el menú, comprar y equipar en una tienda local, jugar Arena o crear/unirse a una partida multijugador real, ver resultados y volver al menú. El usuario puede alojar el servidor en su computadora o desplegarlo como contenedor; otras computadoras acceden por LAN. No depende de los servidores originales.
 
-Orden de prioridad:
+Convertir primero todo el catálogo retrasa la primera partida; entregar solo single player con botones online deshabilitados no cumple el flujo solicitado. Se eligen entregas pequeñas que terminan en recorridos jugables y acumulan capacidad.
 
-1. Escenas y menús cargan, conservan su contenido y permiten navegar sin bloqueos.
-2. Mapas conservados: geometría, disposición, materiales, iluminación y elementos de gameplay recuperables.
-3. Single player funcional y estable, no únicamente un visor de mapas.
-4. Fluidez, tiempos de carga y consumo de memoria controlados.
-5. Servicios locales dummy que evitan dependencias online; multiplayer real fuera de alcance.
-
-No se repiten pruebas de integridad del Plan 2. Su documentación es la línea base aceptada. No se recalculan hashes de originales, comparan APK/OBB, repiten preflights ni reejecuta el original como requisito de este plan.
-
-## 2. Alcance y límites de cobertura
-
-### Incluido
-
-- Arranque web, menús necesarios para los recorridos locales, ajustes, selección de contenido, HUD, pausa, resultados y retorno al menú.
-- Movimiento, cámara, colisiones, armas, daño, enemigos/objetivos cuando el modo original los requiera, muerte, reinicio y progresión local.
-- Conversión y conservación de los mapas identificados en los datos; los mapas exclusivos de multiplayer pueden abrirse en un **modo de exploración local explícito**, sin afirmar que su modo online esté implementado.
-- Inventario de cobertura de todas las escenas listadas en los datos existentes: los 109 archivos de nivel no se tratan como 109 mapas jugables.
-- Menús exclusivamente online conservan su acceso/representación cuando corresponda, pero muestran disponibilidad deshabilitada; no simulan cuentas, compras o partidas reales.
-- Guardado local y servicios dummy desacoplados del gameplay.
-- Alojamiento estático HTTP LAN y pruebas de la nueva implementación.
-
-El catálogo funcional distingue `bootstrap`, `menu`, `single-player`, `multiplayer-map`, `other`, y registra modos, rutas de navegación y componentes necesarios. Se construye a partir de las salidas existentes y de la lectura necesaria para convertir el contenido; **no es una nueva auditoría de integridad**.
-
-No omitir mapas o rutas problemáticos para declarar el port completo. Una escena bloqueada lleva motivo y dependencias; si pertenece al alcance, impide PASS global. El primer mapa funcional es un hito intermedio, no el entregable final.
-
-### Excluido
-
-- Unity Editor, runtime Unity, Unity WebGL, emulación/streaming Android o renderizado remoto.
-- Navegadores móviles, controles táctiles y publicación en tiendas.
-- Multiplayer real, backend, cuentas reales, compras, anuncios, analítica y conexión a endpoints originales.
-- Rediseño visual, remasterización, reemplazo de mapas por aproximaciones o incorporación de contenido nuevo.
-- WebGPU obligatorio, PWA/service workers obligatorios, SharedArrayBuffer o WASM multihilo obligatorio.
-- Instalar o ejecutar componentes del producto durante esta sesión de documentación.
-
-## 3. Base existente y entradas
-
-Evidencias aceptadas: [continuación Plan 2 del 2026-10-11](../../analysis/continuacion-plan-2-2026-10-11.md), [resultados históricos](../../analysis/conclusiones-y-bloqueos.md), [recursos](../../analysis/inventario-recursos.md), [dependencias](../../analysis/mapa-dependencias.md) y [arranque](../../analysis/flujo-arranque.md).
-
-Actualización 2026-10-11: las salidas privadas están disponibles en `./.lab/runs/20261011T174958Z-completion/` de este checkout. Los cuatro proyectos C# recuperados compilan juntos sin errores; el inventario cubre 8.165 archivos/490.030 objetos, con campos de 490.022 recuperados y exports completos ejecutados. El plan identifica rutas a `managed/rebuild/`, staging, inventario refinado, medios y shaders. La salida original e IL se conservan para contrastar representaciones; los scripts sirven de referencia para TypeScript, no se ejecutan en el navegador.
-
-Quedan ocho objetos con 332 bytes personalizados sin interpretar: siete referencias `FyberEditor` y una `LpOwerride`, sin definiciones en las DLL suministradas. El catálogo conserva cada registro y evalúa su dependencia respecto al runtime web. Excluir componentes de Editor/servicios fuera de alcance requiere evidencia; una función desconocida requerida bloquea las escenas afectadas hasta resolverse. No inventar campos ni excluir por nombre/tamaño, y no detener contenido independiente por una dependencia no demostrada.
-
-AssetRipper conserva diagnósticos de layout en `BulletStackController`/`InputField`; los campos recuperados y referencias de shaders son la base para la conversión dirigida. Formato válido no certifica fidelidad. El proyecto Unity exportado no se compiló ni ejecutó y no es un prerrequisito del port sin Unity.
-
-Las pruebas existentes ejecutaron el APK original: tutorial/menú dos veces desde instalación limpia, Farm con perfil derivado. No certifican todas las escenas ni el cliente nuevo. En otra máquina/checkout se reciben rutas explícitas a estas salidas; si faltan, se solicita ubicación/recuperación sin repetir silenciosamente Plan 2.
-
-Los originales y salidas del Plan 2 permanecen de solo lectura. Las nuevas conversiones van a `./.lab/web-port/`; los datos derivados del juego y capturas no se publican automáticamente en Git.
-
-## 4. Stack acordado
-
-| Área | Tecnología |
+| Decisión | Alcance de esta revisión |
 |---|---|
-| Lógica | TypeScript, módulos ES |
-| Motor gráfico | Babylon.js convencional, WebGL 2 |
-| Física | Havok WASM con integración oficial Babylon |
-| Menús/HUD | HTML/CSS y recursos originales |
-| Contenido | glTF 2.0/GLB + manifiestos JSON versionados |
-| Construcción | Vite |
-| Conversión | Python + herramientas externas de lectura/exportación ya disponibles; ninguna requiere Unity Editor |
-| Pruebas nuevas | unittest para conversión; Vitest para contratos/lógica; Playwright para flujos de navegador |
-| Distribución | Cliente estático, WASM y recursos bajo el mismo origen HTTP |
+| Mapas | **Tres mapas jugables originales:** uno de Arena (`A1`) y dos multijugador (`M1`, `M2`). Menús no cuentan como mapas. |
+| Primer hito | Arena en A1; después deathmatch en M1. M2 se incorpora en una tarea propia. |
+| Single player | Solo Arena. Campaign, tutorial original y Sandbox no son prerrequisitos. Sí hay instrucciones de controles en UI. |
+| Multijugador | Deathmatch, duelo por equipos, captura de bandera y cooperativo contra monstruos, confirmados para esta primera iteración. |
+| Tienda | Compra, saldo, propiedad y equipamiento con moneda local; catálogo reducido, sin pagos. |
+| Hosting | Un servidor dedicado por instalación, una sala activa, máximo inicial de **4 jugadores**, acceso por URL y listado local de esa sala. |
+| Campaña | Futuro lejano: fuera del Plan 3 **y de la siguiente iteración**. |
 
-Las versiones exactas se fijan en la primera tarea de ejecución, contrastando requisitos oficiales y compatibilidad de paquetes. Babylon core/loaders comparten versión; Havok, Vite y herramientas se fijan por separado con lockfile. No usar `latest`, rangos flotantes o CDN en la distribución.
+**Alcance confirmado:** los cuatro modos multijugador y Arena forman parte de la primera iteración y se completan dentro del Plan 3. 3A, 3B y 3C son divisiones internas de su ejecución, no versiones futuras. Menú, tienda y equipamiento persistente también pertenecen al cierre del Plan 3. La economía inicial simplificada fue confirmada por el usuario; capacidad y sala única siguen siendo propuestas de diseño, no características verificadas del original.
 
-## 5. Arquitectura y límites
+Tres mapas adopta la formulación «un mapa [Arena] y dos mapas multijugador». No se aumenta a cuatro por disponibilidad de recursos. Cerrar con solo dos requiere revisar explícitamente selección y aceptación; un fallo de conversión no reduce por sí solo el alcance.
+
+## 2. Selección y cobertura
+
+`A1`, `M1`, `M2` son roles de selección, **no IDs recuperados**. La primera tarea los vincula a `SourceRef` reales del Plan 2. No elegir Farm por ser el único mapa adicional probado: esa evidencia corresponde a Campaign y no demuestra aptitud para estos modos.
+
+| Rol | Recorridos obligatorios |
+|---|---|
+| A1 | Arena individual: oleadas, enemigos, puntuación, muerte/final, resultado/reinicio. |
+| M1 | Deathmatch y duelo por equipos. |
+| M2 | Deathmatch, captura de bandera y cooperativo contra monstruos. |
+
+No se exige cada modo en cada mapa. Seleccionar M2 tras comprobar bases, spawns y navegación adecuados en las fuentes. Si ningún candidato soporta esa combinación sin rediseñar el mapa, registrar el conflicto antes de congelar selección; no inventar soporte, añadir un cuarto mapa ni eliminar un modo silenciosamente.
+
+El catálogo de conservación registra las entradas existentes como seleccionadas, aplazadas o no jugables. No exige convertirlas todas. Las aplazadas conservan identidad/motivo para futuro, no bloquean el PASS del slice y no aparecen como disponibles para jugar. Los 109 archivos de escena documentados no equivalen a 109 mapas; 70/74 no se adopta como conteo verificado.
+
+Límites propuestos: **dos armas** de una misma familia recuperada —una inicial y otra comprable—, **dos arquetipos de monstruo** compartidos entre Arena/cooperativo, un perfil visual de jugador y dos colores de equipo. Si las fuentes requieren más familias para los recorridos elegidos, explicitar el coste antes de congelar alcance. Precios, saldo inicial, recompensas y límites de partida se fijan en configuración local trazable; no se replica toda la economía original.
+
+## 3. Base técnica conservada
+
+- TypeScript, Babylon.js convencional, WebGL 2, Havok WASM, HTML/CSS, Vite, GLB y JSON versionado. La [investigación previa](../../analysis/tecnologias-port-web.md) fundamenta el cliente; su exclusión histórica del multiplayer queda sustituida.
+- Sin Unity Editor/runtime/WebGL, emulación Android, streaming o renderizado remoto. Escritorio; móviles fuera.
+- Consumir salidas aceptadas del [Plan 2](../../analysis/continuacion-plan-2-2026-10-11.md), sin repetir hashes, staging, decompilación global ni inventario. Tabla de entradas en Plan 3.
+- Originales/recuperación de solo lectura; derivados y evidencias privadas nuevas en `./.lab/web-port/`. No publicar automáticamente assets recuperados en Git.
+- Registrar los ocho objetos opacos. Investigar dependencias de A1/M1/M2 y UI seleccionada; lo desconocido requerido bloquea ese contenido. Lo ajeno al slice puede seguir pendiente. No excluir por nombre/tamaño ni exigir resolver todo el catálogo.
+- Coordenadas RH/Y arriba/metros; `pathId` decimal como string. Conservar geometría, jerarquías, colliders, materiales, atlas, iluminación, audio y animaciones requeridos; no reconstruir mapas aproximados ni reinterpretar todo como PBR.
+- Cero CDN, telemetría y endpoints originales durante juego. Recursos y conexiones pertenecen al despliegue propio.
+- WebGL 2 y WASM/SIMD requeridos. HTTP LAN no presupone contexto seguro; sin dependencia de WebGPU, service workers, SharedArrayBuffer o flags especiales.
+- Sin cambios automáticos de firewall, certificados o routing. Exposición pública a Internet fuera del plan.
+
+Las 1.982 fuentes C# compiladas son referencia, no runtime del producto. Tutorial/menú y Farm del APK no certifican estos mapas ni la red nueva. Localizar las salidas privadas al ejecutar: su disponibilidad no se presupone en cada worktree.
+
+## 4. Servidor y autoridad
 
 ```text
-Salidas existentes del Plan 2 (solo lectura)
-            │ conversión selectiva, fuera del navegador
-            ▼
-  ./.lab/web-port/content/ — GLB, audio, atlas, manifiestos
-            │ empaquetado de publicación
-            ▼
-  ./web/dist/ — raíz HTTP exclusiva
-            │ LAN
-            ▼
-  Navegador de escritorio
-    ApplicationState / UI
-      ├─ SceneSession → Babylon + Havok
-      ├─ LocalGame → movimiento, armas, enemigos, objetivos
-      ├─ ContentRepository → recursos propios por escena
-      └─ LocalServices → perfil, progreso, disponibilidad online
+Plan 2 (solo lectura) → conversión selectiva → paquete A1/M1/M2
+                                                 │
+Navegadores ← HTTP / WebSocket → Servidor propio sin pantalla/GPU
+  Babylon + Havok                  archivos web y API
+  UI / audio / presentación        sala y simulación autoritativa
+  Arena local                      perfiles / tienda / volumen
 ```
 
-- **Conversión:** traduce formatos y campos originales a contratos web, conserva identidad por archivo + path_id y produce diagnósticos por contenido.
-- **ContentRepository:** carga manifiestos y recursos locales; no conoce gameplay ni cuentas.
-- **SceneSession:** es propietaria de escena, física, audio y suscripciones de una carga; dispone de liberación idempotente.
-- **ApplicationState:** controla una sola sesión activa y las transiciones; un resultado asíncrono obsoleto no puede reactivar una escena cancelada.
-- **LocalGame:** reglas del juego portadas según evidencia; no realiza peticiones online.
-- **LocalServices:** implementa perfil/progreso local y estados explícitos de función online no disponible. No es una emulación del protocolo Photon.
-- **UI:** presenta estado y envía acciones; no dirige directamente el render loop ni crea cuerpos físicos.
+Propuesta nueva: **Node.js + TypeScript y WebSocket**, un proceso que aloja estáticos, API de perfil/tienda y sala autoritativa, también empaquetable en contenedor Linux. El host juega desde navegador como un cliente más. No portar Photon. Versiones y biblioteca WebSocket se contrastan con documentación oficial y se fijan en 3B.
 
-No recrear un runtime genérico de MonoBehaviour, C# o coroutines Unity. Mapear componentes necesarios a comportamientos concretos del nuevo juego. Separar datos y lógica para que el backend futuro no requiera rehacer los mapas.
+Servidor determina movimiento válido, impactos, daño, munición, puntuación, equipos, banderas, monstruos y fin. Clientes envían intenciones; no se aceptan saldos, kills o posiciones finales declaradas por el cliente. Compartir reglas puras y datos de colisión/navegación. La física autoritativa requiere prueba temprana headless: **compatibilidad de Havok en Node no demostrada**. Si falla, decidir adaptador alternativo con pruebas de paridad antes de continuar; no trasladar autoridad al cliente como parche.
 
-## 6. Contrato de contenido y fidelidad
+Propuesta: simulación **60 Hz**, máximo **5 pasos** de recuperación por ciclo, snapshots **20 Hz**, interpolación remota y reconciliación local por secuencia de input. Sin rollback/compensación avanzada de latencia; objetivo LAN. Medir con cuatro clientes antes de añadir modos. Sin cluster, matchmaking global, NAT traversal, relay ni migración del host.
 
-`SceneManifest` usa `schemaVersion: 1` y referencias relativas al origen HTTP. Contiene identidad, clasificación, paquetes visuales, nodos, colisiones, puntos de aparición, triggers, iluminación, audio y referencias de configuración de gameplay. `ContentCatalog` enumera todas las escenas y su estado de conversión/soporte. Un recurso crítico ausente produce error visible, no un éxito con contenido vacío.
+Sala: `lobby → loading → playing → results → lobby`. Creador configura/inicia; si abandona, el conectado más antiguo recibe ese control. El proceso dedicado continúa si se cierra el navegador del creador. Si cae el servidor, termina la partida y el cliente ofrece reintentar/volver; no se promete recuperar la ronda tras reiniciar contenedor.
 
-Convención del runtime: coordenadas **dextrógiras, Y arriba, metros**; la conversión desde Unity se realiza una sola vez. GLB conserva la convención glTF. Datos complementarios deben usar la misma base; ajustar winding, normales, tangentes, rotaciones y escalas negativas de forma coherente. Conservar unidades originales y documentar cualquier factor observado; no inventar escalas.
+Entrada durante `playing`: esperar en lobby a la próxima ronda. Desconexión: retirar jugador, liberar slot y resolver objetivos de modo. Puede volver al lobby con su perfil; reingreso a ronda en curso y espectador quedan para futuro.
 
-GLB cubre representación gráfica, no todos los comportamientos de la escena original. JSON conserva información adicional: colliders, triggers, relaciones, navegación y eventos. No usar nombres amigables como identidad única.
+## 5. Menú, tienda y persistencia
 
-Materiales: conservar atlas/UV, vertex colors, transparencia, alpha test, doble cara, skybox y lightmaps según los datos. No convertir automáticamente todo a PBR ni añadir luces que alteren la referencia. Skins y animaciones deben conservar huesos, poses y tiempos. Si falta una referencia perceptual, etiquetar la fidelidad como no verificada, no inventar una equivalencia.
+Flujos obligatorios:
 
-Se carga el menú y después el mapa seleccionado, nunca todo el juego al inicio. Recursos compartidos tienen propiedad/recuento explícitos. Instancias y compresión solo después de tener una referencia funcional; no fusionar geometría si destruye triggers, identidad o colisiones.
+1. Perfil nuevo → menú → tienda → comprar segunda arma → equipar → Arena → resultado/reinicio → menú.
+2. Menú → multijugador → crear/unirse → mapa/modo → ready/inicio → partida compartida → resultados → lobby → menú.
+3. Reiniciar navegador/servidor → recuperar saldo/inventario/equipo → volver a jugar.
 
-Todos los WASM, fuentes y decodificadores se alojan localmente. La distribución no debe emitir peticiones a CDN, endpoints originales o telemetría.
+Perfil de invitado por instalación. Servidor emite token opaco y guarda perfil, saldo, inventario y equipo en volumen local con escrituras atómicas serializadas. Navegador conserva token y ajustes; no importar cuentas Android ni usar ID público como credencial. Almacenamiento del navegador denegado: sesión temporal con aviso, sin promesa de persistencia entre visitas.
 
-## 7. Estados, errores e interacción
+Servidor valida precio, saldo, propiedad, deduplica `requestId` y aplica compra como transacción. Solicitudes concurrentes no duplican gasto ni generan saldo negativo. Equipo queda fijado al comenzar ronda; cambios posteriores se aplican en la siguiente. Moneda de laboratorio identificada como tal. Solo resultados multijugador autoritativos conceden moneda persistente; Arena guarda récords locales y no genera recompensas confiables para servidor.
 
-Estados: `boot`, `menu`, `loading`, `playing`, `paused`, `results`, `error`.
+3A usa adaptador de perfil local para Arena; 3B incorpora tienda/servidor persistentes. El adaptador inicial no cuenta como tienda terminada. Perfil corrupto/futuro no se sobreescribe; fallo de escritura no devuelve éxito. Ajustes locales fallidos se recuperan en memoria con aviso.
 
-- Boot solo necesita capacidades y contenido local, no login/red externa.
-- Menú → carga → juego es cancelable. Selecciones rápidas A/B solo activan B.
-- Un error de mapa vuelve al menú mediante una acción explícita, sin recargar toda la página.
-- Perder foco o pointer lock pausa y limpia teclas retenidas; recuperar foco no reanuda disparos ni juego automáticamente.
-- Audio y captura de ratón se activan con gesto explícito. Rechazo del navegador produce instrucción visible; no crash.
-- Context loss pausa y muestra recuperación; si no puede reconstruirse con seguridad, reiniciar la escena o volver al menú. No prometer recuperación transparente universal.
-- Liberación idempotente de escena, física, audio, eventos, timers, UI y cargas pendientes.
+## 6. Ciclo mínimo completo por modo
 
-Simulación fija a **60 Hz**, acumulador con máximo de **5 pasos por frame**; al pausar/restaurar se descarta tiempo pendiente para evitar ráfagas y saltos. Render independiente con interpolación cuando corresponda. Estos valores son decisiones del nuevo runtime, no afirmaciones sobre el original.
+Contrastar reglas/parámetros con C# y datos al preparar cada modo; registrar adaptaciones. Completo se refiere a su ciclo jugable, no a toda la plataforma comercial.
 
-## 8. Single player y servicios locales
+| Modo | Criterios |
+|---|---|
+| Arena | Oleadas configuradas, spawns, IA/navegación, ataques, puntuación, muerte/final, reinicio y salida; sin Campaign. |
+| Deathmatch | Spawn/respawn, bajas individuales, límite tiempo/puntos, desempate explícito y resultados comunes. |
+| Duelo por equipos | Dos equipos, spawns, política de fuego amigo, puntos por equipo, fin/resultados. |
+| Captura de bandera | Dos bases, recoger/transportar/soltar/devolver/capturar, regla de bandera propia, muerte/desconexión del portador, marcador/cierre. |
+| Cooperativo | Monstruos/oleadas autoritativos, daño compartido, bajas únicas, respawn entre oleadas, derrota del grupo/resultados. |
 
-La primera sección vertical incluye un mapa original, movimiento/cámara, colisión, un arma, blanco/enemigo apropiado al modo, daño, muerte/reinicio, pausa y retorno al menú. Después se extiende por modos y componentes del catálogo.
+Perder foco pausa Arena y descarta tiempo acumulado. En multiplayer solo libera input y muestra overlay: el servidor continúa. Recuperar contexto gráfico no duplica entidades/eventos. Salir libera escena, física, audio, listeners y suscripción de partida.
 
-Velocidades, FOV, daño, munición, cadencia, recarga, estados de enemigo, objetivos y condiciones de victoria se trasladan desde datos/código existente; registrar fuente de cada parámetro en el mapa de comportamientos. Valores provisionales solo en fixtures sintéticos, no como fidelidad aceptada del contenido real.
+## 7. Aceptación proporcionada al slice
 
-NPCs deben usar navegación adecuada al mapa y no cruzar paredes. Conservar datos de navegación utilizables; si no hay datos portables, generar navegación fuera del navegador desde la geometría y registrar esa derivación. La selección de una dependencia adicional de navegación debe justificarse antes de incorporarla; no bloquea tareas anteriores.
+- **3A:** A1 jugable de menú a resultado/reinicio con contenido real. Primera entrega utilizable.
+- **3B:** tienda persistente y deathmatch M1 con dos navegadores en computadoras distintas por LAN. Pestañas locales no sustituyen esa prueba.
+- **3C:** matriz A1/M1/M2, modos seleccionados, cuatro clientes de prueba y arranque nativo/contenedor. Al menos dos participantes en computadoras distintas; cuatro clientes automatizados prueban capacidad, no cuatro equipos físicos.
+- Cero excepciones no controladas, recursos críticos ausentes o llamadas externas. Inyectar protocolo/release incompatible, sala llena, mensajes inválidos, desconexión, compra duplicada y fallo de persistencia.
+- **30 ciclos** de cargar/salir/reiniciar/reconectar al lobby sin acumulación de recursos; **60 minutos** con cambios de modo/mapa. Equipo o participantes ausentes: NOT_RUN.
+- Presupuesto cliente propuesto conservado: máximo interno inicial 1920×1080; 5 min activos tras 30 s de calentamiento; mediana ≤17,5 ms, p95 ≤25 ms, p99 ≤50 ms; registrar pausas >100 ms. Menú frío ≤5 s, mapa frío ≤10 s/caliente ≤5 s. No relajar sin decisión documentada.
+- Servidor/cuatro clientes: coste de tick p95 ≤16,7 ms propuesto; registrar RTT, jitter, bytes/s y edad de snapshots, sin backlog creciente ni divergencia permanente. No extrapolar LAN a Internet.
+- Safari/Chrome reales en MacBook por LAN: objetivo principal. Playwright Chromium/Firefox/WebKit cubre regresión; WebKit no certifica Safari de marca. Windows/Linux/Firefox reales: registrar disponibilidad, sin afirmar cobertura no probada.
 
-Guardado versionado local. Si está corrupto, es de una versión futura, el almacenamiento se deniega o se agota, iniciar sesión temporal con aviso y conservar la copia recuperable sin sobrescritura automática. No migrar cuentas ni compras reales. Servicios online devuelven `unavailable`, no éxitos fabricados.
+PASS significa **slice aceptado**, nunca catálogo completo. Requiere mapas/modos obligatorios y pruebas LAN/contenedor. PARTIAL/BLOCKED/NOT_RUN identifican defectos/evidencia ausente; contenido aplazado por diseño no hace PARTIAL el slice.
 
-El original bloquea Campaign después del tutorial hasta una primera partida multijugador. El cliente web permite tutorial → menú → Campaign mediante progreso local explícito, sin esperar ese servicio ni importar flags del perfil Android derivado. No informa una partida online completada; conserva objetivos y progresión del single player traducidos.
+## 8. Expansión posterior
 
-## 9. HTTP LAN y seguridad de distribución
+Resto de mapas, armas, enemigos, cosméticos, modos adicionales, matchmaking público, cuentas globales, pagos, clanes, rankings y eventos pasan a la hoja de ruta. Ninguna tarea del Plan 3 obliga a «completar todo lo restante».
 
-Ruta objetivo: `http://<IP-LAN-del-servidor>:8080/` como puerto inicial configurable. Bind explícito a la IP LAN elegida, no publicar indiscriminadamente a Internet. Servir solo `./web/dist/`, sin listado de directorios ni acceso a originales, `.lab`, decompilados o archivos de entorno.
+Siguiente iteración: refinar estos tres mapas y flujos. Después, contenido por lotes de uno o dos mapas. Campaign es una iniciativa independiente sin fecha ni dependencia para estos cierres; requiere nueva decisión tras varias iteraciones refinadas.
 
-WebGL 2 y WASM/SIMD son capacidades requeridas; ausencia produce pantalla explicativa. HTTP LAN no es contexto seguro como localhost. No depender de WebGPU, service workers, HTTPS, memoria compartida ni flags especiales.
-
-Build, WASM, audio y datos deben tener tipos MIME correctos. URLs relativas al despliegue y errores 404 reales: no devolver `index.html` cuando falte un binario o mapa. Versionar URLs de publicación para evitar mezclar manifiestos y recursos antiguos, sin volver a hashear originales.
-
-No cambiar firewall, permisos administrativos, routing ni certificados automáticamente. Si el acceso LAN está bloqueado, registrar el bloqueo y pedir una decisión independiente.
-
-## 10. Validación y umbrales
-
-**Estas son pruebas del producto nuevo, no nuevas pruebas de integridad del original.**
-
-### Funcionalidad y contenido
-
-- Todas las escenas catalogadas tienen categoría, destino y estado explícitos.
-- Todos los mapas en alcance cargan; rutas de menús locales no terminan en pantallas vacías o esperas online.
-- Cada modo single player en alcance tiene recorrido de inicio, juego, muerte/reinicio o victoria y salida.
-- Cero excepciones no controladas, rechazos no controlados o recursos críticos ausentes en recorridos aceptados.
-- Cero peticiones fuera del origen del juego durante la sesión (no contar operaciones de instalación/build).
-- Comparaciones visuales contra evidencia existente y escenas convertidas desde puntos de vista identificados; diferencias intencionadas documentadas, diferencias desconocidas no reciben PASS.
-
-### Estabilidad
-
-- **30 ciclos** de entrar/salir/reiniciar escenas representativas; no aumentar de forma acumulativa sesiones, cuerpos físicos, listeners o sonidos vivos tras liberar.
-- **60 minutos** de single player con cambios de mapa y pausa; cero crashes, bloqueos irrecuperables o fallos de guardado que impidan continuar.
-- Ensayos de 404, carga lenta/cancelada, WASM no disponible, almacenamiento denegado, pérdida de foco y contexto gráfico.
-- Ausencia de APIs de medida de heap en un navegador no se interpreta como cero memoria; usar contadores de recursos y observación del proceso cuando sea posible.
-
-### Rendimiento: presupuesto inicial propuesto
-
-Meta: **60 fps**, resolución interna máxima inicial **1920×1080**, sin multiplicar automáticamente por todo el DPR Retina. Registrar tamaño de ventana y resolución real.
-
-En un recorrido activo de **5 minutos**, después de **30 segundos** de calentamiento, sin pantallas de carga ni pestaña en segundo plano: mediana de intervalo entre frames ≤ **17,5 ms**, p95 ≤ **25 ms**, p99 ≤ **50 ms**. Registrar también pausas >100 ms y su causa. No presentar fps medios como único indicador.
-
-En LAN de referencia, propuesta inicial: menú interactivo ≤ **5 s** desde navegación fría; mapa inicial jugable ≤ **10 s** desde selección fría y ≤ **5 s** con caché caliente. Son presupuestos del proyecto pendientes de confirmar contra tamaño de contenido y equipo; no garantías de la investigación. No ocultar un incumplimiento precargando todo ni quitando mapas.
-
-Antes de evaluar estos presupuestos, registrar modelo/chip/RAM de MacBook, macOS, navegador/versión, energía y LAN. Si falta acceso al equipo, rendimiento real = NOT_RUN, nunca PASS por un ensayo headless. Ajustar un presupuesto exige documentar motivo y aprobación del usuario, no moverlo silenciosamente.
-
-### Navegadores
-
-Objetivo: Safari y Chrome actuales disponibles en la MacBook, más Firefox de escritorio; versiones exactas se anotan al ejecutar. Automatizar Chromium/Firefox/WebKit en Linux donde sea posible, pero WebKit Playwright no certifica Safari de marca. Comprobar distribución en Windows/Linux/macOS con hardware y versiones registrados antes de afirmar cobertura cruzada; las combinaciones sin equipo disponible quedan NOT_RUN.
-
-## 11. Entregables y puertas
-
-1. **G0:** entradas previas localizadas, catálogo/contratos y toolchain del nuevo cliente definidos; sin repetir Plan 2.
-2. **G1:** primer mapa original visible y navegable desde menú por HTTP LAN; errores recuperables.
-3. **G2:** sección vertical single player completa y calibrada; no confundirla con port completo.
-4. **G3:** cobertura de escenas/menús/mapas/modos en alcance, sin omisiones silenciosas.
-5. **G4:** aceptación funcional, visual, estabilidad y rendimiento en equipos reales; distribución y manual LAN.
-
-Estados: PASS, PARTIAL, BLOCKED, NOT_RUN. PASS global requiere G0–G4 y la matriz completa; cualquier limitación de contenido, plataforma o referencia queda en el informe. La ausencia de evidencia no es aprobación.
-
-## 12. Decisiones de esta documentación
-
-El usuario aprobó el stack y pidió un plan explícito, sin implementación en esta sesión. Este diseño fija contratos y criterios propuestos para que el ejecutor no invente alcance durante el trabajo. Equipo de referencia y versiones reales se registrarán al ejecutar; el detalle de contenido se obtendrá del catálogo antes de ampliar el port. No hay commits, instalaciones del producto, conversiones, servidores ni pruebas del juego realizadas por este documento.
+Esta documentación no instala dependencias, convierte contenido ni levanta servidores. Las propuestas técnicas de capacidad y hosting quedan visibles para revisión previa a ejecución; los modos y el flujo de tienda/equipamiento pertenecen al alcance confirmado.

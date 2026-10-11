@@ -9,42 +9,42 @@
 - [x] Recuperar Android completo en Smali y documentar Java/instrucciones alternativas.
 - [x] Completar y documentar gameplay/tutorial/menú del original, repetir desde AVD limpio y cerrar procesos; comprobar Farm offline con perfil derivado separado.
 
-# Preparación del Plan 3 — juego en navegador
+# Plan 3 reformulado — primera iteración jugable
 
-[Convención de rutas relativas](./docs/README.md).
+[Diseño](./docs/superpowers/specs/2026-10-10-03-port-web-sin-unity-design.md) · [Plan 3](./docs/superpowers/plans/2026-10-10-03-reimplementacion-web-single-player.md) · [Roadmap pendiente](./docs/superpowers/pendientes/roadmap.md) · [Convención de rutas](./docs/README.md).
 
-Seguimiento de planificación, no plan de implementación aprobado. No autoriza cambios al juego, instalaciones, commits ni ejecución del portado.
+Revisión 2026-10-11 solicitada por el usuario: reducir/dividir el plan y documentar futuro. Solo planificación; no autoriza implementación, instalaciones del producto, commits o servidores en esta sesión.
 
-- [x] Clasificar el cambio como arquitectónico y revisar contexto, informes y commits recientes.
-- [x] Confirmar plataforma: exclusivamente navegadores de escritorio; servidor Linux headless sirve el juego por HTTP a una MacBook en la LAN.
-- [x] Confirmar reimplementación completamente sin Unity y realizar investigación documental de tecnologías web.
-- [x] Stack aprobado por el usuario: TypeScript + Babylon.js convencional + WebGL 2 + Havok WASM.
-- [x] Apoyo visual: no fue necesario para las decisiones tomadas.
-- [x] Comparar motores web con evidencia técnica: `./docs/analysis/tecnologias-port-web.md`.
-- [x] Documentar diseño, cobertura y presupuestos propuestos: `./docs/superpowers/specs/2026-10-10-03-port-web-sin-unity-design.md`.
-- [x] Redactar por petición expresa el Plan 3 con writing-plans: `./docs/superpowers/plans/2026-10-10-03-reimplementacion-web-single-player.md`.
-- [x] Autorrevisar documentos: cobertura, dependencias, contratos, aceptación y exclusión de nuevas pruebas de integridad.
-- [x] Actualizar Plan 3 y diseño con las rutas recuperadas, límites de los ocho objetos y alcance real de las pruebas originales del 2026-10-11.
-- [ ] Revisión del usuario de diseño/plan y criterios detallados antes de una futura sesión de ejecución.
-- [ ] Autorización explícita de ejecución futura. **Prohibido implementar en esta sesión.**
+## Documentación completada
 
-## Pendientes incorporados al Plan 3
+- [x] Conservar stack aprobado: TypeScript, Babylon.js convencional, WebGL 2, Havok WASM; sin Unity y solo navegadores de escritorio.
+- [x] Sustituir el port de todo el catálogo por un slice de tres mapas: uno Arena y dos multijugador.
+- [x] Eliminar la antigua tarea 10 de expansión universal; separar tareas y cierres verificables por entrega.
+- [x] Incluir menú, tienda con moneda local, equipamiento y multiplayer propio real con hosting nativo/contenedor.
+- [x] Documentar propuesta de servidor autoritativo, una sala/cuatro jugadores y pruebas de red/persistencia.
+- [x] Separar la siguiente iteración de refinamiento y los futuros lotes de uno o dos mapas.
+- [x] Sacar Campaign/tutorial original/Sandbox del slice; campaña tampoco entra en la siguiente iteración.
+- [x] Preservar evidencia Plan 2, ocho objetos opacos y validación dirigida sin repetir integridad/decompilación.
+- [x] Modos confirmados por el usuario para esta primera iteración: Arena, deathmatch, duelo por equipos, captura de bandera y cooperativo contra monstruos. 3A/3B/3C son partes obligatorias del mismo Plan 3, no iteraciones futuras.
+- [ ] Revisión de diseño/subplanes y propuestas de capacidad/economía antes de ejecutar.
 
-- [ ] Consumir `./.lab/runs/20261011T174958Z-completion/managed/rebuild/`, staging, inventario refinado y exports existentes como base de la conversión web; no repetir decompilación ni integridad del Plan 2.
-- [ ] Catalogar los ocho objetos con referencias, impacto y evidencia: excluir los que se demuestren de Editor/servicios fuera de alcance; mantener `LpOwerride` sin atribución hasta investigarlo y resolver cualquier dato/comportamiento requerido por las escenas afectadas.
-- [ ] Contrastar los layouts advertidos y adaptar shaders/medios para el runtime web; exportar no equivale a fidelidad o integración verificadas.
-- [ ] Validar en el cliente web nuevo tutorial → menú → Campaign sin dependencia de la primera partida multijugador; no importar el perfil Android derivado.
-- [ ] Completar las pruebas web de contenido, gameplay, estabilidad y rendimiento previstas; las pruebas del APK original y la compilación C# son referencias, no aceptación del port.
+## Ejecución pendiente por entregas
 
-## Contexto verificado en los informes existentes
+- [ ] [3A — Arena jugable](./docs/superpowers/plans/2026-10-11-03a-arena-jugable.md): seleccionar IDs reales, convertir A1, menú/control/combate/oleadas/resultado, perfil local y primera aceptación.
+- [ ] [3B — Tienda y multiplayer local](./docs/superpowers/plans/2026-10-11-03b-tienda-multiplayer-local.md): servidor headless, compra/equipo persistente, sala, deathmatch M1 y dos computadoras LAN.
+- [ ] [3C — Modos y entrega](./docs/superpowers/plans/2026-10-11-03c-modos-y-entrega.md): M2, duelo por equipos, bandera/cooperativo, contenedor y aceptación de la matriz seleccionada.
+- [ ] Futuro informe `./docs/analysis/resultado-plan-3.md`: pruebas propias del cliente/servidor, sin equiparar APK/C# a aceptación web.
 
-La recuperación y pruebas del Plan 2 se ampliaron por autorización nueva del 2026-10-11; su estado vigente está en el informe enlazado arriba. Las 1.982 fuentes de los cuatro proyectos C# compilan sin errores y están en `./.lab/runs/20261011T174958Z-completion/managed/rebuild/`; la lógica principal está en `Assembly-CSharp/`. El inventario/exportación abarca todos los archivos; quedan ocho objetos con 332 bytes personalizados sin interpretar. Hay 109 archivos de escena, no necesariamente 109 mapas. Las pruebas se hicieron con el APK original: tutorial/menú desde instalación limpia y Farm con perfil derivado. El proyecto Unity exportado no se compiló ni ejecutó; el Plan 3 sigue siendo una reimplementación sin Unity y requiere sus propias pruebas.
+## Restricciones vigentes
 
-## Prioridad y restricciones expresadas por el usuario
+A1/M1/M2 son roles hasta vincularlos a fuentes; no son nombres de mapas recuperados. Catálogo conservado completo no implica conversión completa. Una entrada aplazada no bloquea el slice; una función crítica desconocida de una escena seleccionada sí. Los ocho objetos conservan motivo/evidencia por relevancia, sin exigir resolver contenido ajeno a esta iteración.
 
-Reimplementación completamente sin Unity Editor ni runtime Unity. Ejecución fluida exclusivamente en navegadores de escritorio, independientemente del sistema operativo. Escenas y menús que carguen correctamente, mapas conservados y single player sin crashes. La validación de fidelidad, estabilidad y rendimiento se concentra en el propio juego, no en las conexiones en línea. Servicios originales sustituidos temporalmente por un dummy; multiplayer funcional y navegadores móviles fuera de esta iteración.
+Consumir `./.lab/runs/20261011T174958Z-completion/` donde exista o recibir ubicación explícita. No repetir staging, hashes, auditoría de entradas, recuperación global ni preflights del Plan 2. Nuevas conversiones/evidencias en `./.lab/web-port/`, fuera de originales y privadas por defecto.
 
-Despliegue esperado: servidor Linux headless accesible por HTTP desde una MacBook conectada a la misma LAN. El juego debe ejecutarse en el navegador de la MacBook; no se presupone pantalla ni renderizado remoto en el servidor. Este escenario debe formar parte de la aceptación, no limitarse a localhost.
+El servidor ahora aloja sala/simulación/API además del cliente. El navegador del host es un participante; otros equipos se unen por URL LAN. Ni dos pestañas locales ni un Dockerfile prueban acceso externo. Internet público, servicios originales, pagos, cuentas globales y móviles quedan fuera. No se cambian firewall/routing/certificados automáticamente.
 
-En la futura ejecución del Plan 3 no repetir las verificaciones de entradas del Plan 2; aceptar su evidencia documentada como base. La continuación actual del Plan 2 fue autorizada expresamente por el usuario y responde a los huecos de recuperación y runtime anteriores. Las pruebas propias del Plan 3 se centrarán en el funcionamiento y rendimiento de la versión web.
+La campaña permanece documentada para largo plazo. La siguiente iteración refina los mismos tres mapas; contenido adicional solo entra mediante lotes explícitos y aceptación propia.
 
+## Contexto de los informes existentes
+
+Según el informe enlazado del Plan 2, los cuatro proyectos/1.982 fuentes compilan; el inventario/exportación abarca todos los archivos y quedan ocho objetos con 332 bytes personalizados opacos. Hay 109 archivos de escena, no necesariamente 109 mapas. Tutorial/menú se probaron desde instalación limpia y Farm con perfil derivado; no se probó el multiplayer original. El proyecto Unity exportado no se compiló/ejecutó y no es requisito del port. Esas evidencias no se han vuelto a ejecutar al reformular estos planes.
