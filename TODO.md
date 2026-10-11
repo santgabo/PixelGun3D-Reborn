@@ -1,5 +1,7 @@
 # Preparación del Plan 3 — juego en navegador
 
+[Convención de rutas relativas](./docs/README.md).
+
 Seguimiento de planificación, no plan de implementación aprobado. No autoriza cambios al juego, instalaciones, commits ni ejecución del portado.
 
 - [x] Clasificar el cambio como arquitectónico y revisar contexto, informes y commits recientes.
@@ -7,9 +9,9 @@ Seguimiento de planificación, no plan de implementación aprobado. No autoriza 
 - [x] Confirmar reimplementación completamente sin Unity y realizar investigación documental de tecnologías web.
 - [x] Stack aprobado por el usuario: TypeScript + Babylon.js convencional + WebGL 2 + Havok WASM.
 - [x] Apoyo visual: no fue necesario para las decisiones tomadas.
-- [x] Comparar motores web con evidencia técnica: `docs/analysis/tecnologias-port-web.md`.
-- [x] Documentar diseño, cobertura y presupuestos propuestos: `docs/superpowers/specs/2026-10-10-03-port-web-sin-unity-design.md`.
-- [x] Redactar por petición expresa el Plan 3 con writing-plans: `docs/superpowers/plans/2026-10-10-03-reimplementacion-web-single-player.md`.
+- [x] Comparar motores web con evidencia técnica: `./docs/analysis/tecnologias-port-web.md`.
+- [x] Documentar diseño, cobertura y presupuestos propuestos: `./docs/superpowers/specs/2026-10-10-03-port-web-sin-unity-design.md`.
+- [x] Redactar por petición expresa el Plan 3 con writing-plans: `./docs/superpowers/plans/2026-10-10-03-reimplementacion-web-single-player.md`.
 - [x] Autorrevisar documentos: cobertura, dependencias, contratos, aceptación y exclusión de nuevas pruebas de integridad.
 - [ ] Revisión del usuario de diseño/plan y criterios detallados antes de una futura sesión de ejecución.
 - [ ] Autorización explícita de ejecución futura. **Prohibido implementar en esta sesión.**

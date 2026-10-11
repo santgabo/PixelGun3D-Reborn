@@ -2,7 +2,7 @@
 
 Corridas **20261009T191951Z** (estática) y **20261009T213202Z** (continuación dinámica autorizada), 2026-10-09 UTC. **Resultado general: PARTIAL.** El bloqueo de preparación se resolvió: dos arranques originales llegaron al tutorial offline y la cámara se comprobó en el segundo. Persisten cobertura de recursos y otras funciones no probadas.
 
-Evidencias privadas en `.lab/runs/<corrida>/`, excluidas de Git. Resúmenes máquina: corrida estática `reports/resultados.json`, dinámica `reports/runtime-results.json`. La continuación instaló emulador/imagen con autorización expresa, **sin tocar firewall, grupos/KVM ni originales**. No se recompiló/firmó/modificó el juego, usaron cuentas personales ni habilitó Internet. Sin commits ni delegación.
+Evidencias privadas en `./.lab/runs/<corrida>/`, excluidas de Git. Resúmenes máquina: corrida estática `reports/resultados.json`, dinámica `reports/runtime-results.json`. La continuación instaló emulador/imagen con autorización expresa, **sin tocar firewall, grupos/KVM ni originales**. No se recompiló/firmó/modificó el juego, usaron cuentas personales ni habilitó Internet. Sin commits ni delegación.
 
 ## Cobertura real
 
@@ -21,9 +21,9 @@ Herramientas utilizadas: Python 3.14.4, ILSpyCmd 11.1.0.9782/.NET del lock, Unit
 ## Conclusiones graduadas
 
 - **Confirmado:** preservación byte a byte de las entradas; equivalencia de los archivos desempaquetados con originales; decompilación de cuatro ensamblados; staging correcto por procedencia/cabeceras; muestras específicas decodificadas; enlace `level0:15 → globalgamemanagers.assets:750 → Assembly-CSharp.dll::DeviceOrientationMonitor`, `m_Enabled=1`.
-- **Confirmado estáticamente:** actividad `com.prime31.UnityPlayerNativeActivity` (superclase UnityPlayerActivity), esquema de búsqueda del OBB 1191, puentes JNI y lista BuildSettings. Referencias: [mapa](mapa-dependencias.md), [inventario](inventario-recursos.md), [flujo](flujo-arranque.md).
+- **Confirmado estáticamente:** actividad `com.prime31.UnityPlayerNativeActivity` (superclase UnityPlayerActivity), esquema de búsqueda del OBB 1191, puentes JNI y lista BuildSettings. Referencias: [mapa](./mapa-dependencias.md), [inventario](./inventario-recursos.md), [flujo](./flujo-arranque.md).
 - **Inferido:** AppCenter como escena inicial esperada y Loading como transición condicionada; acoplamiento Unity/backend y candidatos muy pequeños de lógica aislable. No son observaciones de ejecución.
-- **Confirmado dinámicamente:** proceso/actividad, lógica Unity/Mono y tutorial 3D en dos referencias originales; bytes del OBB recuperado idénticos; rotación de cámara y paso al siguiente aviso de tutorial en la segunda. Namespace externo denegado, ADB operativo, Accounts0 y restauración limpia. [Hitos y evidencia](ejecucion-controlada.md).
+- **Confirmado dinámicamente:** proceso/actividad, lógica Unity/Mono y tutorial 3D en dos referencias originales; bytes del OBB recuperado idénticos; rotación de cámara y paso al siguiente aviso de tutorial en la segunda. Namespace externo denegado, ADB operativo, Accounts0 y restauración limpia. [Hitos y evidencia](./ejecucion-controlada.md).
 - **No probado:** lectura OBB trazada (solo presencia/hash), menú principal, movimiento/disparo o finalización del tutorial, otras funciones offline, disponibilidad de servicios, fidelidad completa o viabilidad de portado sin Unity.
 
 ## Bloqueos ordenados y siguiente prueba pequeña
@@ -45,7 +45,7 @@ Las decisiones 1–9 siguientes describen `20261009T191951Z`; la autorización n
 1. Entradas y ejecutables del checkout vecino **solo lectura**; salidas/caches en este worktree. Coste si la vinculación no es portable: revalidar rutas/entorno al repetir.
 2. **Sin commits ni subagentes**, según la restricción del plan. Coste: cambios sin commit y autorrevisión más débil que revisión independiente.
 3. Briefs extraídos literalmente de `Tarea`, porque task-start reconoce solo `Task`. Coste: cotejo manual con el plan original.
-4. Suite histórica de preflight no tratada como prueba actual: falla `Task1Preflight.setUpClass` por `.lab/private/input-baseline.json` ausente y exige herramientas no instaladas, estado ya obsoleto. Se conserva sin modificar; suite actual independiente. Coste: tests históricos no ejecutables en este worktree.
+4. Suite histórica de preflight no tratada como prueba actual: falla `Task1Preflight.setUpClass` por `./.lab/private/input-baseline.json` ausente y exige herramientas no instaladas, estado ya obsoleto. Se conserva sin modificar; suite actual independiente. Coste: tests históricos no ejecutables en este worktree.
 5. Context7 no instalado: `npx --no-install` lo rechazó; no se instaló. Ayudas/APIs instaladas y documentación oficial usadas en su lugar. Coste: diferencias de versión requieren contraste local (realizado).
 6. ILSpyCmd ignoró selección `-m/-t` bajo `-il`: conservado IL completo del ensamblado y extraídos métodos por identidad/líneas/RVA. Coste: logs privados mayores y selección auditada separadamente del comando.
 7. Piloto limitado a cinco archivos; AssetRipper recibió copias independientes del mismo conjunto con Managed, no una importación masiva. Coste: 7.999 dependencias omitidas en su piloto; no equivalen a corrupción y no certifican referencias globales.

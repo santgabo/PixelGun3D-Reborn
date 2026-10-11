@@ -50,9 +50,9 @@ Evidencias aceptadas: [resultados Plan 2](../../analysis/conclusiones-y-bloqueos
 
 Hay C# decompilado y staging documentados, pero cobertura parcial de objetos y campos. Se usan como referencia, no como garantía de exportación completa. Los problemas de parser solo se resuelven cuando bloqueen una conversión requerida; no se reabre el análisis global.
 
-En este checkout `.lab/runs/` no estaba presente al planificar. El worktree vecino `../PixelGun3D-Rebirth-main` figura en `step/decompile`; es una ubicación candidata para las salidas privadas, no una disponibilidad comprobada. La futura ejecución recibe rutas explícitas a staging y decompilados existentes. Si faltan, se solicita su ubicación o recuperación; no se repite silenciosamente el Plan 2.
+En este checkout `./.lab/runs/` no estaba presente al planificar. Las salidas privadas de `step/decompile` se referencian como `./.lab/runs/` desde la raíz de ese checkout; su disponibilidad no está comprobada en otras máquinas. La futura ejecución recibe rutas explícitas a staging y decompilados existentes. Si faltan, se solicita su ubicación o recuperación; no se repite silenciosamente el Plan 2.
 
-Los originales y salidas del Plan 2 permanecen de solo lectura. Las nuevas conversiones van a `.lab/web-port/`; los datos derivados del juego y capturas no se publican automáticamente en Git.
+Los originales y salidas del Plan 2 permanecen de solo lectura. Las nuevas conversiones van a `./.lab/web-port/`; los datos derivados del juego y capturas no se publican automáticamente en Git.
 
 ## 4. Stack acordado
 
@@ -76,10 +76,10 @@ Las versiones exactas se fijan en la primera tarea de ejecución, contrastando r
 Salidas existentes del Plan 2 (solo lectura)
             │ conversión selectiva, fuera del navegador
             ▼
-  .lab/web-port/content/ — GLB, audio, atlas, manifiestos
+  ./.lab/web-port/content/ — GLB, audio, atlas, manifiestos
             │ empaquetado de publicación
             ▼
-  web/dist/ — raíz HTTP exclusiva
+  ./web/dist/ — raíz HTTP exclusiva
             │ LAN
             ▼
   Navegador de escritorio
@@ -140,7 +140,7 @@ Guardado versionado local. Si está corrupto, es de una versión futura, el alma
 
 ## 9. HTTP LAN y seguridad de distribución
 
-Ruta objetivo: `http://<IP-LAN-del-servidor>:8080/` como puerto inicial configurable. Bind explícito a la IP LAN elegida, no publicar indiscriminadamente a Internet. Servir solo `web/dist/`, sin listado de directorios ni acceso a originales, `.lab`, decompilados o archivos de entorno.
+Ruta objetivo: `http://<IP-LAN-del-servidor>:8080/` como puerto inicial configurable. Bind explícito a la IP LAN elegida, no publicar indiscriminadamente a Internet. Servir solo `./web/dist/`, sin listado de directorios ni acceso a originales, `.lab`, decompilados o archivos de entorno.
 
 WebGL 2 y WASM/SIMD son capacidades requeridas; ausencia produce pantalla explicativa. HTTP LAN no es contexto seguro como localhost. No depender de WebGPU, service workers, HTTPS, memoria compartida ni flags especiales.
 

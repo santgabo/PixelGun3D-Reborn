@@ -18,7 +18,7 @@ El usuario autorizó instalaciones/preparación autónoma, excepto firewall sin 
 | Restauración | Copia fría limpia, no Quick Boot; hashes de 12 archivos y ausencia de marcadores guest comprobados |
 | Red | Namespace bubblewrap separado, solo loopback/sin rutas externas; ADB dentro del mismo namespace |
 
-SDK local: `.lab/tools/android-sdk/`; JDK del checkout primario **solo lectura**. Nuevos HOME/AVD/cachés/logs privados dentro de `.lab/runs/20261009T213202Z/`. No se usan cuentas ni dispositivos personales. El serial de laboratorio es `emulator-5580`, explícito en comandos ADB.
+SDK local: `./.lab/tools/android-sdk/`; JDK del checkout primario **solo lectura**. Nuevos HOME/AVD/cachés/logs privados dentro de `./.lab/runs/20261009T213202Z/`. No se usan cuentas ni dispositivos personales. El serial de laboratorio es `emulator-5580`, explícito en comandos ADB.
 
 **KVM sigue inaccesible y `sudo` exige autenticación interactiva.** No se eludió: se utilizó TCG (`ANDROID_I_WANT_MY_TCG=yes`, `-accel off`), oficialmente lento/no soportado. El boot inicial completó en 65,2 s y la referencia acotada funcionó. No se necesita actualmente una intervención administrativa para repetir este ensayo; rendimiento y estabilidad más prolongados no certificados.
 
@@ -31,7 +31,7 @@ SDK local: `.lab/tools/android-sdk/`; JDK del checkout primario **solo lectura**
 - Restauración comprobada creando marcadores en `/data/local/tmp` y `/sdcard`, volviendo a la plantilla y verificando su ausencia antes de instalar.
 - Paquete ausente antes de instalar; APK original y OBB íntegros. Solo permiso de almacenamiento requerido, no concesión general.
 
-Detalles/hitos/límites: [ejecución controlada](../analysis/ejecucion-controlada.md). Procedimiento y reversión: [preparación runtime](preparacion-runtime.md). Resultado máquina privado: `RUN/reports/runtime-results.json`.
+Detalles/hitos/límites: [ejecución controlada](../analysis/ejecucion-controlada.md). Procedimiento y reversión: [preparación runtime](./preparacion-runtime.md). Resultado máquina privado: `RUN/reports/runtime-results.json`.
 
 ## Cierre y reproducción
 
@@ -39,7 +39,7 @@ Emulador, app y servidor ADB detenidos; AVD activo restaurado, sin procesos/list
 
 El archivo privado `RUN/runtime/env.sh` configura rutas/HOME **solo dentro de un proceso controlado**; **no proporciona aislamiento por sí solo**. No lanzarlo directamente fuera de bubblewrap ni cargarlo en el shell personal habitual. Los comandos exactos del namespace y de cada ensayo están en `RUN/logs/*.json`; las entradas y la plantilla se montan solo lectura.
 
-No hay cambios de firewall que deshacer: al salir todos los procesos, el namespace temporal desaparece. Para retirar herramientas/AVD, seguir el recibo y [reversión](preparacion-runtime.md), sin borrar evidencias anteriores ni entradas. Cualquier cambio futuro de firewall requiere el plan y rollback que el usuario exigió; no está autorizado ahora.
+No hay cambios de firewall que deshacer: al salir todos los procesos, el namespace temporal desaparece. Para retirar herramientas/AVD, seguir el recibo y [reversión](./preparacion-runtime.md), sin borrar evidencias anteriores ni entradas. Cualquier cambio futuro de firewall requiere el plan y rollback que el usuario exigió; no está autorizado ahora.
 
 ## Historial
 

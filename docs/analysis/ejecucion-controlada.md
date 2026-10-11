@@ -4,7 +4,7 @@ Corrida dinámica **20261009T213202Z**, 2026-10-09 UTC. **Dos ejecuciones del AP
 
 La corrida estática anterior **20261009T191951Z** quedó bloqueada antes del lanzamiento. Su `runtime/readiness.json` y resultados se conservan como evidencia histórica, no como estado actual.
 
-Evidencias privadas: `.lab/runs/20261009T213202Z/` (`RUN`). Resumen: `RUN/reports/runtime-results.json`. Preparación/reversión: [preparación Android](../lab/preparacion-runtime.md). Perfil: [dispositivo](../lab/dispositivo-laboratorio.md).
+Evidencias privadas: `./.lab/runs/20261009T213202Z/` (`RUN`). Resumen: `RUN/reports/runtime-results.json`. Preparación/reversión: [preparación Android](../lab/preparacion-runtime.md). Perfil: [dispositivo](../lab/dispositivo-laboratorio.md).
 
 ## Autorización y entorno
 

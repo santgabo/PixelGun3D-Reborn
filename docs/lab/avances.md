@@ -6,7 +6,7 @@ Actualizado: **2026-10-09**. Referencia: [plan 1 de instalación y verificación
 
 **Runtime offline comprobado en `20261009T213202Z`:** Emulator 37.2.12.0 e imagen AOSP Android7.1.1/API25/default/x86 r1 instalados/verificados; dos sesiones del APK/OBB originales alcanzaron el tutorial y la segunda comprobó cámara/avance del aviso. Namespace bubblewrap sin salida, ADB continuo, cero cuentas y restauración fría verificados. **Sin tocar firewall, grupos/KVM, originales ni perfiles.** KVM sigue inaccesible; TCG observado es lento/no soportado, válido solo para la prueba acotada. Sin commits/delegación.
 
-El análisis estático anterior procesó cuatro ensamblados y el staging; piloto de recursos sigue PARTIAL. [Conclusiones actuales](../analysis/conclusiones-y-bloqueos.md), [ejecución y límites](../analysis/ejecucion-controlada.md), [preparación y reversión](preparacion-runtime.md).
+El análisis estático anterior procesó cuatro ensamblados y el staging; piloto de recursos sigue PARTIAL. [Conclusiones actuales](../analysis/conclusiones-y-bloqueos.md), [ejecución y límites](../analysis/ejecucion-controlada.md), [preparación y reversión](./preparacion-runtime.md).
 
 No hace falta nueva autorización ni acción administrativa para el mecanismo ya comprobado. **Firewall sigue excluido hasta propuesta/rollback aprobados**; cualquier experimento online es una decisión separada. Menú principal, movimiento/disparo y lectura OBB trazada no certificados.
 
@@ -14,7 +14,7 @@ No hace falta nueva autorización ni acción administrativa para el mecanismo ya
 
 **Las secciones siguientes conservan el estado anterior a Plan 2.** Sus permisos/instalaciones pendientes y afirmaciones de no arranque corresponden a ese historial, no al estado actual descrito arriba.
 
-Instalación local de herramientas realizada bajo `.lab/`, con versiones y procedencia fijadas en `.lab/toolchain.lock.json`. Se ejecutaron subagentes con thinking **high**, no xhigh. Por indicación del usuario se priorizó la instalación y se cancelaron revisiones por tarea y suites adicionales; se conservaron comprobaciones mínimas de integridad, versiones y muestras reales.
+Instalación local de herramientas realizada bajo `./.lab/`, con versiones y procedencia fijadas en `./.lab/toolchain.lock.json`. Se ejecutaron subagentes con thinking **high**, no xhigh. Por indicación del usuario se priorizó la instalación y se cancelaron revisiones por tarea y suites adicionales; se conservaron comprobaciones mínimas de integridad, versiones y muestras reales.
 
 | Herramienta | Versión instalada | Avance comprobado |
 |---|---|---|
@@ -28,7 +28,7 @@ Instalación local de herramientas realizada bajo `.lab/`, con versiones y proce
 | Android Command-line Tools | 17.0, build 12700392 | `sdkmanager --version` y propiedades locales comprobados |
 | Platform-Tools / ADB | 37.0.1, build 15733141 | `adb version` comprobado; sin iniciar servidor ni consultar dispositivos |
 
-El Python del sistema no se sustituyó. UnityPy y sus dependencias quedaron en `.lab/venvs/unitypy`; el resto de nuevas distribuciones está bajo `.lab/tools/`. No se instalaron paquetes del sistema ni se modificó `~/.bashrc`.
+El Python del sistema no se sustituyó. UnityPy y sus dependencias quedaron en `./.lab/venvs/unitypy`; el resto de nuevas distribuciones está bajo `./.lab/tools/`. No se instalaron paquetes del sistema ni se modificó `~/.bashrc`.
 
 ## Capacidades y límites
 
@@ -60,7 +60,7 @@ Esa autorización **no** concede instalación de emulador o imagen, privilegios,
 Desde la raíz del proyecto, en Bash:
 
 ```bash
-source .lab/env.sh
+source ./.lab/env.sh
 ilspycmd --version
 jadx --version
 java -jar "$LAB_APKTOOL_JAR" --version
@@ -82,11 +82,11 @@ Ghidra, Frida, captura avanzada, dnSpyEx, Build-Tools y firma siguen diferidos, 
 
 ## Evidencias y documentación
 
-- [Matriz de herramientas, pruebas, logs y bloqueos](estado-herramientas.md).
-- [Perfil y pendientes del dispositivo de laboratorio](dispositivo-laboratorio.md).
-- `.lab/toolchain.lock.json`: versiones, URLs fijas, hashes locales y checksums publicados diferenciados. Las comparaciones de integridad realizadas no implican firmas NuGet/Temurin verificadas.
-- `.lab/private/logs/task-2/`, `task-3/`, `task-4/`, `task-5-sdk/` y `task-6/`: comandos, stdout/stderr y códigos de retorno.
-- `.lab/smoke/{ilspy,assets,android}/validation.json`: resultados de las muestras.
-- `.lab/private/sdd/2026-10-09-01-instalacion-verificacion-herramientas/`: historial privado de ejecución, decisiones y comprobaciones del controlador.
+- [Matriz de herramientas, pruebas, logs y bloqueos](./estado-herramientas.md).
+- [Perfil y pendientes del dispositivo de laboratorio](./dispositivo-laboratorio.md).
+- `./.lab/toolchain.lock.json`: versiones, URLs fijas, hashes locales y checksums publicados diferenciados. Las comparaciones de integridad realizadas no implican firmas NuGet/Temurin verificadas.
+- `./.lab/private/logs/task-2/`, `task-3/`, `task-4/`, `task-5-sdk/` y `task-6/`: comandos, stdout/stderr y códigos de retorno.
+- `./.lab/smoke/{ilspy,assets,android}/validation.json`: resultados de las muestras.
+- `./.lab/private/sdd/2026-10-09-01-instalacion-verificacion-herramientas/`: historial privado de ejecución, decisiones y comprobaciones del controlador.
 
 Última medida registrada tras SDK/ADB: **216,67 GiB libres**, por encima del margen de 10 GiB. Los logs, binarios y código decompilado permanecen privados; este resumen no incluye credenciales ni identificadores personales. No se inicializó Git ni se crearon commits. Esta actualización documental no ejecutó nuevas instalaciones ni pruebas de herramientas.

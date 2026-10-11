@@ -26,7 +26,7 @@ No se modificaron los binarios de `unpacked` ni los archivos originales. No se i
 
 | Elemento | Resultado | Evidencia local |
 |---|---|---|
-| Paquete Android | `com.pixel.gun3d` | `unpacked/apk/AndroidManifest.xml`, decodificado en memoria |
+| Paquete Android | `com.pixel.gun3d` | `./unpacked/apk/AndroidManifest.xml`, decodificado en memoria |
 | Versión | `11.3.1`, código `1191` | Atributos `versionName` y `versionCode` del manifiesto |
 | Android mínimo / objetivo | API 15 / API 24 | `uses-sdk` del manifiesto; no implica compatibilidad garantizada con cualquier Android posterior |
 | Motor | Unity `5.3.7p1` | Cabecera de `globalgamemanagers`, otros archivos serializados y cadena en `libunity.so` |
@@ -40,12 +40,12 @@ No se encontraron `libil2cpp.so` ni `global-metadata.dat` en este árbol. La pre
 
 El APK original está dentro de:
 
-- `apk+obb-original/Pixel Gun 3D [11.3.1].zip`
+- `./apk+obb-original/Pixel Gun 3D [11.3.1].zip`
 - Entrada del ZIP: `Pixel Gun 3D [11.3.1].apk`
 
 La expansión original está en:
 
-- `apk+obb-original/com.pixel.gun3d/main.1191.com.pixel.gun3d.obb`
+- `./apk+obb-original/com.pixel.gun3d/main.1191.com.pixel.gun3d.obb`
 
 ## 4. Código y tecnologías identificadas
 
@@ -53,7 +53,7 @@ La expansión original está en:
 
 Directorio principal:
 
-`unpacked/apk/assets/bin/Data/Managed/`
+`./unpacked/apk/assets/bin/Data/Managed/`
 
 Contiene **27 DLL**. Las principales son:
 
@@ -120,9 +120,9 @@ Las integraciones se identificaron por ensamblados, tipos DEX, manifiesto y nomb
 
 ### Distribución
 
-- `unpacked/apk`: aproximadamente 92 MiB de ocupación en disco.
-- `unpacked/obb`: aproximadamente 1,4 GiB de ocupación en disco.
-- `unpacked/obb/assets/bin/Data`: 9.757 archivos, 1.416.451.862 bytes de contenido.
+- `./unpacked/apk`: aproximadamente 92 MiB de ocupación en disco.
+- `./unpacked/obb`: aproximadamente 1,4 GiB de ocupación en disco.
+- `./unpacked/obb/assets/bin/Data`: 9.757 archivos, 1.416.451.862 bytes de contenido.
 - Se encuentran archivos lógicos `level0` en APK y `level1` a `level108` en OBB: **109 archivos de nivel**. No equivalen necesariamente a 109 mapas jugables.
 - Hay **7.943 archivos con nombre hexadecimal de 32 caracteres** en el OBB. Todos presentan la cabecera serializada inspeccionada de Unity `5.3.7p1`; el nombre no es evidencia de cifrado ni implica que sean AssetBundles.
 - Hay archivos auxiliares `.resource`; deben mantenerse junto a los recursos que los referencian.
@@ -203,7 +203,7 @@ Para inspección posterior de exportaciones pueden servir un visor/editor 3D y h
 - Decodifica manifiesto binario, recursos y smali.
 - Permite reconstruir el empaquetado Android cuando sea necesario.
 - No decompila DLL ni recupera escenas Unity.
-- `unpacked/apk` es una extracción del ZIP, no un proyecto Apktool listo para recompilar: todavía contiene manifiesto binario y DEX. Partir del APK original para una decodificación formal.
+- `./unpacked/apk` es una extracción del ZIP, no un proyecto Apktool listo para recompilar: todavía contiene manifiesto binario y DEX. Partir del APK original para una decodificación formal.
 
 **Android SDK**
 

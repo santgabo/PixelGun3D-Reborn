@@ -1,6 +1,6 @@
 # Mapa de dependencias Mono — PASS acotado
 
-Corrida **20261009T191951Z**, ILSpyCmd **11.1.0.9782**. Origen: las 27 DLL originales de `unpacked/apk/assets/bin/Data/Managed`; hashes en `RUN/managed/inputs.json`. `RUN` = `.lab/runs/20261009T191951Z/` (privado, no versionado).
+Corrida **20261009T191951Z**, ILSpyCmd **11.1.0.9782**. Origen: las 27 DLL originales de `./unpacked/apk/assets/bin/Data/Managed`; hashes en `RUN/managed/inputs.json`. `RUN` = `./.lab/runs/20261009T191951Z/` (privado, no versionado).
 
 ## Decompilación
 
@@ -33,7 +33,7 @@ Origen: `managed/<ensamblado>/<ensamblado>.csproj` y referencias explícitas de 
 | Armas | Dependiente de Unity | `WeaponManager.Awake/Start/AddAmmo`, `WeaponSounds.Initialize/Start/fire`: prefabs, GetComponent, recursos, animación y munición. |
 | Android/expansión | Puente Android | `Assembly-CSharp-firstpass::GooglePlayDownloader.GetExpansionFilePath/GetMainOBBPath/FetchOBB`: AndroidJavaClass/AndroidJavaObject hacia Environment y UnityDownloaderActivity. |
 | Photon/PUN | Dependiente de backend y Unity | `PhotonNetwork.ConnectUsingSettings`, `PhotonView.Awake/RPC`: registro en NetworkingPeer, configuración ServerSettings, conexión y RPC. La rama OfflineMode existe, pero no se ha probado que sea la configuración activa ni que permita gameplay offline. |
-| Arranque | Dependiente de Unity/plataforma | `AppsMenu.Awake/Start/AppsMenuAwakeCoroutine`, `Launcher.Awake/Start/InitRootCoroutine`, `MenuSceneLoader.Awake`, `ConnectSceneNGUIController.Awake/Start`. La presencia de Launcher no demuestra que esta copia lo use al iniciar; ver [flujo real](flujo-arranque.md). |
+| Arranque | Dependiente de Unity/plataforma | `AppsMenu.Awake/Start/AppsMenuAwakeCoroutine`, `Launcher.Awake/Start/InitRootCoroutine`, `MenuSceneLoader.Awake`, `ConnectSceneNGUIController.Awake/Start`. La presencia de Launcher no demuestra que esta copia lo use al iniciar; ver [flujo real](./flujo-arranque.md). |
 
 ## Contraste C# / IL
 

@@ -8,7 +8,7 @@
 
 **Tech Stack:** Linux x86_64, .NET/ILSpyCmd, Python/UnityPy, AssetRipper, Java/JADX/Apktool, Android SDK/ADB y Android de laboratorio.
 
-**Spec / base documental:** `docs/analisis-tecnologias-ingenieria-inversa.md`, especialmente secciones 3, 5, 6 y 10. Complemento: `2026-10-09-02-analisis-ejecucion-controlada.md` en este directorio.
+**Spec / base documental:** `./docs/analisis-tecnologias-ingenieria-inversa.md`, especialmente secciones 3, 5, 6 y 10. Complemento: `2026-10-09-02-analisis-ejecucion-controlada.md` en este directorio.
 
 **Estado (2026-10-09):** instalación local realizada y documentada; validación estática parcial y dispositivo de ejecución pendiente. No se ejecutó el juego.
 
@@ -16,7 +16,7 @@
 
 | Tarea | Avance real | Resultado / pendiente |
 |---|---|---|
-| 1 — Preflight | Inventario, versiones/URLs/checksums fijados, entorno opt-in y muestras independientes | Completada; selección en `.lab/toolchain.lock.json` |
+| 1 — Preflight | Inventario, versiones/URLs/checksums fijados, entorno opt-in y muestras independientes | Completada; selección en `./.lab/toolchain.lock.json` |
 | 2 — .NET / ILSpyCmd | Instalados; tres clases listadas y WeaponManager decompilada con referencias originales | `ILSPY_READY=PASS` en la muestra; ayuda CLI omitida en alcance mínimo |
 | 3 — UnityPy / AssetRipper | Ambos instalados; AssetRipper importa la muestra Mono/5.3.7p1 | `ASSET_TOOLS_READY=PARTIAL`: UnityPy enumera 18 objetos, pero falla al leer PlayerSettings |
 | 4 — Java / JADX / Apktool | Instalados; clase bootstrap real y manifiesto/metadata recuperados | `ANDROID_STATIC_READY=PASS` acotado; no recursos completos ni gameplay |
@@ -31,7 +31,7 @@ Resumen: [avances del laboratorio](../../lab/avances.md). Evidencia detallada: [
 
 ## Restricciones globales
 
-- Entradas sin modificar: `apk+obb-original/` y `unpacked/`.
+- Entradas sin modificar: `./apk+obb-original/` y `./unpacked/`.
 - Juego: `com.pixel.gun3d`, versión `11.3.1`, código `1191`; Unity `5.3.7p1`, Mono; ABI ARMv7 y x86 de 32 bits.
 - No instalar Unity Editor, IL2CPP tooling, Gradle, Ghidra o Frida como requisitos iniciales.
 - No ejecutar scripts descargados mediante `curl | sh`; descargar, inspeccionar y comprobar procedencia antes de ejecutar.
@@ -56,21 +56,21 @@ Rutas creadas durante la ejecución, salvo componentes de dispositivo que siguen
 
 | Ruta | Responsabilidad |
 |---|---|
-| `.lab/tools/` | Distribuciones locales de herramientas y descargas verificadas |
-| `.lab/venvs/unitypy/` | Entorno Python aislado |
-| `.lab/env.sh` | Variables de rutas; no se carga automáticamente desde el shell del usuario |
-| `.lab/toolchain.lock.json` | Versiones, rutas, requisitos y procedencia de herramientas |
-| `.lab/private/` | Logs sin sanear y detalles locales de dispositivos; permisos restrictivos |
-| `.lab/smoke/` | Resultados pequeños y desechables de comprobación |
-| `docs/lab/estado-herramientas.md` | Matriz de comprobaciones, bloqueos y capacidad disponible |
-| `docs/lab/dispositivo-laboratorio.md` | Perfil saneado del dispositivo y procedimiento de aislamiento |
-| `docs/lab/avances.md` | Resumen de instalación, capacidades, autorizaciones y próximos pasos |
+| `./.lab/tools/` | Distribuciones locales de herramientas y descargas verificadas |
+| `./.lab/venvs/unitypy/` | Entorno Python aislado |
+| `./.lab/env.sh` | Variables de rutas; no se carga automáticamente desde el shell del usuario |
+| `./.lab/toolchain.lock.json` | Versiones, rutas, requisitos y procedencia de herramientas |
+| `./.lab/private/` | Logs sin sanear y detalles locales de dispositivos; permisos restrictivos |
+| `./.lab/smoke/` | Resultados pequeños y desechables de comprobación |
+| `./docs/lab/estado-herramientas.md` | Matriz de comprobaciones, bloqueos y capacidad disponible |
+| `./docs/lab/dispositivo-laboratorio.md` | Perfil saneado del dispositivo y procedimiento de aislamiento |
+| `./docs/lab/avances.md` | Resumen de instalación, capacidades, autorizaciones y próximos pasos |
 
 `toolchain.lock.json`: una entrada por herramienta con `name`, `version`, `platform`, `source_url`, `install_path`, `runtime`, `artifact_sha256`, `verification_source`, `status` y `checked_at`. Para paquetes del sistema registrar versión/origen del paquete en lugar de inventar un hash del instalador. Un SHA-256 calculado localmente identifica un archivo, pero no prueba su autenticidad: distinguirlo de un checksum/firma publicado por el proveedor.
 
 Estados documentados por herramienta: `PASS`, `PARTIAL`, `CLI_READY`, `BLOCKED`, `DEFERRED`. `CLI_READY` distingue las comprobaciones SDK/ADB de la preparación de un dispositivo real. Un ejecutable en PATH no equivale a `PASS`.
 
-Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas voluminosas antes del primer commit. No crear scripts de instalación generales en esta fase; si hacen falta utilidades nuevas, añadir pruebas antes de su implementación.
+Si Git se introduce posteriormente, excluir `./.lab/`, originales y salidas voluminosas antes del primer commit. No crear scripts de instalación generales en esta fase; si hacen falta utilidades nuevas, añadir pruebas antes de su implementación.
 
 ## Review Focus
 
@@ -84,14 +84,14 @@ Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas volumi
 
 ## Tarea 1 — Preflight y selección reproducible
 
-**Archivos:** crear `.lab/toolchain.lock.json`, `.lab/env.sh` y `docs/lab/estado-herramientas.md`.
+**Archivos:** crear `./.lab/toolchain.lock.json`, `./.lab/env.sh` y `./docs/lab/estado-herramientas.md`.
 
 **Consume:** host actual e informe base. **Produce:** lista cerrada de versiones/artefactos, rutas y necesidades de autorización.
 
 - [x] Registrar `uname -sm`, `/etc/os-release`, `df -h .`, `free -h`, `id`, herramientas existentes y acceso a `/dev/kvm`.
 - [x] Consultar releases oficiales y requisitos de runtime de cada herramienta obligatoria; fijar versión exacta y URL. No confundir los requisitos de compilar desde fuente con los del binario publicado.
 - [x] Elegir .NET compatible con ILSpyCmd y Java compatible con JADX/Apktool; identificar dependencias nativas necesarias en Ubuntu antes de instalar.
-- [x] Preferir instalación local bajo `.lab/tools/`; si una herramienta necesita instalación del sistema, registrar motivo, paquetes y aprobación requerida.
+- [x] Preferir instalación local bajo `./.lab/tools/`; si una herramienta necesita instalación del sistema, registrar motivo, paquetes y aprobación requerida.
 - [x] Crear las carpetas locales con archivos privados restringidos; escribir `env.sh` sin credenciales ni cambios automáticos a `~/.bashrc`.
 - [x] Registrar presupuesto: mantener al menos 10 GiB libres como margen operativo; detener descargas/exportaciones que lo comprometan. Este umbral es una política del laboratorio, no un requisito del proveedor.
 - [x] Preparar una muestra de `Managed` y `globalgamemanagers` por copia independiente o lectura del original; nunca hardlinks que permitan modificar la entrada mediante una salida.
@@ -100,7 +100,7 @@ Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas volumi
 
 ## Tarea 2 — .NET e ILSpyCmd
 
-**Archivos:** actualizar lock y matriz; crear `.lab/smoke/ilspy/`.
+**Archivos:** actualizar lock y matriz; crear `./.lab/smoke/ilspy/`.
 
 **Consume:** selección de tarea 1 y las 27 DLL originales. **Produce:** `ILSPY_READY` con resolución de referencias de este juego.
 
@@ -116,7 +116,7 @@ Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas volumi
 
 ## Tarea 3 — UnityPy y AssetRipper
 
-**Archivos:** actualizar lock/matriz; crear `.lab/venvs/unitypy/` y `.lab/smoke/assets/`.
+**Archivos:** actualizar lock/matriz; crear `./.lab/venvs/unitypy/` y `./.lab/smoke/assets/`.
 
 **Consume:** versión Unity conocida y `globalgamemanagers` con el directorio `Managed` disponible. **Produce:** `ASSET_TOOLS_READY` para comenzar el piloto del plan 2, no una certificación del OBB completo.
 
@@ -132,14 +132,14 @@ Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas volumi
 
 ## Tarea 4 — Java, JADX y Apktool
 
-**Archivos:** actualizar lock/matriz; crear `.lab/smoke/android/`.
+**Archivos:** actualizar lock/matriz; crear `./.lab/smoke/android/`.
 
 **Consume:** `classes.dex` y APK original contenido en el ZIP. **Produce:** `ANDROID_STATIC_READY`.
 
 - [x] Instalar el JDK y distribuciones fijadas de JADX/Apktool sin reemplazar otras instalaciones del usuario; establecer `JAVA_HOME` local.
 - [x] Ejecutar `java -version`, `jadx --version` y `java -jar "$LAB_APKTOOL_JAR" --version`; conservar ayuda CLI necesaria de las versiones instaladas.
 - [x] Con JADX decompilar una clase real con `--single-class`; comprobar paquete, métodos y referencias Android. **Sustitución autorizada:** `com.prime31.UnityPlayerNativeActivity`, con 18 métodos y seis imports Android; `com.pixel.gun3d` solo aporta scaffolding en este DEX. No valida gameplay.
-- [x] Extraer por nombre exacto `Pixel Gun 3D [11.3.1].apk` del ZIP a `.lab/smoke/android/original.apk`; rechazar extracciones que escriban fuera de la salida.
+- [x] Extraer por nombre exacto `Pixel Gun 3D [11.3.1].apk` del ZIP a `./.lab/smoke/android/original.apk`; rechazar extracciones que escriban fuera de la salida.
 - [x] Decodificar con `apktool d --only-manifest` a un directorio nuevo; comprobar XML legible y valores `com.pixel.gun3d`, `1191`, `11.3.1`, mínimo 15 y objetivo 24. Apktool normaliza versión/SDK en `apktool.yml`; recursos completos no certificados y diez avisos conservados.
 - [x] Guardar resultados/logs y hashes de muestras. No se recompiló, firmó, instaló ni ejecutó el APK.
 
@@ -147,7 +147,7 @@ Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas volumi
 
 ## Tarea 5 — SDK y dispositivo aislado
 
-**Archivos:** actualizar lock/matriz y `docs/lab/dispositivo-laboratorio.md`; datos privados bajo `.lab/private/device/`.
+**Archivos:** actualizar lock/matriz y `./docs/lab/dispositivo-laboratorio.md`; datos privados bajo `./.lab/private/device/`.
 
 **Consume:** host, autorización de cambios y elección de dispositivo. **Produce:** `RUNTIME_READY` o bloqueo específico; no condiciona `STATIC_READY`.
 
@@ -165,11 +165,11 @@ Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas volumi
 
 ## Tarea 6 — Cierre y entrega
 
-**Archivos:** finalizar `.lab/toolchain.lock.json` y `docs/lab/estado-herramientas.md`.
+**Archivos:** finalizar `./.lab/toolchain.lock.json` y `./docs/lab/estado-herramientas.md`.
 
 **Consume:** evidencias de tareas 1–5. **Produce:** capacidades utilizables por el plan 2.
 
-- [x] Repetir comprobaciones esenciales desde un shell limpio cargando únicamente `.lab/env.sh`; confirmar rutas reales y versiones, no comandos homónimos del sistema. SDK/ADB también comprobados tras su instalación autorizada.
+- [x] Repetir comprobaciones esenciales desde un shell limpio cargando únicamente `./.lab/env.sh`; confirmar rutas reales y versiones, no comandos homónimos del sistema. SDK/ADB también comprobados tras su instalación autorizada.
 - [x] Revisar logs y distinguir fallos de instalación, incompatibilidad, muestras incompletas y bloqueos administrativos.
 - [x] Evaluar `STATIC_READY`: **DEFERRED**, con cuatro de cinco herramientas funcionales PASS y UnityPy PARTIAL. Enumerar capacidades utilizables sin habilitar tareas dependientes de la lectura fallida.
 - [x] Evaluar `RUNTIME_READY`: **BLOCKED**, sin dispositivo/ABI/aislamiento/restauración comprobados; no bloquea todo el análisis estático.
@@ -188,4 +188,4 @@ Si Git se introduce posteriormente, excluir `.lab/`, originales y salidas volumi
 - ADB: https://developer.android.com/tools/adb
 - Aceleración/KVM: https://developer.android.com/studio/run/emulator-acceleration
 
-Las opciones necesarias se contrastaron con documentación oficial y ayuda CLI cuando hizo falta. La captura de ayuda ILSpy se omitió al reducir comprobaciones. El avance y las limitaciones de la instalación ejecutada constan en la tabla inicial y en `docs/lab/`; no se infiere ejecución del juego ni disponibilidad integral de recursos o runtime a partir de versiones.
+Las opciones necesarias se contrastaron con documentación oficial y ayuda CLI cuando hizo falta. La captura de ayuda ILSpy se omitió al reducir comprobaciones. El avance y las limitaciones de la instalación ejecutada constan en la tabla inicial y en `./docs/lab/`; no se infiere ejecución del juego ni disponibilidad integral de recursos o runtime a partir de versiones.

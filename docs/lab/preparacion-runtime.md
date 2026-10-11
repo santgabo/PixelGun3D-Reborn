@@ -2,7 +2,7 @@
 
 Continuación de la tarea 6 del [Plan 2](../superpowers/plans/2026-10-09-02-analisis-ejecucion-controlada.md), autorizada por el usuario el 2026-10-09: instalar lo necesario y preparar autónomamente el laboratorio. **El firewall no está autorizado**: requiere una propuesta concreta y un plan de deshacer cambios antes de cualquier modificación.
 
-Corrida nueva: `20261009T213202Z`. Evidencias privadas en `.lab/runs/20261009T213202Z/`. La corrida estática `20261009T191951Z` conserva sus resultados originales.
+Corrida nueva: `20261009T213202Z`. Evidencias privadas en `./.lab/runs/20261009T213202Z/`. La corrida estática `20261009T191951Z` conserva sus resultados originales.
 
 **Resultado comprobado:** emulador/imagen instalados, Android 7.1.1/API25/x86 arrancado, aislamiento/restauración verificados y dos sesiones originales alcanzaron el tutorial. La segunda validó cámara y avance del aviso del tutorial. [Evidencia y límites](../analysis/ejecucion-controlada.md). KVM sigue inaccesible, pero TCG fue viable para este diagnóstico; no es una afirmación de soporte/rendimiento normal.
 
@@ -43,4 +43,4 @@ Se realizó un boot acotado sin aceleración (`-accel off`, `ANDROID_I_WANT_MY_T
 - [Aceleración/KVM y renderer](https://developer.android.com/studio/run/emulator-acceleration)
 - [avdmanager](https://developer.android.com/tools/avdmanager)
 - [bubblewrap](https://github.com/containers/bubblewrap): ayuda local y prueba real conservadas en la corrida.
-- Metadata de Google descargada en `RUN/docs/{sdk-repository,image-repository}.xml`; URLs/hashes esperados en `.lab/toolchain.lock.json`. Consulta Context7 completada sin credenciales; no instalar versiones flotantes del runtime.
+- Metadata de Google descargada en `RUN/docs/{sdk-repository,image-repository}.xml`; URLs/hashes esperados en `./.lab/toolchain.lock.json`. Consulta Context7 completada sin credenciales; no instalar versiones flotantes del runtime.

@@ -1,10 +1,10 @@
 # Flujo de arranque — análisis estático PARTIAL
 
-Corrida **20261009T191951Z**, APK original **com.pixel.gun3d 11.3.1 / 1191**. Herramientas: Apktool **3.0.3**, JADX **1.5.6**, ILSpyCmd **11.1.0.9782**, UnityPy **1.25.4**. Evidencia privada bajo `.lab/runs/20261009T191951Z/` (`RUN`).
+Corrida **20261009T191951Z**, APK original **com.pixel.gun3d 11.3.1 / 1191**. Herramientas: Apktool **3.0.3**, JADX **1.5.6**, ILSpyCmd **11.1.0.9782**, UnityPy **1.25.4**. Evidencia privada bajo `./.lab/runs/20261009T191951Z/` (`RUN`).
 
 ## Correlación dinámica posterior
 
-Corrida autorizada `20261009T213202Z`: dos referencias originales en API25/x86 con salida denegada alcanzaron el tutorial; la segunda comprobó cámara y paso al aviso de movimiento. Unity/Mono ejecuta lógica y el cliente confirma OBB presente; sus bytes en guest coinciden, pero no se trazó lectura efectiva. Primer menú, orden completo de escenas/SDK y primera operación de red efectiva siguen no probados. [Evidencia dinámica](ejecucion-controlada.md).
+Corrida autorizada `20261009T213202Z`: dos referencias originales en API25/x86 con salida denegada alcanzaron el tutorial; la segunda comprobó cámara y paso al aviso de movimiento. Unity/Mono ejecuta lógica y el cliente confirma OBB presente; sus bytes en guest coinciden, pero no se trazó lectura efectiva. Primer menú, orden completo de escenas/SDK y primera operación de red efectiva siguen no probados. [Evidencia dinámica](./ejecucion-controlada.md).
 
 El resto de este documento describe el análisis estático de `20261009T191951Z`; sus afirmaciones de no lanzamiento/no permisos son históricas para esa corrida, no para la continuación.
 
@@ -40,4 +40,4 @@ Las bibliotecas originales son ELF de **32 bits ARMv7 y x86**. ARM incluye `libA
 
 Solo tras **RUNTIME_READY=PASS** y autorización de entorno: restaurar estado limpio sin cuentas; fijar serial de laboratorio; instalar el APK original sin reemplazar una instalación previa; copiar el OBB original exacto; verificar tamaño/hash en guest. Capturar logcat completo y momento UTC; lanzar el componente confirmado con `am start -W -n`; observar proceso, runtime, expansión y escena por separado.
 
-Observar 120 s, ampliar hasta 5 min únicamente si hay progreso; capturas en cada hito. Navegación básica y opción local únicamente si existe: sin login/compras, sin abrir Internet para resolver un bloqueo. Repetir una vez desde el mismo estado limpio; un tercer intento solo con hipótesis de entorno explícita. Finalizar juego/captura y restaurar estado, verificando procesos/listeners. Procedimiento y puerta actual: [ejecución controlada](ejecucion-controlada.md).
+Observar 120 s, ampliar hasta 5 min únicamente si hay progreso; capturas en cada hito. Navegación básica y opción local únicamente si existe: sin login/compras, sin abrir Internet para resolver un bloqueo. Repetir una vez desde el mismo estado limpio; un tercer intento solo con hipótesis de entorno explícita. Finalizar juego/captura y restaurar estado, verificando procesos/listeners. Procedimiento y puerta actual: [ejecución controlada](./ejecucion-controlada.md).

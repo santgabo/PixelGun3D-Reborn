@@ -1,15 +1,15 @@
 # Inventario de recursos — PARTIAL
 
-Corrida **20261009T191951Z**. `RUN` = `.lab/runs/20261009T191951Z/`, privado. Origen: `unpacked/{apk,obb}/assets/bin/Data`, verificado contra APK/OBB originales. Herramientas: Python estándar **3.14.4**, UnityPy **1.25.4**, AssetRipper Free **2.0.0**.
+Corrida **20261009T191951Z**. `RUN` = `./.lab/runs/20261009T191951Z/`, privado. Origen: `./unpacked/{apk,obb}/assets/bin/Data`, verificado contra APK/OBB originales. Herramientas: Python estándar **3.14.4**, UnityPy **1.25.4**, AssetRipper Free **2.0.0**.
 
 ## Staging — PASS limitado a bytes/cabeceras
 
-`tools/prepare_unity_data.py` y sus pruebas sintéticas se ejecutaron RED→GREEN. Comando reproducible, con destinos **nuevos**:
+`./tools/prepare_unity_data.py` y sus pruebas sintéticas se ejecutaron RED→GREEN. Comando reproducible, con destinos **nuevos**:
 
 ```bash
-python3 tools/prepare_unity_data.py --apk-data "$APK_DATA" --obb-data "$OBB_DATA" \
+python3 ./tools/prepare_unity_data.py --apk-data "$APK_DATA" --obb-data "$OBB_DATA" \
   --output-data "$RUN/staging/Data" --manifest "$RUN/staging/manifest.json"
-python3 -m unittest discover -s tests -v
+python3 -m unittest discover -s ./tests -v
 ```
 
 Se rechazan huecos/duplicados de índice, colisiones APK/OBB y archivo-fragmentos, destinos existentes, solapamientos (incluyendo `..`) y symlinks. Copia independiente por bloques, no hardlinks; publicación después de validar; manifiesto completo solo al final. El entorno debe ser privado y de un único escritor, con entradas inmutables.

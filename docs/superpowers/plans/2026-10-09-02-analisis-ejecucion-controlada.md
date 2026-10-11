@@ -8,7 +8,7 @@
 
 **Tech Stack:** ILSpyCmd, UnityPy, AssetRipper, JADX, Apktool, Python estándar para utilidades de inventario/staging, Android SDK/ADB y Android aislado.
 
-**Spec / base documental:** `docs/analisis-tecnologias-ingenieria-inversa.md`. Prerrequisito operativo: `2026-10-09-01-instalacion-verificacion-herramientas.md` en este directorio.
+**Spec / base documental:** `./docs/analisis-tecnologias-ingenieria-inversa.md`. Prerrequisito operativo: `2026-10-09-01-instalacion-verificacion-herramientas.md` en este directorio.
 
 **Estado (2026-10-09):** análisis estático/staging y piloto en `20261009T191951Z`; continuación autorizada en `20261009T213202Z` instaló emulador/imagen y verificó aislamiento/restauración sin tocar el firewall. Dos sesiones originales alcanzaron el tutorial offline; cámara verificada en la segunda. La tarea 6 ya no está bloqueada por preparación; el resultado global sigue PARTIAL por cobertura de recursos/flujo pendiente. Resultados: [conclusiones y bloqueos](../../analysis/conclusiones-y-bloqueos.md).
 
@@ -22,12 +22,12 @@
 | 6 — Runtime | PASS acotado | Android API25/x86 TCG, aislamiento/restauración verificados; dos originales al tutorial, cámara en segundo; menú principal/lectura OBB trazada no probados |
 | 7 — Cierre | PASS acotado | Integridad final sin cambios; informes saneados; 33 pruebas sintéticas pasan |
 
-Evidencias privadas en `.lab/runs/20261009T191951Z/` (estática) y `.lab/runs/20261009T213202Z/` (dinámica). Entradas/JDK del checkout primario adyacente solo lectura, salidas y nuevo SDK en `step/decompile`. La corrida estática no instaló herramientas; la continuación recibió autorización expresa para instalarlas/preparar el entorno, **excepto firewall sin propuesta/rollback previos**. No se modificó el firewall ni el juego; sin commits ni delegación. Revisión final por el autor. Las tareas parciales no certifican recuperación global ni ejecución funcional.
+Evidencias privadas en `./.lab/runs/20261009T191951Z/` (estática) y `./.lab/runs/20261009T213202Z/` (dinámica). Entradas/JDK del checkout primario adyacente solo lectura, salidas y nuevo SDK en `step/decompile`. La corrida estática no instaló herramientas; la continuación recibió autorización expresa para instalarlas/preparar el entorno, **excepto firewall sin propuesta/rollback previos**. No se modificó el firewall ni el juego; sin commits ni delegación. Revisión final por el autor. Las tareas parciales no certifican recuperación global ni ejecución funcional.
 
 ## Restricciones globales
 
 - Unity `5.3.7p1`, Mono, `com.pixel.gun3d` versión `11.3.1`/`1191`; no sustituir sus DLL de referencia por versiones modernas.
-- Tratar `apk+obb-original/` y `unpacked/` como entradas inmutables. No cambiar permisos ni renombrar archivos dentro de ellas para preparar el laboratorio.
+- Tratar `./apk+obb-original/` y `./unpacked/` como entradas inmutables. No cambiar permisos ni renombrar archivos dentro de ellas para preparar el laboratorio.
 - No recompilar, parchear, firmar, modificar compras/licencias, redirigir servidores ni portar el juego a otro motor en este plan.
 - Decompilar no equivale a recuperar las fuentes originales; exportar un proyecto no implica que compile o funcione.
 - Analizar offline; ejecutar primero sin salida a Internet. Cualquier apertura posterior de red requiere decisión y alcance separados.
@@ -41,14 +41,14 @@ Evidencias privadas en `.lab/runs/20261009T191951Z/` (estática) y `.lab/runs/20
 
 Entradas:
 
-- `unpacked/apk/assets/bin/Data/Managed/`: 27 DLL.
-- `unpacked/apk/assets/bin/Data/` y `unpacked/obb/assets/bin/Data/`.
-- `unpacked/apk/classes.dex`.
-- `apk+obb-original/Pixel Gun 3D [11.3.1].zip`.
-- `apk+obb-original/com.pixel.gun3d/main.1191.com.pixel.gun3d.obb`.
-- `.lab/toolchain.lock.json` y la matriz del plan 1.
+- `./unpacked/apk/assets/bin/Data/Managed/`: 27 DLL.
+- `./unpacked/apk/assets/bin/Data/` y `./unpacked/obb/assets/bin/Data/`.
+- `./unpacked/apk/classes.dex`.
+- `./apk+obb-original/Pixel Gun 3D [11.3.1].zip`.
+- `./apk+obb-original/com.pixel.gun3d/main.1191.com.pixel.gun3d.obb`.
+- `./.lab/toolchain.lock.json` y la matriz del plan 1.
 
-Al ejecutar, crear `RUN` como ruta absoluta de una carpeta nueva `.lab/runs/<fecha-hora-UTC>/`, sin reutilizar ni borrar automáticamente corridas anteriores.
+Al ejecutar, definir `RUN=./.lab/runs/<fecha-hora-UTC>` y crear esa carpeta nueva desde la raíz del repositorio, sin reutilizar ni borrar automáticamente corridas anteriores.
 
 | Ruta relativa a `RUN` | Contenido |
 |---|---|
@@ -63,11 +63,11 @@ Al ejecutar, crear `RUN` como ruta absoluta de una carpeta nueva `.lab/runs/<fec
 
 Documentos publicables, una vez saneados:
 
-- `docs/analysis/mapa-dependencias.md`
-- `docs/analysis/flujo-arranque.md`
-- `docs/analysis/inventario-recursos.md`
-- `docs/analysis/ejecucion-controlada.md`
-- `docs/analysis/conclusiones-y-bloqueos.md`
+- `./docs/analysis/mapa-dependencias.md`
+- `./docs/analysis/flujo-arranque.md`
+- `./docs/analysis/inventario-recursos.md`
+- `./docs/analysis/ejecucion-controlada.md`
+- `./docs/analysis/conclusiones-y-bloqueos.md`
 
 Cada evidencia debe incluir identificador de corrida, versión de herramienta y origen. Las referencias a código deben conservar ensamblado/tipo/método o token; las referencias a assets deben conservar archivo y `path_id`. Nunca usar solo nombres amigables como identificador único.
 
@@ -98,11 +98,11 @@ Cada evidencia debe incluir identificador de corrida, versión de herramienta y 
 
 ## Tarea 2 — Decompilación Mono y mapa de dependencias
 
-**Archivos:** crear `RUN/managed/`, logs asociados y `docs/analysis/mapa-dependencias.md`.
+**Archivos:** crear `RUN/managed/`, logs asociados y `./docs/analysis/mapa-dependencias.md`.
 
 **Consume:** `ILSPY_READY`, las 27 DLL y hashes de tarea 1. **Produce:** cuatro ensamblados de scripts decompilados con inventario de limitaciones.
 
-- [x] Definir `MANAGED` como ruta absoluta de `unpacked/apk/assets/bin/Data/Managed` y registrar hashes de las DLL utilizadas.
+- [x] Definir `MANAGED` como ruta relativa a la raíz del repositorio: `./unpacked/apk/assets/bin/Data/Managed` y registrar hashes de las DLL utilizadas.
 - [x] Guardar listados de tipos mediante ILSpyCmd y estudiar las dependencias de los cuatro ensamblados de scripts; mantener las 27 DLL disponibles para resolver referencias.
 - [x] Decompilar cada ensamblado secuencialmente a una carpeta propia, capturando código de retorno, stdout y stderr. Patrón contrastado con la ayuda instalada:
 
@@ -123,7 +123,7 @@ ilspycmd -p -r "$MANAGED" \
 
 ## Tarea 3 — Staging Unity y reensamblado probado
 
-**Archivos propios a crear si no existe una utilidad equivalente:** `tools/prepare_unity_data.py`, `tests/test_prepare_unity_data.py`. **Salidas:** `RUN/staging/Data/`, `RUN/staging/manifest.json`.
+**Archivos propios a crear si no existe una utilidad equivalente:** `./tools/prepare_unity_data.py`, `./tests/test_prepare_unity_data.py`. **Salidas:** `RUN/staging/Data/`, `RUN/staging/manifest.json`.
 
 **Interfaz propuesta:** `prepare_data(apk_data: Path, obb_data: Path, output_data: Path, manifest_path: Path) -> dict`. Devuelve el resumen de inventario; escribe un manifiesto con `relative_path`, `sources`, `kind`, `size`, `sha256`, `validation`. No modifica las entradas. La CLI recibe `--apk-data`, `--obb-data`, `--output-data`, `--manifest` y devuelve código distinto de cero ante una validación fallida.
 
@@ -142,7 +142,7 @@ ilspycmd -p -r "$MANAGED" \
 
 ## Tarea 4 — Piloto de recursos y correlación con scripts
 
-**Archivos:** crear `RUN/assets/inventory.jsonl`, `RUN/assets/pilot/`, logs y `docs/analysis/inventario-recursos.md`.
+**Archivos:** crear `RUN/assets/inventory.jsonl`, `RUN/assets/pilot/`, logs y `./docs/analysis/inventario-recursos.md`.
 
 **Consume:** `ASSET_TOOLS_READY`, staging y mapa de tarea 2. **Produce:** catálogo inicial, muestras verificadas y relaciones script/objeto.
 
@@ -160,7 +160,7 @@ ilspycmd -p -r "$MANAGED" \
 
 ## Tarea 5 — Android y reconstrucción del flujo de arranque
 
-**Archivos:** crear `RUN/android/jadx/`, `RUN/android/apktool/`, logs y `docs/analysis/flujo-arranque.md`.
+**Archivos:** crear `RUN/android/jadx/`, `RUN/android/apktool/`, logs y `./docs/analysis/flujo-arranque.md`.
 
 **Consume:** `ANDROID_STATIC_READY`, APK original y hallazgos anteriores. **Produce:** secuencia de arranque sustentada en código/manifiesto y guion de prueba dinámica.
 
@@ -178,7 +178,7 @@ ilspycmd -p -r "$MANAGED" \
 
 **Continuación verificada:** `20261009T213202Z`; [perfil/preparación y reversión](../../lab/preparacion-runtime.md), [hitos y límites](../../analysis/ejecucion-controlada.md). Cold-copy del AVD en lugar de Quick Boot; TCG observado en lugar de KVM inaccesible. Mismo estado limpio en dos ensayos, almacenamiento mínimo concedido explícitamente, tutorial como primer estado estable y cámara local comprobada. Presencia/hash OBB confirmados, lectura efectiva no trazada; no se afirmó menú ni gameplay completo. La autorización nueva permite instalar/preparar lo necesario, no abrir Internet ni tocar firewall. Las restricciones originales de no instalar describen la corrida estática y no anulan ese permiso nuevo.
 
-**Archivos:** crear `RUN/runtime/` y `docs/analysis/ejecucion-controlada.md`.
+**Archivos:** crear `RUN/runtime/` y `./docs/analysis/ejecucion-controlada.md`.
 
 **Consume:** `RUNTIME_READY`, APK/OBB originales verificados y guion de tarea 5. **Produce:** sesión reproducible y estado real alcanzado, no promesa de juego funcional.
 
@@ -220,7 +220,7 @@ No instalar herramientas opcionales ni activar red indiscriminadamente ante un f
 
 ## Tarea 7 — Integridad, conclusiones y siguiente decisión
 
-**Archivos:** crear `RUN/reports/resultados.json` y `docs/analysis/conclusiones-y-bloqueos.md`; actualizar documentos saneados de tareas anteriores.
+**Archivos:** crear `RUN/reports/resultados.json` y `./docs/analysis/conclusiones-y-bloqueos.md`; actualizar documentos saneados de tareas anteriores.
 
 **Consume:** evidencias de tareas 1–6. **Produce:** informe que permite decidir la siguiente fase sin exagerar resultados.
 
