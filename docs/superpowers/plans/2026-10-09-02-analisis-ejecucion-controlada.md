@@ -1,5 +1,7 @@
 # Plan 2 — De ILSpyCmd a la ejecución controlada
 
+**Continuación autorizada 2026-10-11, cerrada:** el usuario pidió instalar las herramientas necesarias y terminar recuperación/pruebas usando REA. El [informe vigente](../../analysis/continuacion-plan-2-2026-10-11.md) amplía este plan: suite restaurada localmente, scripts compilados, inventario/exportación total, dos tutoriales completos con KVM y Farm offline con perfil derivado separado. Los límites de campos opacos, fidelidad y onboarding quedan explícitos. Las restricciones de preparación y ausencia de instalaciones/delegación descritas abajo corresponden a la ejecución histórica, antes de esta autorización nueva.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. La ejecución es directa, sin modificaciones del juego ni delegación. El diseño inicial no autorizaba instalaciones; la continuación indicada abajo incorpora el permiso nuevo del usuario para preparación/instalación necesaria, con firewall excluido hasta propuesta y rollback aprobados.
 
 **Goal:** Obtener código y recursos analizables, reconstruir el flujo de arranque y producir una ejecución de referencia observable del APK original, o un bloqueo reproducible sustentado en evidencias.

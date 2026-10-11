@@ -46,11 +46,15 @@ No omitir mapas o rutas problemáticos para declarar el port completo. Una escen
 
 ## 3. Base existente y entradas
 
-Evidencias aceptadas: [resultados Plan 2](../../analysis/conclusiones-y-bloqueos.md), [recursos](../../analysis/inventario-recursos.md), [dependencias](../../analysis/mapa-dependencias.md) y [arranque](../../analysis/flujo-arranque.md).
+Evidencias aceptadas: [continuación Plan 2 del 2026-10-11](../../analysis/continuacion-plan-2-2026-10-11.md), [resultados históricos](../../analysis/conclusiones-y-bloqueos.md), [recursos](../../analysis/inventario-recursos.md), [dependencias](../../analysis/mapa-dependencias.md) y [arranque](../../analysis/flujo-arranque.md).
 
-Hay C# decompilado y staging documentados, pero cobertura parcial de objetos y campos. Se usan como referencia, no como garantía de exportación completa. Los problemas de parser solo se resuelven cuando bloqueen una conversión requerida; no se reabre el análisis global.
+Actualización 2026-10-11: las salidas privadas están disponibles en `./.lab/runs/20261011T174958Z-completion/` de este checkout. Los cuatro proyectos C# recuperados compilan juntos sin errores; el inventario cubre 8.165 archivos/490.030 objetos, con campos de 490.022 recuperados y exports completos ejecutados. El plan identifica rutas a `managed/rebuild/`, staging, inventario refinado, medios y shaders. La salida original e IL se conservan para contrastar representaciones; los scripts sirven de referencia para TypeScript, no se ejecutan en el navegador.
 
-En este checkout `./.lab/runs/` no estaba presente al planificar. Las salidas privadas de `step/decompile` se referencian como `./.lab/runs/` desde la raíz de ese checkout; su disponibilidad no está comprobada en otras máquinas. La futura ejecución recibe rutas explícitas a staging y decompilados existentes. Si faltan, se solicita su ubicación o recuperación; no se repite silenciosamente el Plan 2.
+Quedan ocho objetos con 332 bytes personalizados sin interpretar: siete referencias `FyberEditor` y una `LpOwerride`, sin definiciones en las DLL suministradas. El catálogo conserva cada registro y evalúa su dependencia respecto al runtime web. Excluir componentes de Editor/servicios fuera de alcance requiere evidencia; una función desconocida requerida bloquea las escenas afectadas hasta resolverse. No inventar campos ni excluir por nombre/tamaño, y no detener contenido independiente por una dependencia no demostrada.
+
+AssetRipper conserva diagnósticos de layout en `BulletStackController`/`InputField`; los campos recuperados y referencias de shaders son la base para la conversión dirigida. Formato válido no certifica fidelidad. El proyecto Unity exportado no se compiló ni ejecutó y no es un prerrequisito del port sin Unity.
+
+Las pruebas existentes ejecutaron el APK original: tutorial/menú dos veces desde instalación limpia, Farm con perfil derivado. No certifican todas las escenas ni el cliente nuevo. En otra máquina/checkout se reciben rutas explícitas a estas salidas; si faltan, se solicita ubicación/recuperación sin repetir silenciosamente Plan 2.
 
 Los originales y salidas del Plan 2 permanecen de solo lectura. Las nuevas conversiones van a `./.lab/web-port/`; los datos derivados del juego y capturas no se publican automáticamente en Git.
 
@@ -137,6 +141,8 @@ Velocidades, FOV, daño, munición, cadencia, recarga, estados de enemigo, objet
 NPCs deben usar navegación adecuada al mapa y no cruzar paredes. Conservar datos de navegación utilizables; si no hay datos portables, generar navegación fuera del navegador desde la geometría y registrar esa derivación. La selección de una dependencia adicional de navegación debe justificarse antes de incorporarla; no bloquea tareas anteriores.
 
 Guardado versionado local. Si está corrupto, es de una versión futura, el almacenamiento se deniega o se agota, iniciar sesión temporal con aviso y conservar la copia recuperable sin sobrescritura automática. No migrar cuentas ni compras reales. Servicios online devuelven `unavailable`, no éxitos fabricados.
+
+El original bloquea Campaign después del tutorial hasta una primera partida multijugador. El cliente web permite tutorial → menú → Campaign mediante progreso local explícito, sin esperar ese servicio ni importar flags del perfil Android derivado. No informa una partida online completada; conserva objetivos y progresión del single player traducidos.
 
 ## 9. HTTP LAN y seguridad de distribución
 

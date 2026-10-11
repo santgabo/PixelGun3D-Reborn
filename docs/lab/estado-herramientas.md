@@ -1,5 +1,9 @@
 # Estado del laboratorio — instalación local
 
+## Actualización suite — 2026-10-11
+
+La [suite necesaria está instalada y verificada](../analysis/continuacion-plan-2-2026-10-11.md#suite-instalada) íntegramente en este worktree: REA 6.4.0, ILSpy, UnityPy con TypeTreeGeneratorAPI, AssetRipper, JDK, JADX CLI/MCP, Apktool y SDK/emulador API25. KVM funciona; dos instalaciones limpias del APK original completaron tutorial y menú offline en un AVD propio. Farm se comprobó con perfil derivado separado y retorno al menú. El runtime está cerrado. No se requirió sudo. `source ./.lab/env.sh` configura la suite local. Las limitaciones de instalación/TCG y cifras posteriores pertenecen al laboratorio histórico; consultar la continuación para el estado vigente.
+
 ## Actualización runtime — 2026-10-09
 
 Corrida autorizada **20261009T213202Z**: Emulator **37.2.12.0** y AOSP **Android7.1.1/API25/default/x86 r1** instalados desde artefactos fijados/verificados. Command-line Tools 17.0/ADB 37.0.1 copiados a SDK local independiente; JDK primario solo lectura. SDKmanager genera metadata oficial del emulador, con 398 archivos idénticos al ZIP fijado. **RUNTIME_READY=PASS acotado:** boot/ABI/storage/Accounts0, aislamiento/ADB y restauración comprobados; dos originales al tutorial, cámara en segundo. Sin firewall ni cambios administrativos. TCG sin KVM, lento/no soportado; no implica gameplay completo ni servicios online.

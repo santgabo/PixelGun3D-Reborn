@@ -1,5 +1,7 @@
 # Plan 2 — resultados y bloqueos
 
+**Actualización 2026-10-11:** la [continuación autorizada](./continuacion-plan-2-2026-10-11.md) está cerrada: suite instalada, cuatro scripts recuperados y compilados juntos, todos los archivos Unity inventariados y ambos exports terminados. El OBB original se recuperó y autenticó; dos instalaciones limpias completaron tutorial y menú. Farm cargó offline con movimiento, disparo y retorno al menú en un perfil de progreso antiguo derivado. Quedan ocho objetos con 332 bytes de campos opacos y límites explícitos de fidelidad; una instalación limpia todavía necesita completar el onboarding multijugador para habilitar Adventure. El texto siguiente conserva los resultados históricos del 2026-10-09.
+
 Corridas **20261009T191951Z** (estática) y **20261009T213202Z** (continuación dinámica autorizada), 2026-10-09 UTC. **Resultado general: PARTIAL.** El bloqueo de preparación se resolvió: dos arranques originales llegaron al tutorial offline y la cámara se comprobó en el segundo. Persisten cobertura de recursos y otras funciones no probadas.
 
 Evidencias privadas en `./.lab/runs/<corrida>/`, excluidas de Git. Resúmenes máquina: corrida estática `reports/resultados.json`, dinámica `reports/runtime-results.json`. La continuación instaló emulador/imagen con autorización expresa, **sin tocar firewall, grupos/KVM ni originales**. No se recompiló/firmó/modificó el juego, usaron cuentas personales ni habilitó Internet. Sin commits ni delegación.

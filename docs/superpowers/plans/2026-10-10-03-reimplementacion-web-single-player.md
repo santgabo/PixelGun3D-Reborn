@@ -12,11 +12,38 @@
 
 **Estado:** DOCUMENTADO; ninguna tarea de implementación ejecutada. El usuario aprobó el stack y solicitó exclusivamente documentación en esta sesión. Los criterios detallados son propuestas explícitas para revisión; no presentar las futuras verificaciones como realizadas.
 
+**Actualización 2026-10-11:** incorpora la [recuperación y pruebas ampliadas del Plan 2](../../analysis/continuacion-plan-2-2026-10-11.md). Esta revisión modifica la planificación; no inicia el port.
+
+## Base recuperada que consume este plan
+
+`RUN = ./.lab/runs/20261011T174958Z-completion/`, relativo a la raíz del checkout que conserva esas salidas privadas. En otro checkout, proporcionar esa ubicación al ejecutar; no copiar una ruta absoluta de esta máquina.
+
+| Entrada bajo `RUN` | Uso en el port |
+|---|---|
+| `managed/rebuild/`, solución `RecoveredScripts.slnx` | Referencia C# con ajustes contrastados con IL: cuatro proyectos, 1.982 fuentes, compilación conjunta sin errores. `Assembly-CSharp/` contiene la lógica principal. |
+| `managed/<ensamblado>/project/` y `managed/<ensamblado>/il/` | Export original e IL para contrastar una representación ambigua; no ejecutar ni distribuir las DLL recuperadas. |
+| `staging/Data/` | Datos Unity ya reensamblados; mantenerlos de solo lectura. |
+| `resources-final/inventory-final-refined.jsonl` y `refined-summary.json` | Inventario completo de 8.165 archivos/490.030 objetos; campos recuperados de 490.022. Fuente de identidad y valores serializados. |
+| `resources-final/unresolved-refined.json` y `raw-unresolved/` | Ocho objetos y sus bytes originales pendientes de interpretación. |
+| `assetripper-primary-content/` y `assetripper-unity-project/ExportedProject/` | Medios y representación de escenas ya exportados; reutilizar lo trazable al objeto fuente, sin asumir equivalencia de todo el proyecto Unity. |
+| `shader-references-expanded/` | Referencias ShaderLab/GLES recuperadas; requieren adaptación al renderer web. |
+| `reports/runtime-results.json` y `runtime/` | Evidencia del APK original: tutorial/menú repetidos en dos instalaciones limpias; Farm probado con perfil derivado. No certifica el cliente web ni todos los mapas. |
+
+El proyecto Unity exportado no se compiló ni ejecutó. Eso no es un prerrequisito del port sin Unity. Las advertencias de layout de AssetRipper en `BulletStackController`/`InputField` requieren contrastar valores con los campos recuperados, no asumir que todo el YAML es fiel. Las validaciones de medios existentes certifican formato; las pruebas de fidelidad, integración y gameplay del cliente web siguen pendientes.
+
+### Tratamiento de los ocho objetos pendientes
+
+- Siete apuntan a clases `FyberEditor` de complementos/configuración del Editor; el octavo referencia `Assembly-CSharp.dll::LpOwerride`. Sus definiciones no aparecen en las 27 DLL suministradas; se conservan 332 bytes personalizados sin interpretar.
+- En tarea 1, registrar los ocho por `SourceRef`, clase, ensamblado, bytes opacos, referencias a escenas y decisión sustentada. No excluir por nombre, tamaño o la suposición de que pertenecen a publicidad.
+- Una dependencia demostrada de Editor o de un servicio excluido puede quedar fuera del runtime web, conservando su registro y evidencia. `LpOwerride` empieza sin clasificar; no atribuirle una función sin evidencia.
+- Si un objeto afecta una función o dato requerido por una escena en alcance, esa escena queda bloqueada hasta recuperar su definición o reconstruir el campo/comportamiento con evidencia. Procesar contenido independiente mientras tanto; no eliminar el mapa ni inventar valores.
+
 ## Global Constraints
 
 - Reimplementación completamente sin Unity Editor, runtime Unity, Unity WebGL, emulación/streaming Android o renderizado remoto.
 - Navegadores de escritorio; móviles fuera de esta iteración.
 - No se repiten pruebas de integridad del Plan 2. Su documentación es la línea base aceptada. No se recalculan hashes de originales, comparan APK/OBB, repiten preflights ni reejecuta el original como requisito de este plan.
+- No volver a decompilar todos los ensamblados, inventariar los 8.165 archivos ni repetir las validaciones estructurales de medios. Consumir las salidas anteriores; hacer lecturas/conversiones dirigidas y pruebas nuevas cuando las necesite el port.
 - Los originales y salidas del Plan 2 permanecen de solo lectura. Las nuevas conversiones van a `./.lab/web-port/`; los datos derivados del juego y capturas no se publican automáticamente en Git.
 - No usar `./tools/prepare_unity_data.py` como preflight: vuelve a comprobar entradas. Consumir el staging ya realizado. Si no está disponible, pedir ubicación/recuperación, no repetir el Plan 2.
 - WebGL 2 y WASM/SIMD son capacidades requeridas; ausencia produce pantalla explicativa. HTTP LAN no es contexto seguro como localhost.
@@ -102,18 +129,20 @@ No inventar datos ausentes para satisfacer el esquema: un componente crítico no
 
 ### Tarea 1 — Localizar salidas existentes y fijar catálogo funcional
 
-**Files:** crear `./tools/web_port/{__init__,contracts,catalog}.py`, `./tests/web_port/test_catalog.py`, `./docs/web/content-scope.md`; datos reales en `./.lab/web-port/catalog/`.
+**Files:** crear `./tools/web_port/{__init__,contracts,catalog}.py`, `./tests/web_port/test_catalog.py`, `./docs/web/content-scope.md`; datos reales en `./.lab/web-port/catalog/`, incluido `opaque-components.json`.
 
-**Interfaces:** consume rutas explícitas a staging, decompilados e informes del Plan 2. Produce `build_catalog(build_settings: dict, evidence: dict) -> dict` y catálogo schemaVersion 1; `SourceRef` y categorías anteriores.
+**Interfaces:** consume las entradas de la base recuperada. Produce `build_catalog(build_settings: dict, evidence: dict) -> dict` y catálogo schemaVersion 1; `SourceRef` y categorías anteriores. `opaque-components.json` contiene `{ schemaVersion: 1, components: OpaqueComponent[] }`; cada registro usa `{ source: SourceRef, assembly: string, type: string, opaqueBytes: number, decision: 'pending' | 'excluded' | 'blocked' | 'resolved', affectedSceneIds: string[], reason: string, evidence: string[] }`. `pending` conserva impacto desconocido; `blocked` identifica una dependencia requerida aún ilegible; `resolved` requiere evidencia de recuperación/traducción validada. Una lista vacía de escenas no basta para demostrar exclusión.
 
-- [ ] Registrar rutas existentes, sin hashes ni reejecución de staging. Si `./.lab/runs` no está aquí, localizar por rutas proporcionadas; no recorrer/revalidar todos los originales.
+- [ ] Registrar las rutas de la base recuperada, sin hashes ni reejecución de staging. Si `./.lab/runs` no está aquí, localizar por rutas proporcionadas; no recorrer/revalidar todos los originales.
 - [ ] Escribir `test_catalog_preserves_all_scene_entries`, `test_path_id_is_decimal_string`, `test_duplicate_names_keep_distinct_ids`, `test_unknown_scene_is_not_silently_dropped`; comprobar conteo de fixtures, IDs y bloqueo explícito.
+- [ ] Añadir fixtures/tests `test_opaque_component_exclusion_keeps_source_and_evidence`, `test_required_opaque_component_blocks_affected_scene`, `test_unknown_component_is_not_excluded_by_name`; conservar registro, impedir exclusión sin evidencia y no bloquear escenas independientes.
 - [ ] Ejecutar `python3 -m unittest discover -s ./tests/web_port -p 'test_catalog.py' -v`: RED por funcionalidad ausente.
 - [ ] Implementar catálogo a partir de BuildSettings/evidencia; clasificar escenas leyendo únicamente lo necesario. Definir mapa vertical como el tutorial original documentado, una vez resuelto su ID, y añadir la ruta de menú local hacia él.
 - [ ] Repetir comando: GREEN. Producir catálogo real y mapa de referencias `ensamblado/tipo/método ↔ componente ↔ escena` usando lo ya recuperado.
+- [ ] Registrar los ocho objetos en `opaque-components.json` y seguir sus referencias de forma dirigida. Documentar decisiones justificadas y bloqueos por escena; dejar pendientes las funciones todavía desconocidas.
 - [ ] Escribir `content-scope.md`: todas las entradas, rutas locales, modos single player, mapas multiplayer para exploración y bloqueos. Si no se identifica aún un menú o modo, marcarlo pendiente; no inferirlo del nombre del archivo.
 
-**Aceptación:** ninguna escena desaparece del catálogo; el alcance y mapa vertical tienen identificadores reales. No se ha repetido ninguna comprobación de integridad.
+**Aceptación:** ninguna escena desaparece del catálogo; el alcance y mapa vertical tienen identificadores reales. Los ocho objetos tienen registro y decisión/evidencia o pendiente explícito. No se ha repetido ninguna comprobación de integridad.
 
 ### Tarea 2 — Shell web, contratos TS y HTTP LAN mínimo
 
@@ -136,13 +165,15 @@ No inventar datos ausentes para satisfacer el esquema: un componente crítico no
 
 **Files:** crear `./tools/web_port/{unity_reader,references,transforms,glb_writer,materials}.py`, `./tools/export_web_scene.py`, `./tests/web_port/test_static_scene.py`.
 
-**Interfaces:** `read_scene(data_root: Path, scene_ref: dict) -> dict`; `convert_scene(scene: dict, output: Path) -> dict` produce SceneManifest; CLI `python3 ./tools/export_web_scene.py --data-root "$DATA" --catalog "$CATALOG" --scene "$SCENE_ID" --output "$OUT"`. DATA es staging ya existente; output nuevo fuera de entradas.
+**Interfaces:** `read_scene(data_root: Path, scene_ref: dict, *, recovery_root: Path) -> dict`; `convert_scene(scene: dict, output: Path) -> dict` produce SceneManifest; CLI `python3 ./tools/export_web_scene.py --data-root "$DATA" --recovery-root "$RUN" --catalog "$CATALOG" --scene "$SCENE_ID" --output "$OUT"`. DATA es staging ya existente, RUN la raíz de recuperación indicada arriba; output nuevo fuera de entradas. El reader consume desde recovery_root los campos refinados y la identidad fuente de los recursos reutilizados.
 
 - [ ] Escribir fixtures propios: jerarquía padre/hijo con escala negativa, triángulo asimétrico, UV/normal/tangente, IDs repetidos entre archivos, referencias compartidas y collider desplazado.
 - [ ] Escribir tests que comparen coordenadas finales esperadas, winding, índices, materiales y pose del collider; fixture con campo crítico ausente debe producir bloqueo, no mapa vacío.
 - [ ] Ejecutar `python3 -m unittest discover -s ./tests/web_port -p 'test_static_scene.py' -v`: RED.
-- [ ] Implementar resolución por archivo/path_id, conversión a RH/Y-up/metros y GLB + manifiesto. Leer campos con herramientas ya disponibles; resolver layouts solo de tipos necesarios. Si hace falta dependencia nueva para type trees, documentar uso y autorización antes de instalarla.
+- [ ] Implementar resolución por archivo/path_id, conversión a RH/Y-up/metros y GLB + manifiesto. Usar el inventario refinado y las herramientas ya instaladas, incluido TypeTreeGeneratorAPI; resolver layouts solo de tipos necesarios para esta conversión, sin reabrir la recuperación global.
+- [ ] Reutilizar medios de PrimaryContent cuando se conserve su vínculo con `SourceRef`, parámetros y base de coordenadas; evitar una segunda conversión de ejes. Completar jerarquías, colliders y gameplay en el manifiesto: un GLB válido no contiene por sí solo todo el mapa.
 - [ ] Traducir materiales/UV/lightmaps explícitamente; no perder iluminación horneada por una conversión PBR por defecto. Conservar referencias de procedencia sin regenerar hashes.
+- [ ] Contrastar `BulletStackController`/`InputField` con los campos recuperados cuando sean dependencias del contenido elegido; usar las referencias de shaders expandidas para adaptar materiales. No aceptar YAML o GLSL enviado por el export como proyecto/runtime ya compilable.
 - [ ] Repetir tests: GREEN. Ejecutar conversión del mapa vertical y sus dependencias, no exportación masiva del archivo completo.
 - [ ] Emitir diagnóstico por componente no soportado, con fuente y efecto visual/jugable. Corregir lo crítico antes de aceptar el mapa.
 
@@ -186,6 +217,7 @@ No inventar datos ausentes para satisfacer el esquema: un componente crítico no
 
 - [ ] Escribir tests de perfil ausente, JSON corrupto, versión futura, almacenamiento denegado/cuota; seguir jugando en memoria y no sobrescribir silenciosamente datos recuperables.
 - [ ] Escribir tests de navegación teclado/ratón, selección de mapa, volver atrás, ajustes y botón online deshabilitado. El shell no espera login ni servicios antiguos.
+- [ ] Añadir tests con perfiles sintéticos nuevo y con tutorial local completado: el menú permite la ruta a Campaign según progreso local, sin esperar una primera partida multijugador ni emitir peticiones externas. No importar el fixture Android ni fabricar un `FirstMatchCompleted` online; el recorrido jugable real se verifica tras tareas 9–10.
 - [ ] Ejecutar `cd ./web && npm run test:unit -- ./src/services ./src/ui`: RED.
 - [ ] Implementar servicios y almacenamiento local; aislar errores de persistencia. No incorporar Photon, SDK publicitario ni emulador genérico de backend.
 - [ ] Reconstruir menú/HUD inicial con sprites, tipografía, anclajes y disposición originales; estilos escalables sin rediseño. Conectar estados y carga de tarea 5.
@@ -229,7 +261,9 @@ No inventar datos ausentes para satisfacer el esquema: un componente crítico no
 **Interfaces:** `Navigation.findPath(from: Vec3, to: Vec3): readonly Vec3[] | null`; `EnemySystem.tick(dt: number, player: PlayerSnapshot): readonly GameEvent[]`; `Objectives.consume(event: GameEvent): ObjectiveState`; `createLocalGame(session: SceneSession, profile: LocalProfile): LocalGame` conecta tareas 7–8 y expone tick/pause/resume/restart/dispose.
 
 - [ ] Especificar estados/enemigos/objetivos del modo vertical usando código/datos existentes; registrar cada transición y parámetro en behavior-map, no inventar IA para suplir información no leída.
+- [ ] Contrastar la entrada al portal con `GotToNextLevel.Update`: el original comprueba distancia 3D al jugador (`SqrMagnitude < 2.25`), no basta asumir un evento de collider. Usar la evidencia de tutorial como referencia del original; Farm con perfil derivado no prueba el desbloqueo natural ni completar ese nivel.
 - [ ] Escribir tests de detección/ataque/muerte, camino sin ruta, paredes y obstáculos, objetivo cumplido solo una vez, tutorial/progreso y salida al resultado/menú.
+- [ ] Añadir `test_portal_requires_3d_distance_below_1_5m`: igualdad y separación vertical mayor que 1,5 m no completan el objetivo; proximidad menor sí lo completa una sola vez, conforme al método fuente.
 - [ ] Ejecutar `python3 -m unittest discover -s ./tests/web_port -p 'test_navigation.py' -v` y `cd ./web && npm run test:unit -- ./src/gameplay`: RED.
 - [ ] Implementar navegación a partir de datos portables; si no sirven, generar grafo/navmesh offline desde superficie transitable y colisiones. Registrar algoritmo/dependencia antes de añadirlo y comprobarlo con fixtures; no usar movimiento directo a través de paredes.
 - [ ] Implementar reglas del modo, enemigos y objetivos, conectando guardado local únicamente tras eventos de progreso válidos.
@@ -246,9 +280,11 @@ No inventar datos ausentes para satisfacer el esquema: un componente crítico no
 - [ ] Escribir test de cobertura: toda entrada de catálogo aparece exactamente una vez; faltar un mapa o convertirlo sin recorrido no permite estado accepted.
 - [ ] Ejecutar `python3 -m unittest discover -s ./tests/web_port -p 'test_coverage.py' -v` y `cd ./web && npm run test:unit -- ./src/diagnostics/coverage.test.ts`: RED; implementar reporte con totales por categoría y razones para no jugables.
 - [ ] Procesar lotes empezando por menús/rutas locales y mapas single player, luego mapas multiplayer para exploración. Para cada familia ausente, escribir fixture/test RED antes del conversor o comportamiento GREEN.
+- [ ] Actualizar `opaque-components.json` y los bloqueos al ampliar dependencias. Un objeto excluido conserva su motivo; un objeto requerido sigue bloqueando las escenas afectadas hasta resolverse. No declarar cobertura completa con una función desconocida que pueda afectar contenido en alcance.
 - [ ] Añadir armas, enemigos, triggers, plataformas, materiales y animaciones que cada modo requiera. Reutilizar sistemas; no introducir excepciones por nombre de mapa sin fuente.
 - [ ] Completar menús, resultados, ajustes, transiciones y guardado de cada recorrido; pantallas online indican indisponibilidad sin llamadas externas.
 - [ ] Ejecutar `cd ./web && npm run test:e2e -- ./tests/e2e/content-coverage.spec.ts`; el fixture de catálogo selecciona todos los mapas convertidos y recorre las rutas definidas. Un mapa bloqueado debe aparecer como fallo/bloqueo, no filtrarse para que la suite pase.
+- [ ] Incluir en ese recorrido un perfil local nuevo: tutorial → menú → Campaign → primer nivel convertido → menú, sin fixture Android, primera partida online ni peticiones externas.
 - [ ] Revisar fidelidad de cada mapa y menús desde vistas definidas, conservando capturas privadas y resúmenes saneados. Mantener PARTIAL si falta referencia o función esencial.
 
 **Aceptación G3:** catálogo cubierto; ningún mapa perdido silenciosamente. Modos single player completos dentro de su cobertura, mapas online conservados en exploración explícita.
@@ -311,6 +347,7 @@ No inventar datos ausentes para satisfacer el esquema: un componente crítico no
 - [ ] Revisar vistas y diferencias frente a evidencia existente: fidelidad desconocida queda pendiente, no PASS. No lanzar el APK para resolverlo dentro de este plan sin cambio de alcance autorizado.
 - [ ] Incorporar mediciones de tarea 12, recursos críticos faltantes, excepciones y peticiones fuera de origen. Cualquier defecto esencial impide PASS; priorizar corrección antes de más optimizaciones.
 - [ ] Redactar cierre con contenido realmente funcional, bloqueos y alcance de cada plataforma. Enlazar manual, versiones fijadas y ubicación privada de evidencias sin secretos.
+- [ ] Informar la decisión final de cada uno de los ocho objetos y distinguir pruebas originales de pruebas del port. Compilación C#, formatos válidos y capturas Android no sustituyen aceptación web, visual ni de todos los mapas.
 - [ ] Parar servicios temporales propios y entregar instrucciones de arranque. Mantener commits/merge/push pendientes de autorización; no iniciar multiplayer ni siguiente iteración automáticamente.
 
 **Aceptación G4:** acceso HTTP LAN y single player estables en la matriz efectivamente probada; G0–G4 y cobertura requerida completos para PASS global. Una demo de un mapa o tests sintéticos verdes no bastan.
@@ -326,6 +363,7 @@ No inventar datos ausentes para satisfacer el esquema: un componente crítico no
 ## Autorrevisión documental
 
 - [x] Separadas evidencia aceptada del Plan 2 y pruebas funcionales del nuevo cliente.
+- [x] Incorporadas las rutas recuperadas, advertencias de fidelidad y tratamiento por dependencia de los ocho objetos, sin exigir compilación del proyecto Unity ni repetir Plan 2.
 - [x] Stack aprobado, HTTP LAN sin contexto seguro y ausencia total de Unity reflejados en contratos y tareas.
 - [x] Catálogo completo y expansión de cobertura impiden cerrar con una sola escena de muestra.
 - [x] Incluidos menús, movimiento, combate, enemigos/objetivos, progreso, audio y recuperación.

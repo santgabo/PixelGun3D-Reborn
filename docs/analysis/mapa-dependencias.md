@@ -1,4 +1,6 @@
-# Mapa de dependencias Mono — PASS acotado
+# Mapa de dependencias Mono — scripts recuperados y compilables
+
+**Actualización 2026-10-11:** las cuatro fuentes recuperadas [compilan conjuntamente contra .NET 3.5](./continuacion-plan-2-2026-10-11.md), con referencias de proyecto entre scripts, cero errores y 964 advertencias. Los exports raw y correcciones contrastadas con IL se conservan separados. La compilación no certifica equivalencia funcional. El mapa siguiente corresponde a la corrida histórica del 2026-10-09.
 
 Corrida **20261009T191951Z**, ILSpyCmd **11.1.0.9782**. Origen: las 27 DLL originales de `./unpacked/apk/assets/bin/Data/Managed`; hashes en `RUN/managed/inputs.json`. `RUN` = `./.lab/runs/20261009T191951Z/` (privado, no versionado).
 

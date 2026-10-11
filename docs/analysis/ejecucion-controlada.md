@@ -1,4 +1,6 @@
-# Ejecución controlada — tutorial offline y cámara verificados
+# Ejecución controlada — tutorial completo y menú verificados
+
+**Actualización 2026-10-11:** nueva [ejecución original con KVM](./continuacion-plan-2-2026-10-11.md), APK/OBB autenticados y namespace offline. Dos instalaciones limpias completaron cámara, movimiento, salto, recogida de arma, disparo, recarga, tutorial y llegada al menú. Farm cargó offline con movimiento, disparo y retorno al menú en un perfil de progreso antiguo derivado separado; las corridas están cerradas. También se observó un descriptor OBB con posición dentro del payload de un miembro ZIP. Adventure exige onboarding multijugador desde una instalación limpia; el fallo de migración y una terminación externa del laboratorio se conservan en el informe. Las dos referencias siguientes son históricas del 2026-10-09.
 
 Corrida dinámica **20261009T213202Z**, 2026-10-09 UTC. **Dos ejecuciones del APK/OBB originales alcanzaron el tutorial; la segunda comprobó rotación de cámara y avance del tutorial.** No se modificó el juego ni se habilitó Internet. Esto no certifica el menú principal, el multijugador ni todo el gameplay.
 

@@ -1,4 +1,6 @@
-# Inventario de recursos — PARTIAL
+# Inventario de recursos — cobertura integral de archivos
+
+**Actualización 2026-10-11:** [inventario y exports completos](./continuacion-plan-2-2026-10-11.md#recursos-unity): 8.165 archivos serializados, 490.030 objetos y campos recuperados de 490.022. Ocho objetos conservan 332 bytes opacos sin sus definiciones de tipos. Ya no quedan 8.160 archivos pendientes; se resolvieron PlayerSettings y las estructuras UnityScript señaladas. El piloto y sus cifras siguientes se conservan como histórico del 2026-10-09.
 
 Corrida **20261009T191951Z**. `RUN` = `./.lab/runs/20261009T191951Z/`, privado. Origen: `./unpacked/{apk,obb}/assets/bin/Data`, verificado contra APK/OBB originales. Herramientas: Python estándar **3.14.4**, UnityPy **1.25.4**, AssetRipper Free **2.0.0**.
 
