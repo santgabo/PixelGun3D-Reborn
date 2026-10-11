@@ -1,4 +1,4 @@
-# Plan 2 — De ILSpyCmd a la ejecución controlada
+# Plan 1 — De ILSpyCmd a la ejecución controlada
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. La ejecución directa es la propuesta; este plan no autoriza instalaciones, modificaciones del juego ni delegación.
 
@@ -8,7 +8,7 @@
 
 **Tech Stack:** ILSpyCmd, UnityPy, AssetRipper, JADX, Apktool, Python estándar para utilidades de inventario/staging, Android SDK/ADB y Android aislado.
 
-**Spec / base documental:** `docs/analisis-tecnologias-ingenieria-inversa.md`. Prerrequisito operativo: `2026-10-09-01-instalacion-verificacion-herramientas.md` en este directorio.
+**Spec / base documental:** `docs/analisis-tecnologias-ingenieria-inversa.md`. Prerrequisitos operativos: [estado de herramientas](../../lab/estado-herramientas.md), [avances](../../lab/avances.md), [perfil de dispositivo](../../lab/dispositivo-laboratorio.md) y `.lab/toolchain.lock.json`. El antiguo plan de instalación ya no está en este worktree; sus resultados y límites se consultan en esos documentos, no se repite la instalación.
 
 **Estado:** propuesto; todas las tareas de ejecución están pendientes.
 
@@ -20,12 +20,20 @@
 - Decompilar no equivale a recuperar las fuentes originales; exportar un proyecto no implica que compile o funcione.
 - Analizar offline; ejecutar primero sin salida a Internet. Cualquier apertura posterior de red requiere decisión y alcance separados.
 - No usar cuentas personales ni credenciales encontradas en el cliente; sanear cualquier informe compartido.
-- Procesar archivos pesados secuencialmente. Mantener margen de disco del plan 1 y no dejar el emulador abierto durante exportaciones masivas.
+- Procesar archivos pesados secuencialmente. Mantener al menos 10 GiB libres tras descontar el pico estimado de cada operación, según el estado del laboratorio; no dejar el emulador abierto durante exportaciones masivas.
 - Usar estados `PASS`, `PARTIAL`, `BLOCKED` y `NOT_RUN`; nunca convertir ausencia de errores visibles en éxito no verificado.
 - Si se crean utilidades, ejecutar primero pruebas sintéticas que fallen por la funcionalidad ausente; después implementar lo mínimo y repetir pruebas. No realizar experimentos destructivos sobre entradas reales.
-- No hay Git inicializado: no crear commits ni repositorio automáticamente. Si se autoriza Git posteriormente, excluir entradas, salidas y archivos privados antes de versionar utilidades propias.
+- Ya existe Git y este directorio es un worktree. Conservar los cambios previos; no inicializar otro repositorio ni crear commits automáticamente. Excluir entradas, `.lab/runs/` y archivos privados antes de versionar utilidades propias.
 
 ## Entradas y salidas previstas
+
+Resolver antes de ejecutar:
+
+- `WORK_ROOT`: raíz absoluta de este worktree; las nuevas salidas pertenecen a él.
+- `INPUT_ROOT`: raíz absoluta que contiene `unpacked/` y `apk+obb-original/`. En esta revisión están en el worktree principal hermano `../PixelGun3D-Rebirth/`, no en el actual. Comprobar esa ubicación y la identidad de los archivos; no descargar, copiar masivamente ni crear symlinks automáticamente para suplir su ausencia.
+- `TOOL_ENV`: ruta absoluta al `.lab/env.sh` de la instalación existente. Aquí el script está versionado, pero `.lab/tools/` y `.lab/venvs/` no están presentes; la instalación está en el worktree principal. Revisar y cargar explícitamente ese entorno, comprobar rutas/versiones y registrar el lock correspondiente. `LAB_ROOT` puede apuntar a esa instalación, pero **no** determina `RUN`.
+
+Las rutas de entradas siguientes se resuelven bajo `INPUT_ROOT`; herramientas/evidencias previas bajo la instalación seleccionada. Las rutas de documentos y nuevas utilidades se resuelven bajo `WORK_ROOT`.
 
 Entradas:
 
@@ -34,9 +42,9 @@ Entradas:
 - `unpacked/apk/classes.dex`.
 - `apk+obb-original/Pixel Gun 3D [11.3.1].zip`.
 - `apk+obb-original/com.pixel.gun3d/main.1191.com.pixel.gun3d.obb`.
-- `.lab/toolchain.lock.json` y la matriz del plan 1.
+- `.lab/toolchain.lock.json` de la instalación seleccionada y la matriz de `docs/lab/estado-herramientas.md`.
 
-Al ejecutar, crear `RUN` como ruta absoluta de una carpeta nueva `.lab/runs/<fecha-hora-UTC>/`, sin reutilizar ni borrar automáticamente corridas anteriores.
+Al ejecutar, crear `RUN` como ruta absoluta de una carpeta nueva `$WORK_ROOT/.lab/runs/<fecha-hora-UTC>/`, sin reutilizar ni borrar automáticamente corridas anteriores. Confirmar con `git check-ignore` que las salidas quedan excluidas.
 
 | Ruta relativa a `RUN` | Contenido |
 |---|---|
@@ -73,14 +81,14 @@ Cada evidencia debe incluir identificador de corrida, versión de herramienta y 
 
 **Archivos:** crear `RUN/inputs/manifest.json`, `RUN/logs/run.json` y copia del lock de herramientas; extraer `RUN/inputs/original.apk`.
 
-**Consume:** fuentes originales y capacidades del plan 1. **Produce:** identidad inmutable de entradas y carpeta de salida exclusiva.
+**Consume:** fuentes originales y capacidades documentadas del laboratorio. **Produce:** identidad inmutable de entradas y carpeta de salida exclusiva.
 
-- [ ] Leer ambos planes y comprobar capacidades requeridas: tareas 2–5 pueden ejecutarse sin `RUNTIME_READY` si sus herramientas específicas pasan.
+- [ ] Leer este plan y los prerrequisitos operativos; resolver `WORK_ROOT`, `INPUT_ROOT` y `TOOL_ENV`. Comprobar capacidades requeridas: tareas 2–5 no necesitan `RUNTIME_READY`, pero solo se habilitan las operaciones cuyas herramientas específicas estén verificadas. El estado previo es `ILSPY_READY=PASS`, `ANDROID_STATIC_READY=PASS` acotado, `ASSET_TOOLS_READY=PARTIAL` y `RUNTIME_READY=BLOCKED`; no elevarlos por cargar el entorno.
 - [ ] Crear `RUN` con permisos privados; rechazar una ruta ya existente, dentro de las entradas o resuelta hacia ellas mediante symlinks. Guardar hora UTC y herramientas efectivamente utilizadas.
 - [ ] Calcular SHA-256 del ZIP, OBB y todos los archivos de `unpacked`, registrando ruta relativa, tamaño y hash. Guardar el manifiesto fuera de las entradas; leer por bloques, no cargar el OBB en RAM.
 - [ ] Extraer únicamente `Pixel Gun 3D [11.3.1].apk` como `RUN/inputs/original.apk`; rechazar nombres de entrada inesperados o rutas que salgan del destino.
 - [ ] Comparar hashes de los miembros APK/OBB con sus equivalentes desempaquetados, informando diferencias y entradas faltantes/sobrantes. Si el OBB original no puede abrirse con el formato detectado, parar esa comparación y registrar el bloqueo, sin asumir equivalencia.
-- [ ] Verificar versión/paquete con la decodificación Android del plan 1; si los binarios no corresponden al informe, parar y actualizar el diagnóstico antes de seguir.
+- [ ] Verificar versión/paquete con la decodificación Android previa solo si se puede vincular por hash al APK seleccionado; en caso contrario realizar una decodificación mínima nueva con Apktool, consultando manifiesto y `apktool.yml`. Si los binarios no corresponden al informe, parar y actualizar el diagnóstico antes de seguir.
 
 **Aceptación:** entradas identificadas, APK original disponible fuera del ZIP y divergencias originales/desempaquetado descartadas o explicadas. No se ha escrito en entradas.
 
@@ -90,17 +98,17 @@ Cada evidencia debe incluir identificador de corrida, versión de herramienta y 
 
 **Consume:** `ILSPY_READY`, las 27 DLL y hashes de tarea 1. **Produce:** cuatro ensamblados de scripts decompilados con inventario de limitaciones.
 
-- [ ] Definir `MANAGED` como ruta absoluta de `unpacked/apk/assets/bin/Data/Managed` y registrar hashes de las DLL utilizadas.
+- [ ] Definir `MANAGED` como `$INPUT_ROOT/unpacked/apk/assets/bin/Data/Managed` y registrar hashes de las DLL utilizadas.
 - [ ] Guardar listados de tipos mediante ILSpyCmd y estudiar las dependencias de los cuatro ensamblados de scripts; mantener las 27 DLL disponibles para resolver referencias.
 - [ ] Decompilar cada ensamblado secuencialmente a una carpeta propia, capturando código de retorno, stdout y stderr. Patrón contrastado con la ayuda instalada:
 
 ```bash
-ilspycmd -p -r "$MANAGED" \
+ilspycmd --disable-updatecheck -p -r "$MANAGED" \
   -o "$RUN/managed/Assembly-CSharp" \
   "$MANAGED/Assembly-CSharp.dll"
 ```
 
-- [ ] Repetir para `Assembly-CSharp-firstpass.dll`, `Assembly-UnityScript.dll` y `Assembly-UnityScript-firstpass.dll`. No mezclar salidas ni usar opciones para ignorar errores.
+- [ ] Repetir para `Assembly-CSharp-firstpass.dll`, `Assembly-UnityScript.dll` y `Assembly-UnityScript-firstpass.dll`. No mezclar salidas ni usar opciones para ignorar errores. Mantener `--disable-updatecheck` también en listados y consultas IL para evitar comprobaciones automáticas de red.
 - [ ] Revisar los logs y las anotaciones de error dentro del C# generado. Crear un registro `ensamblado | tipo/método | error | evidencia | estado`; incluir explícitamente cero errores detectados si corresponde, sin afirmar perfección del código.
 - [ ] Analizar `Player_move_c`, `WeaponManager`, `WeaponSounds`, `PhotonNetwork`, `PhotonView` y clases de inicio identificadas. Seguir `Awake`/`Start`, carga de escenas, coroutines y llamadas a plataforma/servicios.
 - [ ] Contrastar al menos un método de movimiento, uno de armas y uno de red con su IL, seleccionados por nombre/token tras el inventario. Si una decompilación falla, conservar IL y marcar la interpretación como pendiente.
@@ -132,15 +140,16 @@ ilspycmd -p -r "$MANAGED" \
 
 **Archivos:** crear `RUN/assets/inventory.jsonl`, `RUN/assets/pilot/`, logs y `docs/analysis/inventario-recursos.md`.
 
-**Consume:** `ASSET_TOOLS_READY`, staging y mapa de tarea 2. **Produce:** catálogo inicial, muestras verificadas y relaciones script/objeto.
+**Consume:** capacidades de assets verificadas por operación, staging y mapa de tarea 2. **Produce:** catálogo inicial, muestras verificadas y relaciones script/objeto.
 
+- [ ] Atender primero el `PARTIAL` conocido: UnityPy 1.25.4 enumera objetos, pero `PlayerSettings.read()` falló con `EOFError: read_str out of bounds`. Conservar/reproducir el caso mínimo y contrastarlo con AssetRipper sobre el mismo archivo antes de depender de esa lectura. No atribuirlo automáticamente a corrupción ni a type trees de MonoBehaviour. Si sigue fallando, registrar ese objeto como pendiente; continuar únicamente operaciones verificadas o una alternativa validada, sin actualizar herramientas ni instalar extras automáticamente.
 - [ ] Inventariar objetos por archivo usando la API documentada de la versión fijada de UnityPy. Registrar `source_file`, `path_id`, `class_id/type`, `name`, `unity_version`, `status` y error; procesar por lotes, con puntos de reanudación por archivo.
 - [ ] Mantener los archivos dependientes accesibles en el staging completo, pero comenzar por `globalgamemanagers`, `level0` y los recursos referenciados. No interpretar un fallo causado por una muestra incompleta como corrupción.
 - [ ] Importar el mismo conjunto en AssetRipper con `Managed` accesible y confirmar Mono/5.3.7p1; registrar versiones y diferencias de interpretación entre herramientas.
 - [ ] Seleccionar del inventario una textura, un audio, una malla y un MonoBehaviour relacionado con un script decompilado. Si no están en `level0`, ampliar el conjunto explícitamente; no sustituir una muestra faltante por un éxito supuesto.
 - [ ] Exportar esas muestras sin colisiones: ruta de salida derivada de archivo de origen y `path_id`, no solo `m_Name`. Rechazar nombres que escapen de la carpeta de exportación.
 - [ ] Validar textura —dimensiones/formato y apertura—; audio —decodificación, duración no nula y escucha breve si está disponible—; malla —vértices, índices válidos y apertura en visor si está disponible—. Registrar limitación si no hay revisión visual/auditiva.
-- [ ] Resolver `MonoBehaviour → MonoScript → ensamblado/tipo`; registrar el enlace con el C# y un campo serializado concreto. Si faltan type trees, evaluar TypeTreeGeneratorAPI con las DLL de esta copia; no inventar layouts.
+- [ ] Resolver `MonoBehaviour → MonoScript → ensamblado/namespace/tipo`; registrar el enlace con el C# y un campo serializado concreto. Para cada referencia `PPtr`, conservar archivo de origen, `m_FileID`, `m_PathID` y archivo destino resuelto mediante la tabla de referencias externas; `path_id` solo es único dentro de su archivo. Si faltan type trees de MonoBehaviour, evaluar TypeTreeGeneratorAPI con las DLL de esta copia; no inventar layouts ni tratarlo como solución genérica al fallo de PlayerSettings. Su instalación, si hace falta, requiere decisión separada.
 - [ ] Separar estados de objeto: leído, exportado, validado, referencia faltante o error de parser. No tratar un archivo JSON generado como prueba suficiente de fidelidad.
 - [ ] Ampliar el inventario por lotes hasta cubrir el conjunto o documentar archivos pendientes. Exportar solo recursos necesarios para entender el arranque/gameplay; posponer una exportación masiva si compromete espacio o no aporta evidencia.
 
@@ -208,7 +217,7 @@ No instalar herramientas opcionales ni activar red indiscriminadamente ante un f
 
 **Archivos:** crear `RUN/reports/resultados.json` y `docs/analysis/conclusiones-y-bloqueos.md`; actualizar documentos saneados de tareas anteriores.
 
-**Consume:** evidencias de tareas 1–6. **Produce:** informe que permite decidir la siguiente fase sin exagerar resultados.
+**Consume:** evidencias disponibles de tareas 1–6. **Produce:** informe que permite decidir la siguiente fase sin exagerar resultados. Puede cerrarse una corrida solo estática: si no se habilita la tarea 6, registrar `RUNTIME_READY=BLOCKED` y ejecución del APK `NOT_RUN`, sin confundir un impedimento del laboratorio con un fallo observado del juego.
 
 - [ ] Recalcular hashes de entradas y comparar con tarea 1. Cualquier diferencia invalida la afirmación de preservación y requiere investigación.
 - [ ] Revisar permisos y contenido de informes; retirar claves, tokens, IDs personales y URLs con credenciales antes de compartir. Conservar originales de logs solo en almacenamiento privado.
@@ -226,7 +235,15 @@ No instalar herramientas opcionales ni activar red indiscriminadamente ante un f
 5. **G4:** dispositivo/ABI/aislamiento verificados → ejecutar originales.
 6. **G5:** ejecución o bloqueo reproducible + integridad final → decidir siguiente investigación.
 
-G4 no se aprueba por haber completado el análisis estático. Un bloqueo reproducible completa el diagnóstico de esa prueba, pero no equivale a aplicación funcional.
+G4 no se aprueba por haber completado el análisis estático. Un bloqueo reproducible completa el diagnóstico de esa prueba, pero no equivale a aplicación funcional. El informe estático de tarea 7 puede entregarse sin G4/G5; en ese caso la ejecución de referencia sigue pendiente.
+
+## Revisión del planteamiento (sin ejecutar las tareas)
+
+- [x] **Backend:** comprobada cabecera Unity `5.3.7p1`, 27 DLL y `libmono.so` ELF de 32 bits para ARM/x86; sin `libil2cpp.so` ni `global-metadata.dat` en el árbol `unpacked` inspeccionado. REA clasifica `Assembly-UnityScript.dll` como `unity-mono`, CIL/AnyCPU y CLR `v2.0.50727`: evidencia `ev_1e5bcf80b49bf85318c2b791159be1bfb9a3129aeac1868384e08b0bf05d870d`, SHA-256 `9d4cf1495e59d4590afadde427a885823d0c257aacf86e159d40044e7219138e`. El PE de la DLL no determina la ABI nativa de Android.
+- [x] **Staging:** reinventariados 176 grupos / 766 fragmentos, secuencias continuas, 175 tamaños serializados v15 coincidentes y `sharedassets94.resource` FSB5; 7.943 archivos hexadecimales y cero colisiones de rutas APK/OBB. No se reensamblaron ni validaron todos los objetos.
+- [x] **Herramientas:** ayuda instalada de ILSpyCmd 11.1.0.9782 contrastada para `-p`, `-r`, `-il` y `--disable-updatecheck`; muestras previas ILSpy/AssetRipper y fallo UnityPy conservados como evidencia previa, no como pruebas nuevas del conjunto completo.
+- [x] **Operatividad:** corregidas dependencia del plan eliminado, resolución de entradas/herramientas entre worktrees, exclusión de salidas de Git y tratamiento de capacidades parciales; se mantienen las siete tareas y herramientas originales.
+- [x] **Límites:** revisión estática, sin instalar ni ejecutar el APK. REA admitió la cabecera CLI de `Assembly-CSharp.dll`, pero su inventario de metadatos quedó parcial por presupuesto de representación de 64 MiB (`ev_4bdd2477ebcfe472c8aab18edc3f5e6a9a24a54cda4acd9f32ca9e15d897b8ad`); no prueba corrupción ni invalida la vía ILSpy. La decompilación completa, exportación fiel y ejecución funcional siguen sin probarse.
 
 ## Fuentes operativas
 
