@@ -8,7 +8,8 @@ from tools.export_samples import export_samples, property_map, safe_name
 class SampleExportTests(unittest.TestCase):
     def test_safe_output_names(self):
         self.assertEqual(safe_name("School_menu_bench2"), "School_menu_bench2")
-        for value in ("../outside", "a/b", "a\\b", "a\nnewmtl", ""):
+        self.assertEqual(safe_name("PixelGun_2.0_map"), "PixelGun_2.0_map")
+        for value in ("../outside", "a/b", "a\\b", "a\nnewmtl", "", "..", "a..b", ".hidden"):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 safe_name(value)
 

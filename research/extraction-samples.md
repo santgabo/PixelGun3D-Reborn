@@ -1,7 +1,7 @@
 # Muestras exportadas y validación — fases 3–4
 
 ## Estado actual
-**Fase 3 completada.** Se exportaron una textura, una malla estática con material y un sonido. La importación, las UV, la textura y dos renders se comprobaron en Blender. **Fase 4 completada: el usuario confirmó que puede ver el modelo y la imagen y escuchar el sonido; las muestras están aprobadas. No se inició la extracción masiva.**
+**Fase 3 completada.** Se exportaron una textura, una malla estática con material y un sonido. La importación, las UV, la textura y dos renders se comprobaron en Blender. **Fase 4 completada: el usuario confirmó el banco y la Pixel Gun, modelo, imagen y sonido de cada una. No se inició la extracción masiva.**
 
 No hubo bloqueos de exportación para estas tres muestras. Los SHA256 del APK y el OBB siguen coincidiendo con los originales.
 
@@ -75,8 +75,45 @@ Las 23 pruebas originales pasaron al exportar las muestras. Después de migrar a
 
 Los recursos pertenecen al OBB, `assets/bin/Data/sharedassets104.assets`: Mesh pathID 34, Texture2D 17, Material 7 y AudioClip 41. El audio lee el rango 0–14.272 de `sharedassets104.resource`. Los hashes y rutas completas están en los informes. `sample-candidates.json` conserva la selección histórica de la fase 2.
 
+## Muestra de arma
+**Segunda pasada de las fases 3–4, sobre la Pixel Gun.** La muestra del banco no se sustituyó. El exportador ahora lee el candidato que se le indique y puede reunir malla, material, textura y audio cuando están en archivos distintos. La comprobación técnica pasó. **El usuario confirmó que ve el modelo y la textura PNG y que escucha el disparo.**
+
+| Recurso | Ruta |
+| --- | --- |
+| Modelo para Blender, con textura incrustada | `exports/samples-weapon/validation/PixlGun_Mesh.blend` |
+| Vista oblicua | `exports/samples-weapon/validation/PixlGun_Mesh.png` |
+| Otra vista | `exports/samples-weapon/validation/PixlGun_Mesh_back.png` |
+| Malla OBJ | `exports/samples-weapon/models/PixlGun_Mesh.obj` |
+| Material MTL | `exports/samples-weapon/models/PixlGun_Mesh.mtl` |
+| Textura PNG | `exports/samples-weapon/textures/PixelGun_2.0_map.png` |
+| Disparo WAV | `exports/samples-weapon/audio/PixlGun_Shoot.wav` |
+
+### Qué se exportó
+- `PixlGun_Mesh`: **394 vértices, 232 triángulos, 394 UV y 394 normales**. Posiciones, UV, normales y winding coinciden con el recurso, con la conversión de ejes de UnityPy.
+- La malla de origen tiene **3 poses de bind**. El OBJ es la pose de reposo. No se exportaron huesos, pesos ni los clips `Idle`, `Shoot`, `Reload` y `Walk` que están en el mismo archivo. Tampoco los brazos `FPS_PLAYER_Arm_*`.
+- La cadena comprobada en el inventario es `SkinnedMeshRenderer` pathID 28 del prefab `assets/bin/Data/f675018dbfd5c406fb3ad648a52a6e99` → malla pathID 4 → material `PixelGun_2.0_map` → textura del mismo nombre. Escala y offset de UV del material son 1 y 0.
+- Textura **64×64 RGB**, formato Unity 3, filtro Point. El PNG reabierto coincide con la imagen decodificada.
+- `PixlGun_Shoot.wav`: PCM 16 bits, mono, 44.100 Hz, **44.979 frames / 1,01993197 segundos**. `afinfo` reconoce esos parámetros. Hay señal, el pico es 0,82 y no hay muestras saturadas.
+- Blender 5.2.3 conserva la geometría y las UV, carga la textura y deja el arma completa en los dos encuadres. El `.blend` se reabrió en otra carpeta, sin el PNG externo, y la textura incrustada midió 64×64.
+
+El MTL solo guarda el color difuso blanco y la textura. No replica el shader original. No se comparó el resultado con una captura del juego.
+
+### Repetir esta muestra
+```bash
+uv run --locked -m tools.export_samples \
+  --candidate research/evidence/extraction/weapon-sample-candidates.json \
+  --output exports/samples-weapon-check
+
+uv run --locked /Applications/Blender.app/Contents/MacOS/Blender \
+  --background --factory-startup --disable-autoexec --offline-mode \
+  --python-exit-code 1 --python tools/validate_sample_blender.py \
+  -- --samples exports/samples-weapon-check
+```
+
+El destino tiene que ser nuevo. Informes: `exports/samples-weapon/manifest.json`, `exports/samples-weapon/validation/blender-check.json` y las copias `research/evidence/extraction/weapon-sample-export.json`, `weapon-sample-blender-check.json` y `weapon-sample-validation-summary.json`. La selección está en `weapon-sample-candidates.json`.
+
 ## Siguiente paso
-El usuario ya aprobó el modelo, la imagen y el sonido. Tras la preparación de uv y Git, el siguiente trabajo será la extracción por lotes manteniendo procedencia, nombres sin colisiones y registro de fallos por recurso. La cobertura restante se validará por tipos y formatos, sin prometer recuperación total.
+El usuario aprobó el banco y la Pixel Gun: modelo, imagen y sonido de cada una. El trabajo que sigue es la extracción por lotes, con procedencia, nombres sin colisiones y registro de fallos por recurso. La cobertura restante se validará por tipos y formatos, sin prometer recuperación total.
 
 ## Fuentes técnicas
 - Exportación UnityPy: https://github.com/K0lb3/UnityPy#important-object-types

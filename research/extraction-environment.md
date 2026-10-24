@@ -1,7 +1,7 @@
 # Entorno de extracción — proyecto uv
 
 ## Estado
-**Gestionado íntegramente como proyecto uv.** El usuario ya confirmó que el modelo, el sonido y la imagen de las muestras funcionan. El inventario y las muestras siguen intactos; la extracción masiva no ha comenzado.
+**Gestionado íntegramente como proyecto uv.** El usuario confirmó el modelo, la textura y el sonido del banco y de la Pixel Gun. El inventario y las muestras siguen intactos; la extracción masiva no ha comenzado.
 
 | Componente | Configuración verificada |
 | --- | --- |

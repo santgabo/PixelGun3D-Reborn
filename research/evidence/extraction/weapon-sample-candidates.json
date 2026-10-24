@@ -1,0 +1,46 @@
+{
+  "status": "selected_for_weapon_sample",
+  "label": "PixlGun",
+  "archive": "main.1191.com.pixel.gun3d.obb",
+  "archive_id": "obb",
+  "logical_path": "assets/bin/Data/47f34ace77a313c4e9cbfa48107beff5",
+  "mesh": {
+    "path_id": 4,
+    "name": "PixlGun_Mesh",
+    "vertex_count": 394,
+    "submesh_count": 1,
+    "bind_pose_count": 3,
+    "material_name": "PixelGun_2.0_map",
+    "material_archive_id": "obb",
+    "material_logical_path": "assets/bin/Data/6495c4fa7f0656d4284654a5dce5a92e",
+    "material_path_id": 1,
+    "renderer_archive_id": "obb",
+    "renderer_logical_path": "assets/bin/Data/f675018dbfd5c406fb3ad648a52a6e99",
+    "renderer_path_id": 28,
+    "renderer_type": "SkinnedMeshRenderer",
+    "static_rest_pose_only": true
+  },
+  "texture": {
+    "archive_id": "obb",
+    "logical_path": "assets/bin/Data/bb9c08d0a2b036641874e7977d1b5c66",
+    "path_id": 1,
+    "name": "PixelGun_2.0_map",
+    "width": 64,
+    "height": 64,
+    "unity_texture_format": 3,
+    "filter_mode": 0
+  },
+  "audio": {
+    "archive_id": "obb",
+    "logical_path": "assets/bin/Data/bbf7b2eeb07f36447b71815024142b60",
+    "path_id": 1,
+    "name": "PixlGun_Shoot",
+    "duration_seconds_from_metadata": 1.0199320316314697,
+    "channels": 1,
+    "frequency": 44100,
+    "resource_path": "assets/bin/Data/bbf7b2eeb07f36447b71815024142b60.resource",
+    "resource_offset": 0,
+    "resource_size": 4832,
+    "range_verified_in_inventory": true
+  }
+}

@@ -1,14 +1,14 @@
 {
   "status": "ok",
   "scope": "phase_1_environment_only",
-  "checked_at_utc": "2026-10-24T00:15:03.521541+00:00",
+  "checked_at_utc": "2026-10-24T19:43:11.350073+00:00",
   "python": "3.12.15",
   "executable": "/Users/santgabo/Projects/PixelGun3D/.venv/bin/python",
   "environment_manager": "uv",
   "uv_lock_sha256": "984b44c29438d883028ce9712de91fc243acc12c7e0fe97a315b22a3c744cc0e",
   "platform": "macOS-27.0.1-arm64-arm-64bit",
   "machine": "arm64",
-  "disk_free_bytes": 284051308544,
+  "disk_free_bytes": 288338092032,
   "dependencies": {
     "UnityPy": "1.25.4",
     "archspec": "0.2.6",

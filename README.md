@@ -31,6 +31,10 @@ No se incluyen en Git ni se descargan del juego. Sus SHA256 esperados están en 
 uv run --locked tools/prepare_assets.py
 uv run --locked -m tools.inventory_assets
 uv run --locked -m tools.export_samples
+# Arma ya exportada en exports/samples-weapon/; otro destino si se repite:
+# uv run --locked -m tools.export_samples \
+#   --candidate research/evidence/extraction/weapon-sample-candidates.json \
+#   --output exports/samples-weapon-check
 
 # Opcional: validar las muestras con Blender ya instalado en macOS.
 uv run --locked /Applications/Blender.app/Contents/MacOS/Blender \
@@ -42,9 +46,9 @@ Blender utiliza su Python integrado para `bpy`; se lanza a través de `uv run`, 
 
 ## Estado
 
-Entorno, inventario y muestras completados. El usuario confirmó que el modelo, la textura y el sonido funcionan. La extracción masiva aún no se ha iniciado.
+Entorno, inventario y las dos muestras completados. El usuario confirmó el banco y la Pixel Gun: modelo, textura y sonido de cada una. La extracción masiva aún no se ha iniciado.
 
-Las muestras existentes están en `exports/samples/`; el modelo autónomo para Blender es `validation/School_menu_bench2.blend`. Los resultados se regeneran localmente y no se versionan.
+Las muestras del banco están en `exports/samples/`; el modelo autónomo es `validation/School_menu_bench2.blend`. El arma está en `exports/samples-weapon/validation/PixlGun_Mesh.blend`. Los resultados se regeneran localmente y no se versionan.
 
 - [Plan general y checklist](docs/iterations/0001-extraccion-de-recursos.md)
 - [Entorno y comandos uv](research/extraction-environment.md)

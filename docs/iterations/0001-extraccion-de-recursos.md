@@ -35,9 +35,20 @@ Las casillas marcadas están completadas. Las demás son los pasos que faltan.
 - [ ] Revisar los resultados y entregar un resumen de archivos recuperados, fallos y limitaciones.
 
 ## Dónde estamos y qué sigue
-**Las etapas 1–4 están completadas. La etapa 5 todavía no ha empezado.**
+**Las etapas 1–4 están completadas para el banco y para la Pixel Gun. La etapa 5 todavía no ha empezado.**
 
-El siguiente paso es preparar la extracción por lotes. No hay que repetir el entorno, el inventario ni las muestras ya aprobadas. Las muestras se conservan en `exports/samples/`; los resultados masivos irán en `exports/bulk/`.
+El usuario confirmó las dos muestras: ve el modelo y la textura y escucha el sonido. La del arma está en `exports/samples-weapon/`. Esa confirmación cierra las pruebas; la extracción masiva sigue el checklist de la etapa 5.
+
+El siguiente paso es preparar la extracción por lotes. No hay que repetir el entorno ni el inventario. Las muestras del banco se conservan en `exports/samples/`; los resultados masivos irán en `exports/bulk/`.
+
+## Muestra de arma
+Se reutilizó el entorno uv y el inventario ya preparado. No se volvieron a copiar el APK ni el OBB.
+
+- [x] Comprobar de nuevo Python, uv y la lectura de ambos paquetes.
+- [x] Elegir en el inventario una malla de arma con material, textura y sonido localizables.
+- [x] Exportar la textura PNG, el OBJ con MTL y el WAV del disparo.
+- [x] Comprobar el modelo y la textura en Blender, incluido el `.blend` sin el PNG externo.
+- [x] Confirmar con el usuario que el modelo y la imagen se ven y el disparo se escucha.
 
 ## Documentación de apoyo
 - [Entorno uv](../../research/extraction-environment.md).

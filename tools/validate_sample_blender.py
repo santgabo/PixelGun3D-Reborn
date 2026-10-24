@@ -78,7 +78,9 @@ def inspect_import(samples):
                 raise ValueError("Blender está usando una textura diferente")
             if not node.outputs["Color"].is_linked:
                 raise ValueError("La textura no está conectada al material")
-            node.interpolation = "Closest"  # La textura elegida usa Point en Unity (filter mode 0).
+            # filter_mode 0 es Point en Unity. Las muestras anteriores no guardaban el campo y también eran Point.
+            filter_mode = manifest["texture"].get("filter_mode", 0)
+            node.interpolation = "Closest" if filter_mode == 0 else "Linear"
             images.append(image)
     if len(images) != 1 or any(p.material_index >= len(obj.material_slots) for p in mesh.polygons):
         raise ValueError("Asignación de textura/material inesperada")
@@ -87,11 +89,12 @@ def inspect_import(samples):
     report = {"vertices": len(mesh.vertices), "triangles": len(mesh.polygons),
               "uv_corners": len(imported_uv), "material_count": len(obj.material_slots),
               "image_size": list(images[0].size), "geometry_and_uv_match_obj": True,
-              "texture_loaded_and_connected": True, "armatures": 0, "actions": 0}
-    return obj, images, report
+              "texture_loaded_and_connected": True, "armatures": 0, "actions": 0,
+              "preview_filter": "Closest" if manifest["texture"].get("filter_mode", 0) == 0 else "Linear"}
+    return obj, images, report, manifest
 
 
-def render_preview(obj, images, output):
+def render_preview(obj, images, output, mesh_name, texture_path):
     scene = bpy.context.scene
     corners = [obj.matrix_world @ Vector(corner) for corner in obj.bound_box]
     low = Vector(tuple(min(v[i] for v in corners) for i in range(3)))
@@ -117,8 +120,8 @@ def render_preview(obj, images, output):
     scene.render.image_settings.file_format = "PNG"
     scene.view_settings.view_transform = "Standard"
     front_rotation, frames = None, {}
-    for name, offset in [("School_menu_bench2.png", (1.2, -1.5, 1)),
-                         ("School_menu_bench2_back.png", (-1.2, 1.5, 1))]:
+    for name, offset in [(f"{mesh_name}.png", (1.2, -1.5, 1)),
+                         (f"{mesh_name}_back.png", (-1.2, 1.5, 1))]:
         camera.location = center + Vector(offset) * span
         camera.rotation_euler = (center - camera.location).to_track_quat("-Z", "Y").to_euler()
         camera.data.ortho_scale = 1.0
@@ -135,16 +138,16 @@ def render_preview(obj, images, output):
         scene.render.filepath = str(output / name)
         bpy.ops.render.render(write_still=True)
     camera.location, camera.rotation_euler, camera.data.ortho_scale = front_rotation
-    scene.render.filepath = "//School_menu_bench2.png"
+    scene.render.filepath = f"//{mesh_name}.png"
     for image in images:
         image.pack()
-        image.filepath = "//../textures/school_menu_atlas.png"
+        image.filepath = f"//../{texture_path}"
     for screen in bpy.data.screens:
         for area in screen.areas:
             if area.type == "VIEW_3D":
                 area.spaces.active.shading.type = "MATERIAL"
                 area.spaces.active.region_3d.view_perspective = "CAMERA"
-    bpy.ops.wm.save_as_mainfile(filepath=str(output / "School_menu_bench2.blend"), relative_remap=False)
+    bpy.ops.wm.save_as_mainfile(filepath=str(output / f"{mesh_name}.blend"), relative_remap=False)
     return frames
 
 
@@ -156,16 +159,17 @@ def main():
     output = samples / "validation"
     if output.exists():
         raise FileExistsError(f"No se sobrescribe una validación existente: {output}")
-    obj, images, report = inspect_import(samples)
+    obj, images, report, manifest = inspect_import(samples)
+    mesh_name = Path(manifest["mesh"]["path"]).stem
     with tempfile.TemporaryDirectory(prefix="validation-", dir=samples) as temporary:
         staging = Path(temporary) / "validation"
         staging.mkdir()
-        frames = render_preview(obj, images, staging)
+        frames = render_preview(obj, images, staging, mesh_name, manifest["texture"]["path"])
         report.update({"status": "blender_import_and_render_passed", "blender_version": bpy.app.version_string,
                        "preview_frame_bounds": frames, "preview_fully_in_frame": True,
                        "created_at_utc": datetime.now(timezone.utc).isoformat(),
                        "texture_packed_in_blend": all(image.packed_file is not None for image in images),
-                       "renderer": bpy.context.scene.render.engine, "preview_filter": "Closest",
+                       "renderer": bpy.context.scene.render.engine, "preview_filter": report["preview_filter"],
                        "game_scene_reconstructed": False, "game_visual_fidelity_not_compared": True,
                        "visual_review_pending": True, "manual_listening_pending": True})
         report["files"] = [{"path": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),

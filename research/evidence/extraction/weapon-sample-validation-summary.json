@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "sample_root": "exports/samples-weapon",
+  "label": "PixlGun",
+  "technical_export_checks": "passed",
+  "blender_import_render_and_packed_reopen": "passed",
+  "operator_render_review": "both previews show the pixel pistol mesh with its texture",
+  "manual_audio_listening": "confirmed_by_user",
+  "user_sample_approval": "confirmed",
+  "in_game_appearance_comparison": "not_performed",
+  "skeleton_and_animations_exported": false,
+  "phase_5": "not_started",
+  "user_confirmation": {
+    "recorded_at_utc": "2026-10-24T20:18:08.924398+00:00",
+    "source": "explicit_user_confirmation_in_conversation",
+    "model_visible": true,
+    "image_visible": true,
+    "audio_audible": true,
+    "sample_approval": "confirmed"
+  }
+}

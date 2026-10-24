@@ -1,0 +1,64 @@
+{
+  "vertices": 394,
+  "triangles": 232,
+  "uv_corners": 696,
+  "material_count": 1,
+  "image_size": [
+    64,
+    64
+  ],
+  "geometry_and_uv_match_obj": true,
+  "texture_loaded_and_connected": true,
+  "armatures": 0,
+  "actions": 0,
+  "preview_filter": "Closest",
+  "status": "blender_import_and_render_passed",
+  "blender_version": "5.2.3 LTS",
+  "preview_frame_bounds": {
+    "PixlGun_Mesh.png": {
+      "min": [
+        0.3244454562664032,
+        0.06521737575531006
+      ],
+      "max": [
+        0.6755545735359192,
+        0.9347825050354004
+      ]
+    },
+    "PixlGun_Mesh_back.png": {
+      "min": [
+        0.32444527745246887,
+        0.06521739810705185
+      ],
+      "max": [
+        0.6755542159080505,
+        0.9347821474075317
+      ]
+    }
+  },
+  "preview_fully_in_frame": true,
+  "created_at_utc": "2026-10-24T19:45:28.045214+00:00",
+  "texture_packed_in_blend": true,
+  "renderer": "BLENDER_EEVEE",
+  "game_scene_reconstructed": false,
+  "game_visual_fidelity_not_compared": true,
+  "visual_review_pending": true,
+  "manual_listening_pending": true,
+  "files": [
+    {
+      "path": "PixlGun_Mesh.blend",
+      "sha256": "a4659126b67f9651df12b0045c24fbf7a60cb662d2fc134318d47e355f1c0113",
+      "size_bytes": 99386
+    },
+    {
+      "path": "PixlGun_Mesh.png",
+      "sha256": "8a98e26382378714567c8875122a53f48eef185b7cdf3cb28eae01db2d459910",
+      "size_bytes": 242005
+    },
+    {
+      "path": "PixlGun_Mesh_back.png",
+      "sha256": "506c69b1d7be00352fe8b14396ec3ddabad2386526d143d2e4a0678666011c0b",
+      "size_bytes": 248596
+    }
+  ]
+}
