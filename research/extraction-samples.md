@@ -1,7 +1,7 @@
 # Muestras exportadas y validación — fases 3–4
 
 ## Estado actual
-**Fase 3 completada.** Se exportaron una textura, una malla estática con material y un sonido. La importación, las UV, la textura y dos renders se comprobaron en Blender. **Fase 4 completada: el usuario confirmó el banco y la Pixel Gun, modelo, imagen y sonido de cada una. No se inició la extracción masiva.**
+**Fase 3 completada.** Se exportaron una textura, una malla estática con material y un sonido. La importación, las UV, la textura y dos renders se comprobaron en Blender. **Fase 4 completada: el usuario confirmó el banco y la Pixel Gun, modelo, imagen y sonido de cada una.** La extracción masiva posterior está en [extraction-bulk.md](extraction-bulk.md).
 
 No hubo bloqueos de exportación para estas tres muestras. Los SHA256 del APK y el OBB siguen coincidiendo con los originales.
 
@@ -113,7 +113,7 @@ uv run --locked /Applications/Blender.app/Contents/MacOS/Blender \
 El destino tiene que ser nuevo. Informes: `exports/samples-weapon/manifest.json`, `exports/samples-weapon/validation/blender-check.json` y las copias `research/evidence/extraction/weapon-sample-export.json`, `weapon-sample-blender-check.json` y `weapon-sample-validation-summary.json`. La selección está en `weapon-sample-candidates.json`.
 
 ## Siguiente paso
-El usuario aprobó el banco y la Pixel Gun: modelo, imagen y sonido de cada una. El trabajo que sigue es la extracción por lotes, con procedencia, nombres sin colisiones y registro de fallos por recurso. La cobertura restante se validará por tipos y formatos, sin prometer recuperación total.
+El usuario aprobó el banco y la Pixel Gun. Esa aprobación se usó como referencia de la extracción masiva, que ya está hecha y resumida en [extraction-bulk.md](extraction-bulk.md).
 
 ## Fuentes técnicas
 - Exportación UnityPy: https://github.com/K0lb3/UnityPy#important-object-types

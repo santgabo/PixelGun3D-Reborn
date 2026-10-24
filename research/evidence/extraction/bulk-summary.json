@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "profile": "all",
+  "created_at_utc": "2026-10-24T21:54:36.962107+00:00",
+  "started_at_utc": "2026-10-24T21:54:22.285947+00:00",
+  "unitypy": "1.25.4",
+  "pillow": "13.0.0",
+  "items": {
+    "texture": {
+      "ok": 3328,
+      "failed": 0,
+      "skipped": 12
+    },
+    "sprite": {
+      "ok": 47,
+      "failed": 0,
+      "skipped": 0
+    },
+    "audio": {
+      "ok": 1106,
+      "failed": 0,
+      "skipped": 0
+    },
+    "mesh": {
+      "ok": 4620,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "recovered_items": 9101,
+  "failed_items": 0,
+  "output_files": 16043,
+  "output_bytes": 6342223134,
+  "this_run": {
+    "ok": 3
+  },
+  "skip_and_failure_reasons": [
+    [
+      "textura sin dimensiones",
+      12
+    ]
+  ],
+  "limitations": [
+    [
+      "no_renderer",
+      2773
+    ],
+    [
+      "rest_pose_only",
+      697
+    ],
+    [
+      "multiple_material_assignments",
+      165
+    ],
+    [
+      "material_unresolved",
+      111
+    ],
+    [
+      "material_slot_mismatch",
+      105
+    ],
+    [
+      "vertex_colors_not_exported",
+      103
+    ],
+    [
+      "no_normals",
+      68
+    ],
+    [
+      "tight_mesh_not_applied",
+      44
+    ],
+    [
+      "uv_offset",
+      8
+    ],
+    [
+      "uv_scale",
+      7
+    ],
+    [
+      "no_main_texture",
+      4
+    ],
+    [
+      "no_uv",
+      4
+    ],
+    [
+      "non_finite_coordinates_replaced",
+      2
+    ]
+  ],
+  "outputs_rechecked": true,
+  "mismatched_items": [],
+  "original_sha256": {
+    "Pixel Gun 3D [11.3.1].apk": "2e78ca8a1745f0d3052a8c327fd9bd5731de5499992bb9d8e928893b7ea52f25",
+    "main.1191.com.pixel.gun3d.obb": "fbb7e388d400310060862104ee419e704205fd37d35fffb28aba0512a37fc6f8"
+  },
+  "original_hashes_rechecked": true,
+  "notes": [
+    "Los nombres repetidos se distinguen con paquete, ruta de origen y path_id.",
+    "Una reanudación no repite un item ok cuyo archivo conserva el SHA256.",
+    "Los items fallidos se reintentan. Los omitidos de forma determinista, no.",
+    "No se exportan esqueletos, pesos, animaciones, cubemaps ni fuentes.",
+    "El MTL guarda tinte y textura principal. El shader original no se reproduce.",
+    "La escala y el desplazamiento de UV van en map_Kd; hay visores que los ignoran."
+  ]
+}

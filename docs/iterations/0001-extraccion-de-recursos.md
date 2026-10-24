@@ -26,20 +26,20 @@ Las casillas marcadas están completadas. Las demás son los pasos que faltan.
 - [x] Confirmar con el usuario que el modelo y la imagen se ven y el sonido se escucha correctamente.
 
 ### 5. Preparar y ejecutar la extracción masiva
-- [ ] Adaptar las herramientas para extraer varios recursos por lotes.
-- [ ] Organizar las salidas por tipo y evitar sobrescribir recursos con nombres repetidos.
-- [ ] Registrar qué se exportó, de dónde salió y qué falló.
-- [ ] Poder reanudar la extracción sin repetir archivos ya comprobados.
-- [ ] Probar un lote pequeño y revisar sus resultados antes de escalar.
-- [ ] Ejecutar la extracción masiva.
-- [ ] Revisar los resultados y entregar un resumen de archivos recuperados, fallos y limitaciones.
+- [x] Adaptar las herramientas para extraer varios recursos por lotes.
+- [x] Organizar las salidas por tipo y evitar sobrescribir recursos con nombres repetidos.
+- [x] Registrar qué se exportó, de dónde salió y qué falló.
+- [x] Poder reanudar la extracción sin repetir archivos ya comprobados.
+- [x] Probar un lote pequeño y revisar sus resultados antes de escalar.
+- [x] Ejecutar la extracción masiva.
+- [x] Revisar los resultados y entregar un resumen de archivos recuperados, fallos y limitaciones.
 
 ## Dónde estamos y qué sigue
-**Las etapas 1–4 están completadas para el banco y para la Pixel Gun. La etapa 5 todavía no ha empezado.**
+**Las etapas 1–5 están completadas.** El usuario confirmó el banco y la Pixel Gun. La extracción masiva está en `exports/bulk/`.
 
-El usuario confirmó las dos muestras: ve el modelo y la textura y escucha el sonido. La del arma está en `exports/samples-weapon/`. Esa confirmación cierra las pruebas; la extracción masiva sigue el checklist de la etapa 5.
+No hay que repetir el entorno ni el inventario. Las muestras del banco siguen en `exports/samples/`; las del arma, en `exports/samples-weapon/`. El resumen de la extracción masiva está en [extraction-bulk.md](../../research/extraction-bulk.md).
 
-El siguiente paso es preparar la extracción por lotes. No hay que repetir el entorno ni el inventario. Las muestras del banco se conservan en `exports/samples/`; los resultados masivos irán en `exports/bulk/`.
+La conversión de esos OBJ a GLB para el navegador está planificada en la [iteración 0002](0002-conversion-obj-a-glb.md) y no ha empezado.
 
 ## Muestra de arma
 Se reutilizó el entorno uv y el inventario ya preparado. No se volvieron a copiar el APK ni el OBB.
@@ -54,5 +54,6 @@ Se reutilizó el entorno uv y el inventario ya preparado. No se volvieron a copi
 - [Entorno uv](../../research/extraction-environment.md).
 - [Inventario](../../research/extraction-inventory.md).
 - [Muestras y validación](../../research/extraction-samples.md).
+- [Extracción masiva](../../research/extraction-bulk.md).
 
 Las muestras aprobadas no garantizan que todos los recursos sean exportables ni que su apariencia sea idéntica a la del juego. Cualquier limitación debe quedar registrada.

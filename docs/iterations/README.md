@@ -1,5 +1,6 @@
 # Planes de trabajo
 
 - [Plan general de extracción y checklist](0001-extraccion-de-recursos.md).
+- [Plan de conversión OBJ a GLB](0002-conversion-obj-a-glb.md).
 
-**Estado:** entorno, inventario y muestras completados. Falta preparar y ejecutar la extracción masiva.
+**Estado:** la extracción masiva está completada. La conversión a GLB está planificada y no ha empezado.

@@ -7,8 +7,8 @@ El alcance acordado es extraer **mallas estáticas, texturas e imágenes y sonid
 - [Fase 1 completada: entorno aislado](extraction-environment.md).
 - [Fase 2 completada: inventario y referencias](extraction-inventory.md).
 - [Fases 3–4 completadas y muestras aprobadas por el usuario](extraction-samples.md).
+- [Fase 5 completada: extracción masiva](extraction-bulk.md).
 - [Política de Git y LFS](../docs/adr/0001-versionar-herramientas-no-binarios.md); proyecto gestionado con `uv`.
-- **Siguiente paso:** preparar la extracción por lotes; todavía no iniciada.
 
 ## Investigación previa: menú y tienda originales en desktop
 Lo que sigue conserva la investigación inicial y sus recomendaciones históricas; restaurar el proyecto o las escenas **no forma parte del trabajo actual**.

@@ -40,20 +40,25 @@ uv run --locked -m tools.export_samples
 uv run --locked /Applications/Blender.app/Contents/MacOS/Blender \
   --background --factory-startup --disable-autoexec --offline-mode \
   --python-exit-code 1 --python tools/validate_sample_blender.py
+
+# La extracción masiva reanuda exports/bulk/ y no repite lo ya comprobado.
+uv run --locked -m tools.export_bulk --output exports/bulk
 ```
 
 Blender utiliza su Python integrado para `bpy`; se lanza a través de `uv run`, pero no se instala `bpy` en el entorno del extractor. No se necesita Unity Editor.
 
 ## Estado
 
-Entorno, inventario y las dos muestras completados. El usuario confirmó el banco y la Pixel Gun: modelo, textura y sonido de cada una. La extracción masiva aún no se ha iniciado.
+Entorno, inventario, muestras y extracción masiva completados. El usuario confirmó el banco y la Pixel Gun: modelo, textura y sonido de cada una. Los resultados masivos están en `exports/bulk/`.
 
 Las muestras del banco están en `exports/samples/`; el modelo autónomo es `validation/School_menu_bench2.blend`. El arma está en `exports/samples-weapon/validation/PixlGun_Mesh.blend`. Los resultados se regeneran localmente y no se versionan.
 
 - [Plan general y checklist](docs/iterations/0001-extraccion-de-recursos.md)
+- [Plan de conversión OBJ a GLB](docs/iterations/0002-conversion-obj-a-glb.md)
 - [Entorno y comandos uv](research/extraction-environment.md)
 - [Inventario](research/extraction-inventory.md)
 - [Pruebas de exportación y validación](research/extraction-samples.md)
+- [Extracción masiva](research/extraction-bulk.md)
 - [Política de Git y decisión sobre LFS](docs/adr/0001-versionar-herramientas-no-binarios.md)
 
 La extracción no concede derechos de redistribución o reutilización de los recursos del juego.
