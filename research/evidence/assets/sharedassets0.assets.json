@@ -1,0 +1,1127 @@
+{
+  "file": "sharedassets0.assets",
+  "header": {
+    "engine": "5.3.7p1",
+    "platform": 13,
+    "types": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8,
+      -7,
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      -1,
+      1,
+      4,
+      20,
+      21,
+      23,
+      28,
+      33,
+      43,
+      48,
+      54,
+      108,
+      128,
+      150
+    ],
+    "objects": [
+      {
+        "id": 1,
+        "offset": 4096,
+        "size": 276,
+        "type": 150,
+        "tid": 150,
+        "script": -1
+      },
+      {
+        "id": 2,
+        "offset": 4376,
+        "size": 124,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 3,
+        "offset": 4504,
+        "size": 128,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 4,
+        "offset": 4632,
+        "size": 404,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 5,
+        "offset": 5040,
+        "size": 452,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 6,
+        "offset": 5496,
+        "size": 432,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 7,
+        "offset": 5928,
+        "size": 128,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 8,
+        "offset": 6056,
+        "size": 524376,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 9,
+        "offset": 530432,
+        "size": 8276,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 10,
+        "offset": 538712,
+        "size": 14856,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 11,
+        "offset": 553568,
+        "size": 248,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 12,
+        "offset": 553816,
+        "size": 9232,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 13,
+        "offset": 563048,
+        "size": 524380,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 14,
+        "offset": 1087432,
+        "size": 88,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 15,
+        "offset": 1087520,
+        "size": 14856,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 16,
+        "offset": 1102376,
+        "size": 4194392,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 17,
+        "offset": 5296768,
+        "size": 6220884,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 18,
+        "offset": 11517656,
+        "size": 1048668,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 19,
+        "offset": 12566328,
+        "size": 588,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 20,
+        "offset": 12566920,
+        "size": 1164,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 21,
+        "offset": 12568088,
+        "size": 45328,
+        "type": 48,
+        "tid": 48,
+        "script": -1
+      },
+      {
+        "id": 22,
+        "offset": 12613416,
+        "size": 8372,
+        "type": 48,
+        "tid": 48,
+        "script": -1
+      },
+      {
+        "id": 23,
+        "offset": 12621792,
+        "size": 2832,
+        "type": 48,
+        "tid": 48,
+        "script": -1
+      },
+      {
+        "id": 24,
+        "offset": 12624624,
+        "size": 1764,
+        "type": 48,
+        "tid": 48,
+        "script": -1
+      },
+      {
+        "id": 25,
+        "offset": 12626392,
+        "size": 1556,
+        "type": 48,
+        "tid": 48,
+        "script": -1
+      },
+      {
+        "id": 26,
+        "offset": 12627952,
+        "size": 39248,
+        "type": 128,
+        "tid": 128,
+        "script": -1
+      },
+      {
+        "id": 27,
+        "offset": 12667200,
+        "size": 59,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 28,
+        "offset": 12667264,
+        "size": 99,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 29,
+        "offset": 12667368,
+        "size": 59,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 30,
+        "offset": 12667432,
+        "size": 63,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 31,
+        "offset": 12667496,
+        "size": 59,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 32,
+        "offset": 12667560,
+        "size": 71,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 33,
+        "offset": 12667632,
+        "size": 59,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 34,
+        "offset": 12667696,
+        "size": 67,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 35,
+        "offset": 12667768,
+        "size": 67,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 36,
+        "offset": 12667840,
+        "size": 63,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 37,
+        "offset": 12667904,
+        "size": 47,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 38,
+        "offset": 12667952,
+        "size": 59,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 39,
+        "offset": 12668016,
+        "size": 67,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 40,
+        "offset": 12668088,
+        "size": 71,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 41,
+        "offset": 12668160,
+        "size": 71,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 42,
+        "offset": 12668232,
+        "size": 55,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 43,
+        "offset": 12668288,
+        "size": 71,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 44,
+        "offset": 12668360,
+        "size": 71,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 45,
+        "offset": 12668432,
+        "size": 47,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 46,
+        "offset": 12668480,
+        "size": 75,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 47,
+        "offset": 12668560,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 48,
+        "offset": 12668632,
+        "size": 80,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 49,
+        "offset": 12668712,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 50,
+        "offset": 12668784,
+        "size": 80,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 51,
+        "offset": 12668864,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 52,
+        "offset": 12668936,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 53,
+        "offset": 12669008,
+        "size": 104,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 54,
+        "offset": 12669112,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 55,
+        "offset": 12669184,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 56,
+        "offset": 12669256,
+        "size": 116,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 57,
+        "offset": 12669376,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 58,
+        "offset": 12669448,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 59,
+        "offset": 12669520,
+        "size": 80,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 60,
+        "offset": 12669600,
+        "size": 92,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 61,
+        "offset": 12669696,
+        "size": 104,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 62,
+        "offset": 12669800,
+        "size": 80,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 63,
+        "offset": 12669880,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 64,
+        "offset": 12669952,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 65,
+        "offset": 12670024,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 66,
+        "offset": 12670096,
+        "size": 80,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 67,
+        "offset": 12670176,
+        "size": 117,
+        "type": 20,
+        "tid": 20,
+        "script": -1
+      },
+      {
+        "id": 68,
+        "offset": 12670296,
+        "size": 128,
+        "type": 23,
+        "tid": 23,
+        "script": -1
+      },
+      {
+        "id": 69,
+        "offset": 12670424,
+        "size": 128,
+        "type": 23,
+        "tid": 23,
+        "script": -1
+      },
+      {
+        "id": 70,
+        "offset": 12670552,
+        "size": 24,
+        "type": 33,
+        "tid": 33,
+        "script": -1
+      },
+      {
+        "id": 71,
+        "offset": 12670576,
+        "size": 24,
+        "type": 33,
+        "tid": 33,
+        "script": -1
+      },
+      {
+        "id": 72,
+        "offset": 12670600,
+        "size": 36,
+        "type": 54,
+        "tid": 54,
+        "script": -1
+      },
+      {
+        "id": 73,
+        "offset": 12670640,
+        "size": 120,
+        "type": 108,
+        "tid": 108,
+        "script": -1
+      },
+      {
+        "id": 74,
+        "offset": 12670760,
+        "size": 692,
+        "type": 114,
+        "tid": -1,
+        "script": 7
+      },
+      {
+        "id": 75,
+        "offset": 12671456,
+        "size": 6204,
+        "type": 114,
+        "tid": -2,
+        "script": 8
+      },
+      {
+        "id": 76,
+        "offset": 12677664,
+        "size": 67088,
+        "type": 114,
+        "tid": -3,
+        "script": 6
+      },
+      {
+        "id": 77,
+        "offset": 12744752,
+        "size": 184,
+        "type": 114,
+        "tid": -4,
+        "script": 2
+      },
+      {
+        "id": 78,
+        "offset": 12744936,
+        "size": 236,
+        "type": 114,
+        "tid": -5,
+        "script": 1
+      },
+      {
+        "id": 79,
+        "offset": 12745176,
+        "size": 276,
+        "type": 114,
+        "tid": -6,
+        "script": 10
+      },
+      {
+        "id": 80,
+        "offset": 12745456,
+        "size": 344,
+        "type": 114,
+        "tid": -7,
+        "script": 11
+      },
+      {
+        "id": 81,
+        "offset": 12745800,
+        "size": 348,
+        "type": 114,
+        "tid": -7,
+        "script": 11
+      },
+      {
+        "id": 82,
+        "offset": 12746152,
+        "size": 276,
+        "type": 114,
+        "tid": -6,
+        "script": 10
+      },
+      {
+        "id": 83,
+        "offset": 12746432,
+        "size": 276,
+        "type": 114,
+        "tid": -6,
+        "script": 10
+      },
+      {
+        "id": 84,
+        "offset": 12746712,
+        "size": 212,
+        "type": 114,
+        "tid": -8,
+        "script": 9
+      },
+      {
+        "id": 85,
+        "offset": 12746928,
+        "size": 276,
+        "type": 114,
+        "tid": -6,
+        "script": 10
+      },
+      {
+        "id": 86,
+        "offset": 12747208,
+        "size": 9532,
+        "type": 114,
+        "tid": -9,
+        "script": 0
+      },
+      {
+        "id": 87,
+        "offset": 12756744,
+        "size": 68,
+        "type": 114,
+        "tid": -10,
+        "script": 4
+      },
+      {
+        "id": 88,
+        "offset": 12756816,
+        "size": 184,
+        "type": 114,
+        "tid": -11,
+        "script": 3
+      },
+      {
+        "id": 89,
+        "offset": 12757000,
+        "size": 212,
+        "type": 114,
+        "tid": -8,
+        "script": 9
+      },
+      {
+        "id": 90,
+        "offset": 12757216,
+        "size": 212,
+        "type": 114,
+        "tid": -8,
+        "script": 9
+      },
+      {
+        "id": 91,
+        "offset": 12757432,
+        "size": 352,
+        "type": 114,
+        "tid": -7,
+        "script": 11
+      },
+      {
+        "id": 92,
+        "offset": 12757784,
+        "size": 128,
+        "type": 114,
+        "tid": -12,
+        "script": 5
+      }
+    ],
+    "dataOffset": 4096,
+    "metadataEnd": 3309
+  },
+  "rows": [
+    {
+      "id": 8,
+      "offset": 6056,
+      "size": 524376,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "main_loading"
+    },
+    {
+      "id": 9,
+      "offset": 530432,
+      "size": 8276,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "teleport"
+    },
+    {
+      "id": 10,
+      "offset": 538712,
+      "size": 14856,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "slzh_base_n"
+    },
+    {
+      "id": 11,
+      "offset": 553568,
+      "size": 248,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "line"
+    },
+    {
+      "id": 12,
+      "offset": 553816,
+      "size": 9232,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "line_shadow"
+    },
+    {
+      "id": 13,
+      "offset": 563048,
+      "size": 524380,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "loading_cups_1"
+    },
+    {
+      "id": 14,
+      "offset": 1087432,
+      "size": 88,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "Font Texture"
+    },
+    {
+      "id": 15,
+      "offset": 1087520,
+      "size": 14856,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "slzh_base"
+    },
+    {
+      "id": 16,
+      "offset": 1102376,
+      "size": 4194392,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "GameAtlas"
+    },
+    {
+      "id": 17,
+      "offset": 5296768,
+      "size": 6220884,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "rilifon"
+    },
+    {
+      "id": 18,
+      "offset": 11517656,
+      "size": 1048668,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "RussoOneUIFont"
+    },
+    {
+      "id": 19,
+      "offset": 12566328,
+      "size": 588,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "Hedra001"
+    },
+    {
+      "id": 20,
+      "offset": 12566920,
+      "size": 1164,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "Hedra001"
+    },
+    {
+      "id": 21,
+      "offset": 12568088,
+      "size": 45328,
+      "type": 48,
+      "tid": 48,
+      "script": -1,
+      "name": "Illumin-Diffuse"
+    },
+    {
+      "id": 22,
+      "offset": 12613416,
+      "size": 8372,
+      "type": 48,
+      "tid": 48,
+      "script": -1,
+      "name": "Illumin-VertexLit"
+    },
+    {
+      "id": 23,
+      "offset": 12621792,
+      "size": 2832,
+      "type": 48,
+      "tid": 48,
+      "script": -1,
+      "name": "Mobile-Particle-Alpha"
+    },
+    {
+      "id": 24,
+      "offset": 12624624,
+      "size": 1764,
+      "type": 48,
+      "tid": 48,
+      "script": -1,
+      "name": "OutlineShader"
+    },
+    {
+      "id": 25,
+      "offset": 12626392,
+      "size": 1556,
+      "type": 48,
+      "tid": 48,
+      "script": -1,
+      "name": "Unlit - Transparent Colored"
+    },
+    {
+      "id": 26,
+      "offset": 12627952,
+      "size": 39248,
+      "type": 128,
+      "tid": 128,
+      "script": -1,
+      "name": "RussoOne-Regular"
+    },
+    {
+      "id": 27,
+      "offset": 12667200,
+      "size": 59,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "GameAtlas"
+    },
+    {
+      "id": 28,
+      "offset": 12667264,
+      "size": 99,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "ActivityIndicator"
+    },
+    {
+      "id": 29,
+      "offset": 12667368,
+      "size": 59,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "SpriteDarken"
+    },
+    {
+      "id": 30,
+      "offset": 12667432,
+      "size": 63,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "RussoOneUIFont"
+    },
+    {
+      "id": 31,
+      "offset": 12667496,
+      "size": 59,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "Area Light"
+    },
+    {
+      "id": 32,
+      "offset": 12667560,
+      "size": 71,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "teleport"
+    },
+    {
+      "id": 33,
+      "offset": 12667632,
+      "size": 59,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "LegendLabel"
+    },
+    {
+      "id": 34,
+      "offset": 12667696,
+      "size": 67,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "TextureFonLoading"
+    },
+    {
+      "id": 35,
+      "offset": 12667768,
+      "size": 67,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "LabelPercentProgress"
+    },
+    {
+      "id": 36,
+      "offset": 12667840,
+      "size": 63,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "TextureProgress"
+    },
+    {
+      "id": 37,
+      "offset": 12667904,
+      "size": 47,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "AnchorProgress"
+    },
+    {
+      "id": 38,
+      "offset": 12667952,
+      "size": 59,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "TextureFon"
+    },
+    {
+      "id": 39,
+      "offset": 12668016,
+      "size": 67,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "PanelWindowLoading"
+    },
+    {
+      "id": 40,
+      "offset": 12668088,
+      "size": 71,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "TextureFonLoadingSecond"
+    },
+    {
+      "id": 41,
+      "offset": 12668160,
+      "size": 71,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "teleport"
+    },
+    {
+      "id": 42,
+      "offset": 12668232,
+      "size": 55,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "RootGUI"
+    },
+    {
+      "id": 43,
+      "offset": 12668288,
+      "size": 71,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "Camera"
+    },
+    {
+      "id": 44,
+      "offset": 12668360,
+      "size": 71,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "PanelIndicatorLoading"
+    },
+    {
+      "id": 45,
+      "offset": 12668432,
+      "size": 47,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "AnchorIndicator"
+    },
+    {
+      "id": 46,
+      "offset": 12668480,
+      "size": 75,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "LabelLoading"
+    }
+  ]
+}

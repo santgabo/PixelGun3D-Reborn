@@ -1,0 +1,207 @@
+{
+  "file": "level0",
+  "header": {
+    "engine": "5.3.7p1",
+    "platform": 13,
+    "types": [
+      -6,
+      -5,
+      -4,
+      -3,
+      -2,
+      -1,
+      1,
+      4,
+      20,
+      81,
+      104,
+      157
+    ],
+    "objects": [
+      {
+        "id": 1,
+        "offset": 4096,
+        "size": 83,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 2,
+        "offset": 4184,
+        "size": 67,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 3,
+        "offset": 4256,
+        "size": 131,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 4,
+        "offset": 4392,
+        "size": 71,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 5,
+        "offset": 4464,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 6,
+        "offset": 4536,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 7,
+        "offset": 4608,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 8,
+        "offset": 4680,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 9,
+        "offset": 4752,
+        "size": 117,
+        "type": 20,
+        "tid": 20,
+        "script": -1
+      },
+      {
+        "id": 10,
+        "offset": 4872,
+        "size": 16,
+        "type": 81,
+        "tid": 81,
+        "script": -1
+      },
+      {
+        "id": 11,
+        "offset": 4888,
+        "size": 300,
+        "type": 104,
+        "tid": 104,
+        "script": -1
+      },
+      {
+        "id": 12,
+        "offset": 5192,
+        "size": 68,
+        "type": 157,
+        "tid": 157,
+        "script": -1
+      },
+      {
+        "id": 13,
+        "offset": 5264,
+        "size": 44,
+        "type": 114,
+        "tid": -1,
+        "script": 3
+      },
+      {
+        "id": 14,
+        "offset": 5312,
+        "size": 44,
+        "type": 114,
+        "tid": -2,
+        "script": 4
+      },
+      {
+        "id": 15,
+        "offset": 5360,
+        "size": 32,
+        "type": 114,
+        "tid": -3,
+        "script": 2
+      },
+      {
+        "id": 16,
+        "offset": 5392,
+        "size": 124,
+        "type": 114,
+        "tid": -4,
+        "script": 5
+      },
+      {
+        "id": 17,
+        "offset": 5520,
+        "size": 44,
+        "type": 114,
+        "tid": -5,
+        "script": 0
+      },
+      {
+        "id": 18,
+        "offset": 5568,
+        "size": 380,
+        "type": 114,
+        "tid": -6,
+        "script": 1
+      }
+    ],
+    "dataOffset": 4096,
+    "metadataEnd": 881
+  },
+  "rows": [
+    {
+      "id": 1,
+      "offset": 4096,
+      "size": 83,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "DeviceOrientationMonitor [Singleton]"
+    },
+    {
+      "id": 2,
+      "offset": 4184,
+      "size": 67,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "MiscAppsMenuScript"
+    },
+    {
+      "id": 3,
+      "offset": 4256,
+      "size": 131,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "AppsMenuController"
+    },
+    {
+      "id": 4,
+      "offset": 4392,
+      "size": 71,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "SceneLoader [Singleton]"
+    }
+  ]
+}

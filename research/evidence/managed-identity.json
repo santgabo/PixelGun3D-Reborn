@@ -1,0 +1,30 @@
+[
+  {
+    "archive": "/Users/santgabo/Projects/PixelGun3D/Pixel Gun 3D [11.3.1].apk",
+    "member": "assets/bin/Data/Managed/Assembly-CSharp.dll",
+    "path": "/var/folders/2c/pn00rp4d603djszy1j1njf5w0000gn/T/pg3d-logic-epbwll01/Assembly-CSharp.dll",
+    "size": 5514240,
+    "sha256": "57315485ae231478b42ae6b67203ba4e09bb52465d1b0cbdd1becfdc4c0bc93b"
+  },
+  {
+    "archive": "/Users/santgabo/Projects/PixelGun3D/Pixel Gun 3D [11.3.1].apk",
+    "member": "assets/bin/Data/Managed/Assembly-CSharp-firstpass.dll",
+    "path": "/var/folders/2c/pn00rp4d603djszy1j1njf5w0000gn/T/pg3d-logic-epbwll01/Assembly-CSharp-firstpass.dll",
+    "size": 296448,
+    "sha256": "caccd8b005eb23a8540ae55c4d1c600f02eb49fc6bb3299ba080995b0aa8d0c5"
+  },
+  {
+    "archive": "/Users/santgabo/Projects/PixelGun3D/Pixel Gun 3D [11.3.1].apk",
+    "member": "assets/bin/Data/Managed/Assembly-UnityScript.dll",
+    "path": "/var/folders/2c/pn00rp4d603djszy1j1njf5w0000gn/T/pg3d-logic-epbwll01/Assembly-UnityScript.dll",
+    "size": 17920,
+    "sha256": "9d4cf1495e59d4590afadde427a885823d0c257aacf86e159d40044e7219138e"
+  },
+  {
+    "archive": "/Users/santgabo/Projects/PixelGun3D/Pixel Gun 3D [11.3.1].apk",
+    "member": "assets/bin/Data/Managed/Assembly-UnityScript-firstpass.dll",
+    "path": "/var/folders/2c/pn00rp4d603djszy1j1njf5w0000gn/T/pg3d-logic-epbwll01/Assembly-UnityScript-firstpass.dll",
+    "size": 21504,
+    "sha256": "d9d1706e6fac8131c479c6f3e2b667d89d9ae0870ef3c4a53c1e128755ba6500"
+  }
+]

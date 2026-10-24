@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "checked_at_utc": "2026-10-24T00:15:53.788482+00:00",
+  "manager": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+  "python": "3.12.15",
+  "independent_environment": "work/uv-clean-check",
+  "uv_lock_sha256": "984b44c29438d883028ce9712de91fc243acc12c7e0fe97a315b22a3c744cc0e",
+  "dependency_versions": {
+    "UnityPy": "1.25.4",
+    "archspec": "0.2.6",
+    "astc_encoder_py": "0.1.12",
+    "attrs": "26.1.0",
+    "brotli": "1.2.1",
+    "etcpak": "0.9.15",
+    "fmod_toolkit": "0.1.3",
+    "fsspec": "2026.9.0",
+    "lz4": "4.4.5",
+    "pillow": "13.0.0",
+    "pyfmodex": "0.7.2",
+    "texture2ddecoder": "1.0.6",
+    "tpk_ar": "0.2.4"
+  },
+  "validated_dependency_versions_preserved": true,
+  "unit_tests_passed": 26,
+  "fresh_environment_sync_passed": true,
+  "sample_reexport_matches_accepted_files": true,
+  "verified_sample_files": [
+    "audio/Bells_lobby.wav",
+    "models/School_menu_bench2.mtl",
+    "models/School_menu_bench2.obj",
+    "textures/school_menu_atlas.png"
+  ],
+  "notes": [
+    "Proyecto uv no empaquetado; no se instala el código local como paquete.",
+    "Blender mantiene su Python integrado para bpy y se invoca mediante uv run."
+  ],
+  "blender_launch_through_uv_verified": true
+}

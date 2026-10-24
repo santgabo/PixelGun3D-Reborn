@@ -1,0 +1,126 @@
+{
+  "mesh": {
+    "path": "models/School_menu_bench2.obj",
+    "vertices": 312,
+    "uv": 312,
+    "normals": 312,
+    "triangles": 156,
+    "bounds_obj": {
+      "min": [
+        -2.2265234,
+        -1.43920648,
+        -1.23031247
+      ],
+      "max": [
+        2.2265234,
+        0.125,
+        1.36945307
+      ]
+    },
+    "positions_uv_normals_and_winding_match_source": true,
+    "vertex_colors_present_in_source": false,
+    "vertex_colors_exported": false
+  },
+  "texture": {
+    "path": "textures/school_menu_atlas.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "png_pixels_match_decoded_source": true,
+    "unity_format": 34
+  },
+  "material": {
+    "name": "school_menu_atlas",
+    "path_id": 7,
+    "source_shader_pointer": {
+      "m_FileID": 4,
+      "m_PathID": 19
+    },
+    "tint_rgba": {
+      "r": 0.800000011920929,
+      "g": 0.800000011920929,
+      "b": 0.800000011920929,
+      "a": 1.0
+    },
+    "original_shader_effects_not_reproduced": true
+  },
+  "audio": {
+    "path": "audio/Bells_lobby.wav",
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "sample_rate": 32000,
+    "frames": 38815,
+    "duration_seconds": 1.21296875,
+    "peak_normalized": 0.41558837890625,
+    "rms_normalized": 0.0749390487254153,
+    "clipped_sample_fraction": 0.0,
+    "manual_listening_pending": true
+  },
+  "schema_version": 1,
+  "status": "exported_technical_checks_passed",
+  "created_at_utc": "2026-10-23T23:42:32.083022+00:00",
+  "unitypy": "1.25.4",
+  "pillow": "13.0.0",
+  "source_files": [
+    {
+      "id": 9071,
+      "archive": "obb",
+      "logical_path": "assets/bin/Data/sharedassets104.assets",
+      "prepared_path": "obb/assets/bin/Data/sharedassets104.assets",
+      "size_bytes": 1709056,
+      "sha256": "b15e2d9b028cce528c62dec981bbbbd49307ebe45ad6d418b41ed7b40002dc47",
+      "kind": "AssetsFile",
+      "unity_version": "5.3.7p1",
+      "object_count": 51,
+      "status": "ok"
+    },
+    {
+      "id": 9072,
+      "archive": "obb",
+      "logical_path": "assets/bin/Data/sharedassets104.resource",
+      "prepared_path": "obb/assets/bin/Data/sharedassets104.resource",
+      "size_bytes": 106176,
+      "sha256": "47d060b6905b31d1f3409f348405cdb5c43d685b9f78de348083cdd020016823",
+      "kind": "ResourceFile",
+      "unity_version": null,
+      "object_count": 0,
+      "status": "ok"
+    }
+  ],
+  "original_sha256": {
+    "Pixel Gun 3D [11.3.1].apk": "2e78ca8a1745f0d3052a8c327fd9bd5731de5499992bb9d8e928893b7ea52f25",
+    "main.1191.com.pixel.gun3d.obb": "fbb7e388d400310060862104ee419e704205fd37d35fffb28aba0512a37fc6f8"
+  },
+  "source_path_ids": {
+    "mesh": 34,
+    "texture": 17,
+    "audio": 41
+  },
+  "coordinate_conversion": "UnityPy OBJ: X reflected, triangle winding reversed, UV unchanged",
+  "blender_validation_pending": true,
+  "files": [
+    {
+      "path": "audio/Bells_lobby.wav",
+      "size_bytes": 77674,
+      "sha256": "9209f88df47f9fa4a785aab44cdbedbb95b21b7a02b695bb208d49a5054ced53"
+    },
+    {
+      "path": "models/School_menu_bench2.mtl",
+      "size_bytes": 135,
+      "sha256": "8b33ec4a599c68167b85aef8160d761f64b994fb97c3842c04b21bdcdff204b7"
+    },
+    {
+      "path": "models/School_menu_bench2.obj",
+      "size_bytes": 28352,
+      "sha256": "38f68d4c362853e738811c7eb485e65319c1037dcf6069d9bcb83dd1b06168e0"
+    },
+    {
+      "path": "textures/school_menu_atlas.png",
+      "size_bytes": 651297,
+      "sha256": "626c3119824f400706b8cf4e84534a39f6f5a20ac676f0f749e8799b1c07e28c"
+    }
+  ],
+  "original_hashes_rechecked": true
+}

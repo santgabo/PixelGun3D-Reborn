@@ -1,0 +1,39 @@
+# Original menu/shop asset findings
+
+## Scope and sources
+Static, execution-free first pass; no services contacted, downloads, installs, or implementation. Originals unchanged. Paths below are archive members under `assets/bin/Data/`; offsets are **uncompressed/reassembled member bytes**, decimal. Numeric `.splitN` pieces were concatenated in numeric order, not lexicographic order.
+
+- APK: `../Pixel Gun 3D [11.3.1].apk`, SHA256 `2e78ca8a1745f0d3052a8c327fd9bd5731de5499992bb9d8e928893b7ea52f25` (provided prior inventory).
+- OBB: `../main.1191.com.pixel.gun3d.obb`, 435792640 bytes, SHA256 `fbb7e388d400310060862104ee419e704205fd37d35fffb28aba0512a37fc6f8` (measured). ZIP has 9758 entries, 1416459001 uncompressed bytes. REA inspection `ev_6395714deec0fcf5284a23ec33f51a1830887d121e5f0609f918629633088b44`; inventory `ev_c827a3c1f6f5b38a977cc16af2467eb14b950060c0925b7e9fb1247e01e65455`; manifest `agm_927fabfa06b6a392603a52cdca77bc41363fb0d269ae43c76331ababcb558c19`, zero integrity contradictions.
+- Local reproducible stdlib probes and JSON outputs: `/var/folders/2c/pn00rp4d603djszy1j1njf5w0000gn/T/pg3d-assets-q3x8jblg/` (`probe.py`, `focused.py`, `resource-map.json`, `scripts.json`, selected member inventories). Temporary, not durable report dependencies. These parser results have no REA Evidence IDs.
+
+## Observations: identity and compatibility
+`globalgamemanagers` header is serialized-file format 15, little-endian payload, Unity version string **5.3.7p1** at byte 20, platform ID 13. No 2015 date is established. Assembly version 11.3.1.1191 is reported by the separate [code investigation](code-findings.md), not independently decoded here.
+
+APK ResourceManager object class 147 at offset 539472, length 4598528 contains 4656 named resource entries. Its external table has 7977 entries: **7975 resolve in the combined APK/OBB and all 7975 sampled serialized headers say 5.3.7p1**. Only `library/unity default resources` and `resources/unity_builtin_extra` fail exact-case/path lookup; APK inventory supplies the corresponding engine-resource members under different path conventions. This is strong structural compatibility evidence, not proof of complete runtime compatibility or matching provenance.
+
+BuildSettings class 141 at `globalgamemanagers` offset 473056, length 65800 explicitly serializes 109 scene paths: index 0 `Assets/Scenes/AppCenter.unity`, 1 `Assets/Loading.unity`, 24 `Assets/ProfileShop.unity`, 104 `Assets/Sources/Scenes/Menu_School.unity`. Scene identities below are corroborated by bound components, not filenames alone.
+
+## Observations: original menu survives
+OBB `level104` reassembles to 2047404 bytes. Object table: 2968 GameObjects, 2967 Transforms, 4294 MonoBehaviours, eight Cameras. `MainMenuNGUI` GameObject pathID 2895 at offset 811336 has an enabled **MainMenuController** MonoBehaviour pathID 8667 at offset 1605200, length 1540; script reference `(fileID 1,pathID 233)` resolves via `globalgamemanagers.assets`. Enabled **MainMenu** is on Main Camera: pathID 10048, offset 1906656, length 2180, script `(1,1527)`. This establishes packaged original menu hierarchy/controller bindings, not observed startup selection.
+
+Bound UI scripts include 1761 UISprite, 550 UILabel, 252 UIButton, 62 UIPanel, 19 UIAnchor and two UIRoot components. MainMenuNGUI UIRoot pathID 6441 is at offset 1136680, length 68. Original Transform relationships, serialized widget payloads and controller references survive; no need to approximate the layout from a screenshot. Exact NGUI custom-field decoding remains unfinished because type trees are stripped.
+
+Bootstrap: APK `level0` has enabled SceneLoader on SceneLoader [Singleton] (MB pathID 17, offset 5520); AppsMenu, MiscAppsMenu, CryptoPlayerPrefsManager, KeychainCleaner and DeviceOrientationMonitor are also bound. OBB `level1` binds MenuBackgroundMusic (pathID 10, offset 5192), InAppInstancer (11,5224) and Switcher (12,5272). Startup control flow is delegated to code findings.
+
+## Observations: original shop resource survives
+ResourceManager entry **`shopngui`** explicitly references external fileID 3510, resolving to OBB **`9be632031072e48f680c05c3434b9d43`**, pathID 14. This 472468-byte serialized resource contains 778 GameObjects, 778 Transforms and 1266 MonoBehaviours. PathID 14 is GameObject **ShopNGUI**, offset 87368, length 87. Enabled **ShopNGUIController** is bound to that object: MB pathID 1636, offset 212488, length 1748; script `(1,324)` resolves to the APK MonoScript table. Armory has UIRoot pathID 2345, offset 362112.
+
+Shop UI includes 368 UISprite, 186 UILabel, 42 UIButton, 39 UITexture, 23 ShopCategoryButton, 14 UIPanel and two UIScrollView components. It has character-preview geometry components (four MeshRenderer/MeshFilter pairs), Camera3D/World/PersPoint objects, 36 PixelGunPlaySound components and serialized animations/tweens. Thus a concrete original reusable shop object hierarchy is recoverable; exact original editor-prefab linkage is not established. **ProfileShop scene is not assumed to be this armory**: `level24` instead binds ProfileController, ProfileView, achievements/leagues components and no ShopNGUIController in the parsed inventory.
+
+## Textures, fonts, models, audio
+- APK `sharedassets0.assets`: 11 Texture2D, two Mesh, five Shader, one Font objects. GameAtlas texture pathID16 offset1102376: 1024×1024, format ID5, 4194304 declared image bytes. RussoOneUIFont texture pathID18 offset11517656: 1024×1024, format ID47; Font **RussoOne-Regular** pathID26 offset12627952, length39248. Original font object and bitmap-style UI font resource coexist; embedded font program extraction is unverified.
+- Shop direct external dependencies include `db4925300cb2a42829c94de804d0c2bf` pathID1 offset4096: shop_icons_primary, 100×100, format4; `8c67293dfb2e4af47a02c1c8893c05f7` pathID1 offset4096: FirstPistol_icon1_big, 256×256, format47. Other parsed originals include m16, sniper/melee/backup/tool/armor icons. Texture dimensions/formats are decoded headers, not rendered previews.
+- OBB `sharedassets104.assets`: 12 textures, six meshes, six animation clips, six AudioClips; school_menu_atlas pathID17 offset41960 is 1024×1024 format34; school bench/clock-hand/incubator meshes survive. AudioClip names include Bells_lobby, Clock_lobby, giftbox_open/close/reward and egg_open, with streamed resource references. Audio playback/codec decoding was not tested.
+
+## Inference, blockers, minimal next probe
+**High-confidence inference:** faithful restoration can start from original serialized menu and shop hierarchies and their original asset graph, rather than a lookalike UI. Desktop rendering/import correctness, complete resource-stream coverage, initial menu variant, seasonal state, localization/layout behavior and offline initialization remain unknown. Android-built assets are not automatically a runnable desktop Unity project.
+
+No UnityPy, unitypack, lz4, Pillow, AssetRipper, UnityExtract, dotnet or 7z was available on the probed Python/PATH. Used existing Python stdlib format-aware parser, validating format15/file-size/object ranges, external tables and MonoScript bindings. Type trees are disabled; NGUI custom widget fields, atlas rectangles/material chains, font program, audio streams and complete recursive export were not decoded. One initial GameObject stride assumption and one script-table alignment assumption were corrected from member bytes before the findings above. No engine execution occurred.
+
+**Next minimal probe:** schema-drive only the ShopNGUIController/UISprite/UILabel/UIAtlas/UIFont serialized fields using surviving CIL field order, then follow one shop sprite through atlas→material→texture and one label through font, checking referenced object IDs and stream ranges. This validates original layout/visual recovery before any project creation. REA active archive target closed at end of pass.

@@ -1,0 +1,649 @@
+{
+  "file": "sharedassets104.assets",
+  "header": {
+    "engine": "5.3.7p1",
+    "platform": 13,
+    "types": [
+      21,
+      28,
+      43,
+      74,
+      83,
+      90,
+      91,
+      150,
+      238,
+      258
+    ],
+    "objects": [
+      {
+        "id": 1,
+        "offset": 6240,
+        "size": 28968,
+        "type": 150,
+        "tid": 150,
+        "script": -1
+      },
+      {
+        "id": 2,
+        "offset": 35208,
+        "size": 524,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 3,
+        "offset": 35736,
+        "size": 448,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 4,
+        "offset": 36184,
+        "size": 448,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 5,
+        "offset": 36632,
+        "size": 548,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 6,
+        "offset": 37184,
+        "size": 560,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 7,
+        "offset": 37744,
+        "size": 448,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 8,
+        "offset": 38192,
+        "size": 476,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 9,
+        "offset": 38672,
+        "size": 448,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 10,
+        "offset": 39120,
+        "size": 448,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 11,
+        "offset": 39568,
+        "size": 444,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 12,
+        "offset": 40016,
+        "size": 448,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 13,
+        "offset": 40464,
+        "size": 448,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 14,
+        "offset": 40912,
+        "size": 184,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 15,
+        "offset": 41096,
+        "size": 404,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 16,
+        "offset": 41504,
+        "size": 456,
+        "type": 21,
+        "tid": 21,
+        "script": -1
+      },
+      {
+        "id": 17,
+        "offset": 41960,
+        "size": 524384,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 18,
+        "offset": 566344,
+        "size": 1116,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 19,
+        "offset": 567464,
+        "size": 3168,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 20,
+        "offset": 570632,
+        "size": 1628,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 21,
+        "offset": 572264,
+        "size": 864,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 22,
+        "offset": 573128,
+        "size": 3164,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 23,
+        "offset": 576296,
+        "size": 43780,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 24,
+        "offset": 620080,
+        "size": 864,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 25,
+        "offset": 620944,
+        "size": 3168,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 26,
+        "offset": 624112,
+        "size": 699164,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 27,
+        "offset": 1323280,
+        "size": 864,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 28,
+        "offset": 1324144,
+        "size": 864,
+        "type": 28,
+        "tid": 28,
+        "script": -1
+      },
+      {
+        "id": 29,
+        "offset": 1325008,
+        "size": 7268,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 30,
+        "offset": 1332280,
+        "size": 201416,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 31,
+        "offset": 1533696,
+        "size": 64372,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 32,
+        "offset": 1598072,
+        "size": 47220,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 33,
+        "offset": 1645296,
+        "size": 3788,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 34,
+        "offset": 1649088,
+        "size": 11280,
+        "type": 43,
+        "tid": 43,
+        "script": -1
+      },
+      {
+        "id": 35,
+        "offset": 1660368,
+        "size": 2176,
+        "type": 74,
+        "tid": 74,
+        "script": -1
+      },
+      {
+        "id": 36,
+        "offset": 1662544,
+        "size": 8108,
+        "type": 74,
+        "tid": 74,
+        "script": -1
+      },
+      {
+        "id": 37,
+        "offset": 1670656,
+        "size": 5400,
+        "type": 74,
+        "tid": 74,
+        "script": -1
+      },
+      {
+        "id": 38,
+        "offset": 1676056,
+        "size": 7700,
+        "type": 74,
+        "tid": 74,
+        "script": -1
+      },
+      {
+        "id": 39,
+        "offset": 1683760,
+        "size": 4360,
+        "type": 74,
+        "tid": 74,
+        "script": -1
+      },
+      {
+        "id": 40,
+        "offset": 1688120,
+        "size": 5116,
+        "type": 74,
+        "tid": 74,
+        "script": -1
+      },
+      {
+        "id": 41,
+        "offset": 1693240,
+        "size": 96,
+        "type": 83,
+        "tid": 83,
+        "script": -1
+      },
+      {
+        "id": 42,
+        "offset": 1693336,
+        "size": 96,
+        "type": 83,
+        "tid": 83,
+        "script": -1
+      },
+      {
+        "id": 43,
+        "offset": 1693432,
+        "size": 100,
+        "type": 83,
+        "tid": 83,
+        "script": -1
+      },
+      {
+        "id": 44,
+        "offset": 1693536,
+        "size": 96,
+        "type": 83,
+        "tid": 83,
+        "script": -1
+      },
+      {
+        "id": 45,
+        "offset": 1693632,
+        "size": 92,
+        "type": 83,
+        "tid": 83,
+        "script": -1
+      },
+      {
+        "id": 46,
+        "offset": 1693728,
+        "size": 100,
+        "type": 83,
+        "tid": 83,
+        "script": -1
+      },
+      {
+        "id": 47,
+        "offset": 1693832,
+        "size": 1060,
+        "type": 90,
+        "tid": 90,
+        "script": -1
+      },
+      {
+        "id": 48,
+        "offset": 1694896,
+        "size": 2072,
+        "type": 90,
+        "tid": 90,
+        "script": -1
+      },
+      {
+        "id": 49,
+        "offset": 1696968,
+        "size": 3808,
+        "type": 91,
+        "tid": 91,
+        "script": -1
+      },
+      {
+        "id": 50,
+        "offset": 1700776,
+        "size": 5400,
+        "type": 238,
+        "tid": 238,
+        "script": -1
+      },
+      {
+        "id": 51,
+        "offset": 1706176,
+        "size": 2880,
+        "type": 258,
+        "tid": 258,
+        "script": -1
+      }
+    ],
+    "dataOffset": 6240,
+    "metadataEnd": 1669
+  },
+  "rows": [
+    {
+      "id": 17,
+      "offset": 41960,
+      "size": 524384,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "school_menu_atlas"
+    },
+    {
+      "id": 18,
+      "offset": 566344,
+      "size": 1116,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "school_menu_alfa"
+    },
+    {
+      "id": 19,
+      "offset": 567464,
+      "size": 3168,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "school_menu_wall_2"
+    },
+    {
+      "id": 20,
+      "offset": 570632,
+      "size": 1628,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "School_menu_flag"
+    },
+    {
+      "id": 21,
+      "offset": 572264,
+      "size": 864,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "school_menu_grass"
+    },
+    {
+      "id": 22,
+      "offset": 573128,
+      "size": 3164,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "school_menu_wall"
+    },
+    {
+      "id": 23,
+      "offset": 576296,
+      "size": 43780,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "incubator"
+    },
+    {
+      "id": 24,
+      "offset": 620080,
+      "size": 864,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "school_menu_zzokol"
+    },
+    {
+      "id": 25,
+      "offset": 620944,
+      "size": 3168,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "school_menu_sidewalk"
+    },
+    {
+      "id": 26,
+      "offset": 624112,
+      "size": 699164,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "Lightmap-0_comp_light"
+    },
+    {
+      "id": 27,
+      "offset": 1323280,
+      "size": 864,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "School_menu_colon"
+    },
+    {
+      "id": 28,
+      "offset": 1324144,
+      "size": 864,
+      "type": 28,
+      "tid": 28,
+      "script": -1,
+      "name": "School_menu_brick"
+    },
+    {
+      "id": 29,
+      "offset": 1325008,
+      "size": 7268,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "clockhand_hour"
+    },
+    {
+      "id": 30,
+      "offset": 1332280,
+      "size": 201416,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "ChestFreeCoins_Mesh"
+    },
+    {
+      "id": 31,
+      "offset": 1533696,
+      "size": 64372,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "incubator_mesh"
+    },
+    {
+      "id": 32,
+      "offset": 1598072,
+      "size": 47220,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "incubator_mesh"
+    },
+    {
+      "id": 33,
+      "offset": 1645296,
+      "size": 3788,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "clockhand_min"
+    },
+    {
+      "id": 34,
+      "offset": 1649088,
+      "size": 11280,
+      "type": 43,
+      "tid": 43,
+      "script": -1,
+      "name": "School_menu_bench2"
+    },
+    {
+      "id": 41,
+      "offset": 1693240,
+      "size": 96,
+      "type": 83,
+      "tid": 83,
+      "script": -1,
+      "name": "Bells_lobby"
+    },
+    {
+      "id": 42,
+      "offset": 1693336,
+      "size": 96,
+      "type": 83,
+      "tid": 83,
+      "script": -1,
+      "name": "Clock_lobby"
+    },
+    {
+      "id": 43,
+      "offset": 1693432,
+      "size": 100,
+      "type": 83,
+      "tid": 83,
+      "script": -1,
+      "name": "giftbox_close"
+    },
+    {
+      "id": 44,
+      "offset": 1693536,
+      "size": 96,
+      "type": 83,
+      "tid": 83,
+      "script": -1,
+      "name": "giftbox_open"
+    },
+    {
+      "id": 45,
+      "offset": 1693632,
+      "size": 92,
+      "type": 83,
+      "tid": 83,
+      "script": -1,
+      "name": "egg_open"
+    },
+    {
+      "id": 46,
+      "offset": 1693728,
+      "size": 100,
+      "type": 83,
+      "tid": 83,
+      "script": -1,
+      "name": "giftbox_reward"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "file": "level1",
+  "header": {
+    "engine": "5.3.7p1",
+    "platform": 13,
+    "types": [
+      -3,
+      -2,
+      -1,
+      1,
+      4,
+      20,
+      81,
+      82,
+      104,
+      157
+    ],
+    "objects": [
+      {
+        "id": 1,
+        "offset": 4096,
+        "size": 83,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 2,
+        "offset": 4184,
+        "size": 115,
+        "type": 1,
+        "tid": 1,
+        "script": -1
+      },
+      {
+        "id": 3,
+        "offset": 4304,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 4,
+        "offset": 4376,
+        "size": 68,
+        "type": 4,
+        "tid": 4,
+        "script": -1
+      },
+      {
+        "id": 5,
+        "offset": 4448,
+        "size": 117,
+        "type": 20,
+        "tid": 20,
+        "script": -1
+      },
+      {
+        "id": 6,
+        "offset": 4568,
+        "size": 16,
+        "type": 81,
+        "tid": 81,
+        "script": -1
+      },
+      {
+        "id": 7,
+        "offset": 4584,
+        "size": 228,
+        "type": 82,
+        "tid": 82,
+        "script": -1
+      },
+      {
+        "id": 8,
+        "offset": 4816,
+        "size": 300,
+        "type": 104,
+        "tid": 104,
+        "script": -1
+      },
+      {
+        "id": 9,
+        "offset": 5120,
+        "size": 68,
+        "type": 157,
+        "tid": 157,
+        "script": -1
+      },
+      {
+        "id": 10,
+        "offset": 5192,
+        "size": 32,
+        "type": 114,
+        "tid": -1,
+        "script": 2
+      },
+      {
+        "id": 11,
+        "offset": 5224,
+        "size": 44,
+        "type": 114,
+        "tid": -2,
+        "script": 1
+      },
+      {
+        "id": 12,
+        "offset": 5272,
+        "size": 332,
+        "type": 114,
+        "tid": -3,
+        "script": 0
+      }
+    ],
+    "dataOffset": 4096,
+    "metadataEnd": 625
+  },
+  "rows": [
+    {
+      "id": 1,
+      "offset": 4096,
+      "size": 83,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "MenuBackgroundMusic"
+    },
+    {
+      "id": 2,
+      "offset": 4184,
+      "size": 115,
+      "type": 1,
+      "tid": 1,
+      "script": -1,
+      "name": "SwitcherController"
+    }
+  ]
+}

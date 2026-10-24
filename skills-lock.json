@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "architecture-decision-records": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/documentation-generation/skills/architecture-decision-records/SKILL.md",
+      "computedHash": "9bf1914cbe0e0d8ded47c2e952adfafae2ffcf97ba8ebf0474619dbc141e8cdf"
+    }
+  }
+}

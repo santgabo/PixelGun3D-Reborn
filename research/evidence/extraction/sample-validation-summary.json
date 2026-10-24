@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-23T23:50:41.453039+00:00",
+  "phase_3": "completed",
+  "phase_4": {
+    "technical_checks": "passed",
+    "two_render_visual_review": "passed",
+    "manual_audio_listening": "confirmed_by_user",
+    "exact_in_game_appearance_comparison": "not_performed",
+    "status": "completed",
+    "user_sample_approval": "confirmed"
+  },
+  "phase_5": "not_started",
+  "sample_root": "exports/samples",
+  "mesh": {
+    "path": "models/School_menu_bench2.obj",
+    "vertices": 312,
+    "uv": 312,
+    "normals": 312,
+    "triangles": 156,
+    "bounds_obj": {
+      "min": [
+        -2.2265234,
+        -1.43920648,
+        -1.23031247
+      ],
+      "max": [
+        2.2265234,
+        0.125,
+        1.36945307
+      ]
+    },
+    "positions_uv_normals_and_winding_match_source": true,
+    "vertex_colors_present_in_source": false,
+    "vertex_colors_exported": false
+  },
+  "texture": {
+    "path": "textures/school_menu_atlas.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "mode": "RGBA",
+    "png_pixels_match_decoded_source": true,
+    "unity_format": 34
+  },
+  "audio": {
+    "path": "audio/Bells_lobby.wav",
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "sample_rate": 32000,
+    "frames": 38815,
+    "duration_seconds": 1.21296875,
+    "peak_normalized": 0.41558837890625,
+    "rms_normalized": 0.0749390487254153,
+    "clipped_sample_fraction": 0.0,
+    "manual_listening_pending": false
+  },
+  "blender": {
+    "version": "5.2.3 LTS",
+    "geometry_and_uv_match_obj": true,
+    "texture_loaded_and_connected": true,
+    "packed_texture_portability": "passed",
+    "preview_fully_in_frame": true,
+    "armatures": 0,
+    "actions": 0
+  },
+  "visual_review": {
+    "reviewer": "assistant_visual_inspection",
+    "images": [
+      "validation/School_menu_bench2.png",
+      "validation/School_menu_bench2_back.png"
+    ],
+    "observations": [
+      "Malla completa dentro del encuadre en ambas vistas.",
+      "Textura pixel-art visible en las tablas y soportes; sin textura ausente."
+    ],
+    "limits": [
+      "Sin comparación contra una captura del juego.",
+      "Material MTL básico; no replica el shader ni la iluminación originales."
+    ]
+  },
+  "unit_tests_passed": 23,
+  "original_sha256_rechecked": true,
+  "coverage_limit": "Solo una textura, una malla rígida de un submesh y un clip de audio; no prueba el catálogo completo.",
+  "user_confirmation": {
+    "recorded_at_utc": "2026-10-24T00:18:26.542276+00:00",
+    "source": "explicit_user_confirmation_in_conversation",
+    "model_visible": true,
+    "audio_audible": true,
+    "image_visible": true,
+    "sample_approval": "confirmed"
+  },
+  "infrastructure_verification": "research/evidence/extraction/uv-migration.json"
+}

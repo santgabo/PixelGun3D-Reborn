@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "status": "ok",
+  "created_at_utc": "2026-10-23T20:51:41.562328+00:00",
+  "python": "3.12.15",
+  "unitypy": "1.25.4",
+  "coverage": {
+    "archive_entries": 10391,
+    "prepared_members": 9804,
+    "other_entries_listed_not_copied": 587,
+    "prepared_files": 9214,
+    "prepared_bytes": 1450006401,
+    "reassembled_groups": 176
+  },
+  "files": {
+    "total": 9214,
+    "by_kind": {
+      "AssetsFile": 8165,
+      "ResourceFile": 1049
+    },
+    "by_status": {
+      "ok": 9214
+    },
+    "unity_versions": {
+      "null": 1049,
+      "5.3.6p2": 1,
+      "5.3.7p1": 8164
+    }
+  },
+  "objects": {
+    "total": 490030,
+    "by_type": {
+      "Animation": 1599,
+      "AnimationClip": 2735,
+      "Animator": 9653,
+      "AnimatorController": 35,
+      "AudioClip": 1106,
+      "AudioListener": 83,
+      "AudioManager": 1,
+      "AudioReverbZone": 173,
+      "AudioSource": 2605,
+      "Avatar": 144,
+      "BoxCollider": 6974,
+      "BuildSettings": 1,
+      "Camera": 306,
+      "Canvas": 8,
+      "CanvasRenderer": 107,
+      "CapsuleCollider": 28,
+      "CharacterController": 8,
+      "Cubemap": 5,
+      "DelayedCallManager": 1,
+      "EllipsoidParticleEmitter": 44,
+      "Flare": 3,
+      "FlareLayer": 77,
+      "Font": 12,
+      "GUILayer": 208,
+      "GUIText": 3,
+      "GUITexture": 7,
+      "GameObject": 131198,
+      "GraphicsSettings": 1,
+      "Halo": 69,
+      "InputManager": 1,
+      "LODGroup": 215,
+      "LensFlare": 14,
+      "Light": 4866,
+      "LightProbeGroup": 85,
+      "LightProbes": 78,
+      "LightmapSettings": 109,
+      "LineRenderer": 1007,
+      "MasterServerInterface": 1,
+      "Material": 2165,
+      "Mesh": 4620,
+      "MeshCollider": 3531,
+      "MeshFilter": 16727,
+      "MeshRenderer": 13976,
+      "MonoBehaviour": 102231,
+      "MonoManager": 1,
+      "MonoScript": 1856,
+      "NavMeshAgent": 134,
+      "NavMeshData": 79,
+      "NavMeshProjectSettings": 1,
+      "NavMeshSettings": 80,
+      "NetworkManager": 1,
+      "NetworkView": 202,
+      "OffMeshLink": 118,
+      "ParticleAnimator": 44,
+      "ParticleRenderer": 44,
+      "ParticleSystem": 16537,
+      "ParticleSystemRenderer": 16537,
+      "PhysicMaterial": 5,
+      "Physics2DSettings": 1,
+      "PhysicsManager": 1,
+      "PlayerSettings": 1,
+      "PreloadData": 110,
+      "Projector": 1,
+      "QualitySettings": 1,
+      "RectTransform": 121,
+      "RenderSettings": 109,
+      "RenderTexture": 1,
+      "ResourceManager": 1,
+      "Rigidbody": 776,
+      "RuntimeInitializeOnLoadManager": 1,
+      "ScriptMapper": 1,
+      "Shader": 157,
+      "SkinnedMeshRenderer": 1861,
+      "SphereCollider": 189,
+      "Sprite": 47,
+      "SpriteRenderer": 4,
+      "TagManager": 1,
+      "TextAsset": 9,
+      "TextMesh": 29,
+      "Texture2D": 3340,
+      "TimeManager": 1,
+      "TrailRenderer": 9731,
+      "Transform": 131077
+    },
+    "names": {
+      "empty": 102221,
+      "not_applicable": 240094,
+      "ok": 147715
+    }
+  },
+  "externals": {
+    "total": 34609,
+    "unresolved": 0,
+    "methods": {
+      "basename": 530,
+      "owner_relative": 23029,
+      "path_suffix": 11050
+    }
+  },
+  "links": {
+    "total": 78205,
+    "broken": 0,
+    "by_kind": {
+      "reference": 73549,
+      "resource_name": 4656
+    },
+    "resolutions": {
+      "null": 700,
+      "resolved": 77505
+    }
+  },
+  "streams": {
+    "total": 1106,
+    "broken": 0,
+    "methods": {
+      "owner_relative": 1106
+    },
+    "range_valid": {
+      "1": 1106
+    }
+  },
+  "errors": {
+    "total": 0,
+    "by_stage": {}
+  },
+  "limits": [
+    "Solo datos bajo assets/bin/Data; otras entradas están listadas en el manifiesto.",
+    "Campos completos de diez tipos relevantes; para otros tipos se intenta solo m_Name.",
+    "No se interpretan campos personalizados de scripts, esqueletos ni animaciones.",
+    "No se decodifican ni exportan imágenes, mallas ni sonidos.",
+    "Resolver una referencia y validar su rango no demuestra fidelidad visual o sonora."
+  ],
+  "original_hashes_rechecked": true
+}

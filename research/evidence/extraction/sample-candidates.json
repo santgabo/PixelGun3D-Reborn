@@ -1,0 +1,37 @@
+{
+  "status": "candidates_not_exported",
+  "archive": "main.1191.com.pixel.gun3d.obb",
+  "archive_id": "obb",
+  "logical_path": "assets/bin/Data/sharedassets104.assets",
+  "catalog_file_id": 9071,
+  "mesh": {
+    "path_id": 34,
+    "name": "School_menu_bench2",
+    "vertex_count": 312,
+    "submesh_count": 1,
+    "material_name": "school_menu_atlas",
+    "texture_path_id": 17,
+    "reference_chain_verified": true,
+    "geometry_and_uv_not_yet_validated": true
+  },
+  "texture": {
+    "path_id": 17,
+    "name": "school_menu_atlas",
+    "width": 1024,
+    "height": 1024,
+    "unity_texture_format": 34,
+    "not_yet_decoded": true
+  },
+  "audio": {
+    "path_id": 41,
+    "name": "Bells_lobby",
+    "duration_seconds_from_metadata": 1.2129687070846558,
+    "channels": 1,
+    "frequency": 32000,
+    "resource_path": "sharedassets104.resource",
+    "resource_offset": 0,
+    "resource_size": 14272,
+    "range_verified": true,
+    "not_yet_decoded": true
+  }
+}

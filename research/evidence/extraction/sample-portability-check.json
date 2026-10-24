@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "image_packed": true,
+  "image_size": [
+    1024,
+    1024
+  ],
+  "packed_png_sha256": "626c3119824f400706b8cf4e84534a39f6f5a20ac676f0f749e8799b1c07e28c",
+  "mesh_vertices": 312,
+  "mesh_triangles": 156,
+  "external_texture_path_exists": false
+}

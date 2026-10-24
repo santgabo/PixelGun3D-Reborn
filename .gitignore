@@ -1,0 +1,19 @@
+# Entornos e intérpretes gestionados por uv
+/.venv/
+/.tools/
+__pycache__/
+*.py[cod]
+
+# Entradas del juego y datos regenerables: permanecen solo en disco
+*.apk
+*.obb
+/work/
+/exports/
+
+# Estado local y secretos
+.DS_Store
+.env
+.env.*
+!.env.example
+/.claude/settings.local.json
+/.pi/

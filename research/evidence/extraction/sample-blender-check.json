@@ -1,0 +1,64 @@
+{
+  "vertices": 312,
+  "triangles": 156,
+  "uv_corners": 468,
+  "material_count": 1,
+  "image_size": [
+    1024,
+    1024
+  ],
+  "geometry_and_uv_match_obj": true,
+  "texture_loaded_and_connected": true,
+  "armatures": 0,
+  "actions": 0,
+  "status": "blender_import_and_render_passed",
+  "blender_version": "5.2.3 LTS",
+  "preview_frame_bounds": {
+    "School_menu_bench2.png": {
+      "min": [
+        0.06521739065647125,
+        0.08983203023672104
+      ],
+      "max": [
+        0.9347826242446899,
+        0.9101679921150208
+      ]
+    },
+    "School_menu_bench2_back.png": {
+      "min": [
+        0.06521738320589066,
+        0.08983197808265686
+      ],
+      "max": [
+        0.9347825050354004,
+        0.9101680517196655
+      ]
+    }
+  },
+  "preview_fully_in_frame": true,
+  "created_at_utc": "2026-10-23T23:48:19.590411+00:00",
+  "texture_packed_in_blend": true,
+  "renderer": "BLENDER_EEVEE",
+  "preview_filter": "Closest",
+  "game_scene_reconstructed": false,
+  "game_visual_fidelity_not_compared": true,
+  "visual_review_pending": true,
+  "manual_listening_pending": true,
+  "files": [
+    {
+      "path": "School_menu_bench2.blend",
+      "sha256": "f6a2fada96eb2d45bc95795e676d3315d219deadd00560e97ff28c5db6daa2fe",
+      "size_bytes": 747084
+    },
+    {
+      "path": "School_menu_bench2.png",
+      "sha256": "4dca7a93fd0a07f6efaa9441a58e291df46bb9367f7be5080530e44c3038bde4",
+      "size_bytes": 414205
+    },
+    {
+      "path": "School_menu_bench2_back.png",
+      "sha256": "39365fc5ed97bc08f66213790a35cc94c5ebdeb33fd248d84ef4966f08306414",
+      "size_bytes": 376286
+    }
+  ]
+}
