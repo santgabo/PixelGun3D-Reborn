@@ -3,7 +3,7 @@
 ## Trabajo actual: recursos individuales
 El alcance acordado es extraer **mallas estáticas, texturas e imágenes y sonidos**, sin esqueletos, animaciones ni reconstrucción de escenas o del proyecto. No se necesita Unity Editor; Blender ya está disponible para validar modelos.
 
-- [Iteración activa, alcance y pasos pendientes](../docs/iterations/0001-extraccion-de-recursos.md).
+- [Plan general y checklist](../docs/iterations/0001-extraccion-de-recursos.md).
 - [Fase 1 completada: entorno aislado](extraction-environment.md).
 - [Fase 2 completada: inventario y referencias](extraction-inventory.md).
 - [Fases 3–4 completadas y muestras aprobadas por el usuario](extraction-samples.md).

@@ -46,7 +46,7 @@ Entorno, inventario y muestras completados. El usuario confirmó que el modelo, 
 
 Las muestras existentes están en `exports/samples/`; el modelo autónomo para Blender es `validation/School_menu_bench2.blend`. Los resultados se regeneran localmente y no se versionan.
 
-- [Iteración y pasos pendientes](docs/iterations/0001-extraccion-de-recursos.md)
+- [Plan general y checklist](docs/iterations/0001-extraccion-de-recursos.md)
 - [Entorno y comandos uv](research/extraction-environment.md)
 - [Inventario](research/extraction-inventory.md)
 - [Pruebas de exportación y validación](research/extraction-samples.md)
