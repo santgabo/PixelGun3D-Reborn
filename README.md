@@ -43,13 +43,17 @@ uv run --locked /Applications/Blender.app/Contents/MacOS/Blender \
 
 # La extracción masiva reanuda exports/bulk/ y no repite lo ya comprobado.
 uv run --locked -m tools.export_bulk --output exports/bulk
+
+# Conversión de los OBJ a GLB. Reanuda exports/gltf/ y no repite un GLB cuyo
+# OBJ, MTL y archivo siguen coincidiendo con el SHA256 del diario.
+uv run --locked -m tools.export_gltf --output exports/gltf
 ```
 
 Blender utiliza su Python integrado para `bpy`; se lanza a través de `uv run`, pero no se instala `bpy` en el entorno del extractor. No se necesita Unity Editor.
 
 ## Estado
 
-Entorno, inventario, muestras y extracción masiva completados. El usuario confirmó el banco y la Pixel Gun: modelo, textura y sonido de cada una. Los resultados masivos están en `exports/bulk/`.
+Entorno, inventario, muestras y extracción masiva completados. El usuario confirmó el banco y la Pixel Gun: modelo, textura y sonido de cada una. Los resultados masivos están en `exports/bulk/` y su conversión a GLB, completada, en `exports/gltf/`.
 
 Las muestras del banco están en `exports/samples/`; el modelo autónomo es `validation/School_menu_bench2.blend`. El arma está en `exports/samples-weapon/validation/PixlGun_Mesh.blend`. Los resultados se regeneran localmente y no se versionan.
 
@@ -59,6 +63,7 @@ Las muestras del banco están en `exports/samples/`; el modelo autónomo es `val
 - [Inventario](research/extraction-inventory.md)
 - [Pruebas de exportación y validación](research/extraction-samples.md)
 - [Extracción masiva](research/extraction-bulk.md)
+- [Conversión a GLB: resultado](research/extraction-gltf.md)
 - [Política de Git y decisión sobre LFS](docs/adr/0001-versionar-herramientas-no-binarios.md)
 
 La extracción no concede derechos de redistribución o reutilización de los recursos del juego.

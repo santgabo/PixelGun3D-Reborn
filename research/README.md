@@ -8,6 +8,7 @@ El alcance acordado es extraer **mallas estáticas, texturas e imágenes y sonid
 - [Fase 2 completada: inventario y referencias](extraction-inventory.md).
 - [Fases 3–4 completadas y muestras aprobadas por el usuario](extraction-samples.md).
 - [Fase 5 completada: extracción masiva](extraction-bulk.md).
+- [Iteración 0002 completada: conversión OBJ a GLB](extraction-gltf.md).
 - [Política de Git y LFS](../docs/adr/0001-versionar-herramientas-no-binarios.md); proyecto gestionado con `uv`.
 
 ## Investigación previa: menú y tienda originales en desktop

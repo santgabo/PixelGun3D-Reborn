@@ -22,43 +22,44 @@ La fuente es `exports/bulk/models/`: **5.781 OBJ** con su MTL. Los PNG siguen en
 Casos ya contados en el diario de la extracción: 8 materiales con escala de UV distinta de 1, 8 con desplazamiento, 69 con opacidad distinta de 1, 4 mallas sin UV y 68 sin normales.
 
 ## Plan y checklist
-Las casillas marcadas están completadas. Las demás son los pasos que faltan. Esta iteración no ha empezado.
+Las casillas marcadas están completadas. Las demás son los pasos que faltan. Todos los pasos están completados.
 
 ### 1. Leer el OBJ y el MTL
-- [ ] Leer posiciones, UV, normales y un grupo de triángulos por cada `usemtl`.
-- [ ] Leer `Kd`, `d`, `map_Kd` y, si existen, `-s` y `-o`, resolviendo la ruta del PNG dentro de `exports/`.
-- [ ] Rechazar una cara que no sea un triángulo, un índice distinto para posición y UV, o una ruta que se salga de `exports/`.
+- [x] Leer posiciones, UV, normales y un grupo de triángulos por cada `usemtl`.
+- [x] Leer `Kd`, `d`, `map_Kd` y, si existen, `-s` y `-o`, resolviendo la ruta del PNG dentro de `exports/`.
+- [x] Rechazar una cara que no sea un triángulo, un índice distinto para posición y UV, o una ruta que se salga de `exports/`.
 
 ### 2. Escribir el GLB
-- [ ] Un mesh, un nodo y un primitivo por submesh, con `min` y `max` en las posiciones y los chunks alineados a 4 bytes.
-- [ ] Referenciar el PNG sin copiarlo. Aplicar escala, desplazamiento, transparencia y filtro según las decisiones de arriba.
-- [ ] Comprobar en una prueba pequeña que, al releer el GLB, la geometría coincide con el OBJ y el PNG no cambió.
+- [x] Un mesh, un nodo y un primitivo por submesh, con `min` y `max` en las posiciones y los chunks alineados a 4 bytes.
+- [x] Referenciar el PNG sin copiarlo. Aplicar escala, desplazamiento, transparencia y filtro según las decisiones de arriba.
+- [x] Comprobar en una prueba pequeña que, al releer el GLB, la geometría coincide con el OBJ y el PNG no cambió.
 
 ### 3. Validar las muestras conocidas
-- [ ] Convertir el banco (`34_School_menu_bench2`, 312 vértices) y las dos variantes de `PixlGun_Mesh` (394 vértices).
-- [ ] Confirmar que la variante corta usa `map_Pixlgun` y `__8648_28` usa `PixelGun_2.0_map`, y que esos PNG conservan su SHA256.
-- [ ] Pasar esos tres GLB por `gltf-validator` si hay red, y anotar si no se pudo ejecutar.
+- [x] Convertir el banco (`34_School_menu_bench2`, 312 vértices) y las dos variantes de `PixlGun_Mesh` (394 vértices).
+- [x] Confirmar que la variante corta usa `map_Pixlgun` y `__8648_28` usa `PixelGun_2.0_map`, y que esos PNG conservan su SHA256.
+- [x] Pasar esos tres GLB por `gltf-validator` si hay red, y anotar si no se pudo ejecutar.
 
 ### 4. Preparar el lote
-- [ ] Convertir varios OBJ en paralelo. El diario lo escribe un solo proceso.
-- [ ] Reanudar sin repetir un GLB cuyo OBJ y cuyo archivo siguen coincidiendo con el SHA256 guardado.
-- [ ] Probar, en un directorio temporal, que un OBJ inválido queda anotado y que el resto se escribe.
+- [x] Convertir varios OBJ en paralelo. El diario lo escribe un solo proceso.
+- [x] Reanudar sin repetir un GLB cuyo OBJ y cuyo archivo siguen coincidiendo con el SHA256 guardado.
+- [x] Probar, en un directorio temporal, que un OBJ inválido queda anotado y que el resto se escribe.
 
 ### 5. Ejecutar la conversión
-- [ ] Probar antes un grupo con una malla sin normales, una sin UV, una con opacidad, una con escala o desplazamiento de UV, y `Devostator_rocket_mesh` (dos submeshes).
-- [ ] Convertir los 5.781 OBJ.
-- [ ] Comprobar que hay un GLB por OBJ, que no quedan archivos a medias, que cada textura referenciada existe y que una segunda pasada deja 0 pendientes.
+- [x] Probar antes un grupo con una malla sin normales, una sin UV, una con opacidad, una con escala o desplazamiento de UV, y `Devostator_rocket_mesh` (dos submeshes).
+- [x] Convertir los 5.781 OBJ.
+- [x] Comprobar que hay un GLB por OBJ, que no quedan archivos a medias, que cada textura referenciada existe y que una segunda pasada deja 0 pendientes.
 
 ### 6. Cerrar la iteración
-- [ ] Escribir el resumen con conteos reales, fallos y límites en `research/extraction-gltf.md`.
-- [ ] Dejar el comando de reanudación en el README: `uv run --locked -m tools.export_gltf --output exports/gltf`.
+- [x] Escribir el resumen con conteos reales, fallos y límites en `research/extraction-gltf.md`.
+- [x] Dejar el comando de reanudación en el README: `uv run --locked -m tools.export_gltf --output exports/gltf`.
 
 ## Dónde estamos y qué sigue
-**Esta iteración no ha empezado.** La extracción de la [iteración 0001](0001-extraccion-de-recursos.md) está terminada y es la fuente. No hay que repetir el inventario ni los OBJ.
+**Iteración completada.** Los 5.781 OBJ están convertidos a `exports/gltf/`, sin fallos, y una segunda pasada deja 0 pendientes. Los conteos reales, la validación y la validación están en [`research/extraction-gltf.md`](../../research/extraction-gltf.md).
 
-El primer trabajo es el lector y el escritor, y después las dos muestras ya aprobadas. El lote de 5.781 espera a que esas muestras coincidan con el OBJ.
+Desviaciones respecto al plan: se voltea la V de las UV (`v' = 1 - v`), porque glTF cuenta la V desde arriba (la transformación de textura usa la misma conversión), y se renormalizan las 42 normales de 21 GLB que Unity dejó hasta un 1 % cortas y que el validador rechazaba.
 
 ## Documentación de apoyo
+- [Resultado de la conversión](../../research/extraction-gltf.md).
 - [Extracción masiva](../../research/extraction-bulk.md).
 - [Muestras aprobadas](../../research/extraction-samples.md).
 
