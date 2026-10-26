@@ -109,6 +109,13 @@ export class WeaponViewer {
     this.container = container;
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    this.orbitCamera = this.camera.clone();
+    this.viewDirection = new THREE.Vector3();
+    this.weapon = new THREE.Group();
+    this.scene.add(this.weapon);
+    this.modelBounds = new THREE.Box3();
+    this.rotatedBounds = new THREE.Box3();
+    this.rotationMatrix = new THREE.Matrix4();
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setClearColor(0x000000, 0);
@@ -119,7 +126,9 @@ export class WeaponViewer {
     this.renderer.domElement.setAttribute('role', 'img');
     container.prepend(this.renderer.domElement);
 
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // Orbit a virtual camera: only the weapon inherits its inverse rotation.
+    // The rendered camera keeps the pedestal fixed while preserving wheel zoom.
+    this.controls = new OrbitControls(this.orbitCamera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.enablePan = false;
     this.controls.autoRotate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -127,7 +136,8 @@ export class WeaponViewer {
     this.controls.minDistance = 4;
     this.controls.maxDistance = 14;
     this.controls.minPolarAngle = 0.2;
-    this.controls.maxPolarAngle = Math.PI * 0.78;
+    this.controls.maxPolarAngle = Math.PI - 0.2;
+    this.controls.addEventListener('change', () => this.updateView());
     this.reset();
     this.loader = new GLTFLoader();
     this.requestId = 0;
@@ -204,11 +214,27 @@ export class WeaponViewer {
     if (this.camera.position.length() < this.controls.minDistance) this.reset();
   }
 
+  updateView() {
+    this.camera.position.copy(this.viewDirection).multiplyScalar(this.controls.getDistance()).add(this.controls.target);
+    this.weapon.quaternion.copy(this.orbitCamera.quaternion).invert().premultiply(this.camera.quaternion);
+    if (this.model) {
+      // Keep even long weapons above the fixed base when tilted upright.
+      this.rotationMatrix.makeRotationFromQuaternion(this.weapon.quaternion);
+      this.rotatedBounds.copy(this.modelBounds).applyMatrix4(this.rotationMatrix);
+      this.weapon.position.y = Math.max(0.25, FLOOR - this.rotatedBounds.min.y);
+    }
+  }
+
   reset() {
     const narrow = this.container.clientWidth < 500;
-    this.camera.position.set(narrow ? 4.2 : 3.3, narrow ? 3 : 2.6, narrow ? 7.4 : 6.2);
-    this.controls.target.set(0, -0.15, 0);
+    this.camera.position.set(narrow ? 4.2 : 3.3, narrow ? 4 : 3.5, narrow ? 9.4 : 9);
+    this.controls.target.set(0, 0.75, 0);
+    this.camera.lookAt(this.controls.target);
+    this.viewDirection.copy(this.camera.position).sub(this.controls.target).normalize();
+    this.orbitCamera.position.copy(this.camera.position);
+    this.orbitCamera.quaternion.copy(this.camera.quaternion);
     this.controls.update();
+    this.updateView();
   }
 
   async load(url) {
@@ -219,14 +245,14 @@ export class WeaponViewer {
       return false;
     }
     const model = gltf.scene;
-    const height = prepareModel(model, { width: 4.3, height: 2.2, wireframe: this.wireframe });
-    model.position.y += Math.max(0.25, FLOOR + height / 2);
+    prepareModel(model, { width: 4.3, height: 2.2, wireframe: this.wireframe });
+    this.modelBounds.setFromObject(model);
     if (this.model) {
-      this.scene.remove(this.model);
+      this.weapon.remove(this.model);
       disposeObject(this.model);
     }
     this.model = model;
-    this.scene.add(model);
+    this.weapon.add(model);
     this.reset();
     return true;
   }

@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Abrir `http://localhost:5173`. El showroom lee directamente `exports/weapons/catalog.json`: selección de modelos GLB con sus texturas, búsqueda por nombre, ID o alias, seis categorías, ordenación y paginación. Incluye cámara orbital con zoom, rotación automática, vista de malla, pantalla completa y reproducción del sonido original: el disparo o, si el arma no tiene (motosierra, sables, varitas…), su sonido propio. La interfaz se adapta a móviles; `/` lleva al buscador.
+Abrir `http://localhost:5173`. El showroom lee directamente `exports/weapons/catalog.json`: selección de modelos GLB con sus texturas, búsqueda por nombre, ID o alias, seis categorías, ordenación y paginación. Arrastrar gira solo el arma, con la plataforma fija y espacio para inspeccionar su parte inferior; la rueda controla el zoom. Incluye rotación automática del arma, vista de malla, pantalla completa y reproducción del sonido original: el disparo o, si el arma no tiene (motosierra, sables, varitas…), su sonido propio. La interfaz se adapta a móviles; `/` lleva al buscador.
 
 Cada GLB guarda en su nodo la pose del prefab del juego (hueso × bindpose), con el cañón hacia +Z y arriba +Y; el visor solo lo gira de perfil. Las 70 armas cuyo icono de tienda no se pudo asociar muestran en la colección una vista generada desde su GLB texturizado.
 
