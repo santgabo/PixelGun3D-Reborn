@@ -1,7 +1,7 @@
 import '@fontsource-variable/manrope';
 import '@fontsource/ibm-plex-mono/400.css';
 import './styles.css';
-import { WeaponViewer } from './viewer.js';
+import { WeaponThumbnails, WeaponViewer } from './viewer.js';
 
 const paths = {
   grid: '<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/>',
@@ -43,6 +43,7 @@ let query = '';
 let sort = 'featured';
 let page = 0;
 let viewer;
+let thumbnails;
 let selectionVersion = 0;
 let toastTimeout;
 
@@ -120,6 +121,35 @@ function renderNav() {
   $('#category-nav').innerHTML = [['all', 'Todas las armas'], ...Object.entries(categoryNames)].map(([key, name]) => `<button class="category-button ${category === key ? 'active' : ''}" data-category="${key}" aria-pressed="${category === key}">${icon(key === 'all' ? 'grid' : key)}<span>${name}</span><small>${key === 'all' ? weapons.length : weapons.filter((weapon) => weapon.category === key).length}</small></button>`).join('');
 }
 
+// Shop icon from the game when there is one; otherwise a render of the textured GLB.
+function preview(weapon) {
+  if (weapon.icon) return `<img src="${asset(weapon.icon)}" alt="" loading="lazy" decoding="async" />`;
+  const rendered = thumbnails?.cached(asset(weapon.model));
+  if (rendered) return `<img src="${rendered}" alt="" />`;
+  return `<span class="no-preview" data-thumbnail="${escape(weapon.id)}">${icon('wireframe')}<small>EXPLORAR EN 3D</small></span>`;
+}
+
+function fillThumbnails() {
+  if (!thumbnails) return;
+  for (const placeholder of document.querySelectorAll('#weapon-grid [data-thumbnail]')) {
+    const weapon = weapons.find((item) => item.id === placeholder.dataset.thumbnail);
+    thumbnails.render(asset(weapon.model)).then(() => {
+      // The grid may have been re-rendered meanwhile: look the slot up again.
+      const slot = document.querySelector(`#weapon-grid [data-thumbnail="${CSS.escape(weapon.id)}"]`);
+      if (slot) slot.outerHTML = preview(weapon);
+    }, (error) => console.error(`Vista previa de ${weapon.id}:`, error));
+  }
+}
+
+// The shot when there is one; melee weapons and a few others only have their own sound.
+function soundOf(weapon) {
+  return weapon?.audio.find((item) => item.role === 'shoot') || weapon?.audio.find((item) => item.role === 'other') || weapon?.audio[0];
+}
+
+function audioLabel(weapon) {
+  return soundOf(weapon)?.role === 'shoot' ? 'Escuchar disparo' : 'Escuchar sonido';
+}
+
 function renderCollection() {
   const list = filteredWeapons();
   const pages = Math.max(1, Math.ceil(list.length / pageSize));
@@ -127,7 +157,8 @@ function renderCollection() {
   $('#result-count').textContent = list.length;
   $('#active-category').textContent = category === 'all' ? 'Todas las categorías. Todas las leyendas.' : `Colección / ${categoryNames[category]}`;
   $('#clear-search').hidden = !query;
-  $('#weapon-grid').innerHTML = list.slice(page * pageSize, (page + 1) * pageSize).map((weapon) => `<button class="weapon-card ${selected?.id === weapon.id ? 'selected' : ''}" data-weapon="${escape(weapon.id)}" aria-pressed="${selected?.id === weapon.id}"><div class="card-top"><span class="card-category">${icon(weapon.category)}${escape(categoryNames[weapon.category])}</span><span class="rarity-dot rarity-${escape(weapon.rarity.toLowerCase())}" title="${rarityNames[weapon.rarity] || escape(weapon.rarity)}"></span></div><div class="card-preview">${weapon.icon ? `<img src="${asset(weapon.icon)}" alt="" loading="lazy" decoding="async" />` : `<span class="no-preview">${icon('wireframe')}<small>EXPLORAR EN 3D</small></span>`}<span class="card-open">${icon('arrow')}</span></div><div class="card-info"><div><h3>${escape(weapon.name)}</h3><span>${rarityNames[weapon.rarity] || escape(weapon.rarity)} <b>·</b> ${weapon.tier ? `Nivel ${weapon.tier}` : 'Versión base'}</span></div><span class="selected-check">${icon('check')}</span></div></button>`).join('') || `<div class="empty-state">${icon('search')}<h3>Ningún arma en la mira.</h3><p>Prueba otro nombre o explora todas las categorías.</p><button class="button button-secondary" id="reset-filters">Limpiar filtros</button></div>`;
+  $('#weapon-grid').innerHTML = list.slice(page * pageSize, (page + 1) * pageSize).map((weapon) => `<button class="weapon-card ${selected?.id === weapon.id ? 'selected' : ''}" data-weapon="${escape(weapon.id)}" aria-pressed="${selected?.id === weapon.id}"><div class="card-top"><span class="card-category">${icon(weapon.category)}${escape(categoryNames[weapon.category])}</span><span class="rarity-dot rarity-${escape(weapon.rarity.toLowerCase())}" title="${rarityNames[weapon.rarity] || escape(weapon.rarity)}"></span></div><div class="card-preview">${preview(weapon)}<span class="card-open">${icon('arrow')}</span></div><div class="card-info"><div><h3>${escape(weapon.name)}</h3><span>${rarityNames[weapon.rarity] || escape(weapon.rarity)} <b>·</b> ${weapon.tier ? `Nivel ${weapon.tier}` : 'Versión base'}</span></div><span class="selected-check">${icon('check')}</span></div></button>`).join('') || `<div class="empty-state">${icon('search')}<h3>Ningún arma en la mira.</h3><p>Prueba otro nombre o explora todas las categorías.</p><button class="button button-secondary" id="reset-filters">Limpiar filtros</button></div>`;
+  fillThumbnails();
   $('#page-range').textContent = list.length ? `Mostrando ${page * pageSize + 1}–${Math.min((page + 1) * pageSize, list.length)} de ${list.length} armas` : '0 armas encontradas';
   $('#page-label').textContent = `${page + 1} / ${pages}`;
   $('#previous-page').disabled = page === 0;
@@ -147,7 +178,7 @@ function setModelState(state, message) {
 function resetAudio() {
   audio.pause();
   audio.currentTime = 0;
-  $('#play-audio span').textContent = 'Escuchar disparo';
+  $('#play-audio span').textContent = audioLabel(selected);
   $('#play-audio').classList.remove('is-playing');
 }
 
@@ -174,7 +205,7 @@ async function selectWeapon(weapon) {
   $('#download').download = `${weapon.slug}.glb`;
   $('#download-texture').href = asset(weapon.textures[0]);
   $('#download-texture').download = weapon.textures[0].split('/').pop();
-  $('#play-audio').disabled = !weapon.audio.some((item) => item.role === 'shoot');
+  $('#play-audio').disabled = !soundOf(weapon);
   renderCollection();
   if (!viewer) return;
   setModelState('loading', 'Cargando modelo…');
@@ -252,7 +283,7 @@ $('#fullscreen').addEventListener('click', async () => {
 });
 $('#play-audio').addEventListener('click', async () => {
   if (!audio.paused) { resetAudio(); return; }
-  const clip = selected?.audio.find((item) => item.role === 'shoot');
+  const clip = soundOf(selected);
   if (!clip) return;
   audio.src = asset(clip.file);
   try {
@@ -261,7 +292,10 @@ $('#play-audio').addEventListener('click', async () => {
       $('#play-audio span').textContent = 'Reproduciendo…';
       $('#play-audio').classList.add('is-playing');
     }
-  } catch { toast('No se pudo reproducir el sonido de esta arma.'); }
+  } catch (error) {
+    // Changing weapon while the clip loads aborts play(): not a failure.
+    if (error.name !== 'AbortError') toast('No se pudo reproducir el sonido de esta arma.');
+  }
 });
 audio.addEventListener('ended', resetAudio);
 $('#menu-toggle').addEventListener('click', () => {
@@ -290,6 +324,8 @@ try {
     for (const id of ['rotate', 'reset-view', 'wireframe']) $(`#${id}`).disabled = true;
     console.error('Inicialización del visor:', error);
   }
+  // Without a second WebGL context the cards keep their placeholder.
+  try { thumbnails = new WeaponThumbnails(); } catch (error) { console.error('Vistas previas:', error); }
   const initial = weapons.find((weapon) => weapon.slug === 'ak-48') || weapons[0];
   if (initial) await selectWeapon(initial);
   else setModelState('error', 'No hay armas disponibles en el catálogo.');

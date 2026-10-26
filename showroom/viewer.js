@@ -2,6 +2,108 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+// Top of the pedestal is at y = -1.0; keep a small gap above it.
+const FLOOR = -0.85;
+
+// Every GLB node carries the weapon's pose from its Unity prefab: barrel along
+// +Z, up along +Y. Turning it a quarter around Y gives a side view, muzzle left.
+export function prepareModel(model, { width, height, wireframe = false }) {
+  model.rotation.set(0, -Math.PI / 2, 0);
+  model.updateMatrixWorld(true);
+  const bounds = new THREE.Box3().setFromObject(model);
+  const size = bounds.getSize(new THREE.Vector3());
+  // Swords and staffs stand upright in the hand: limit height and width separately.
+  const scale = Math.min(width / Math.max(size.x, size.z), height / size.y);
+  model.scale.setScalar(scale);
+  model.updateMatrixWorld(true);
+  bounds.setFromObject(model);
+  model.position.sub(bounds.getCenter(new THREE.Vector3()));
+  model.traverse((object) => {
+    if (!object.isMesh) return;
+    for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+      material.wireframe = wireframe;
+      if (material.map) {
+        material.map.magFilter = THREE.NearestFilter;
+        material.map.minFilter = THREE.NearestFilter;
+      }
+    }
+  });
+  return size.y * scale;
+}
+
+export function disposeObject(object) {
+  const geometries = new Set();
+  const materials = new Set();
+  const textures = new Set();
+  object.traverse((child) => {
+    if (!child.isMesh) return;
+    geometries.add(child.geometry);
+    for (const material of Array.isArray(child.material) ? child.material : [child.material]) {
+      materials.add(material);
+      for (const value of Object.values(material)) if (value?.isTexture) textures.add(value);
+    }
+  });
+  for (const texture of textures) texture.dispose();
+  for (const material of materials) material.dispose();
+  for (const geometry of geometries) geometry.dispose();
+}
+
+// Renders card previews for weapons that have no shop icon in the game files.
+// One shared WebGL context, one render at a time; results are cached as blob URLs.
+export class WeaponThumbnails {
+  constructor(width = 360, height = 210) {
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    this.renderer.setPixelRatio(1);
+    this.renderer.setSize(width, height, false);
+    this.renderer.setClearColor(0x000000, 0);
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.5;
+    this.camera = new THREE.PerspectiveCamera(30, width / height, 0.1, 100);
+    this.camera.position.set(1.2, 1.1, 6.2);
+    this.camera.lookAt(0, 0, 0);
+    this.scene = new THREE.Scene();
+    this.scene.add(new THREE.HemisphereLight(0xf0f3e9, 0x495347, 3.2));
+    const key = new THREE.DirectionalLight(0xfff8e8, 3.2);
+    key.position.set(2, 6, 5);
+    this.scene.add(key);
+    this.loader = new GLTFLoader();
+    this.cache = new Map();
+    this.queue = Promise.resolve();
+  }
+
+  cached(url) {
+    const entry = this.cache.get(url);
+    return typeof entry === 'string' ? entry : null;
+  }
+
+  render(url) {
+    if (!this.cache.has(url)) {
+      const job = this.queue.then(() => this.draw(url));
+      this.queue = job.catch(() => {});
+      this.cache.set(url, job);
+      job.then((src) => this.cache.set(url, src), () => {});
+    }
+    return Promise.resolve(this.cache.get(url));
+  }
+
+  async draw(url) {
+    const model = (await this.loader.loadAsync(url)).scene;
+    try {
+      prepareModel(model, { width: 4.3, height: 2.4 });
+      this.scene.add(model);
+      this.renderer.render(this.scene, this.camera);
+      const blob = await new Promise((resolve, reject) => {
+        this.renderer.domElement.toBlob((result) => (result ? resolve(result) : reject(new Error('toBlob'))), 'image/png');
+      });
+      return URL.createObjectURL(blob);
+    } finally {
+      this.scene.remove(model);
+      disposeObject(model);
+    }
+  }
+}
+
 export class WeaponViewer {
   constructor(container) {
     this.container = container;
@@ -113,35 +215,15 @@ export class WeaponViewer {
     const requestId = ++this.requestId;
     const gltf = await this.loader.loadAsync(url);
     if (this.disposed || requestId !== this.requestId) {
-      this.disposeObject(gltf.scene);
+      disposeObject(gltf.scene);
       return false;
     }
     const model = gltf.scene;
-    // The extracted weapon meshes use their local Y axis along the barrel.
-    model.rotation.set(-Math.PI / 2, 0, -Math.PI / 2);
-    model.updateMatrixWorld(true);
-    const bounds = new THREE.Box3().setFromObject(model);
-    const size = bounds.getSize(new THREE.Vector3());
-    const scale = 4.3 / Math.max(size.x, size.y, size.z);
-    model.scale.setScalar(scale);
-    model.updateMatrixWorld(true);
-    bounds.setFromObject(model);
-    model.position.sub(bounds.getCenter(new THREE.Vector3()));
-    model.position.y += 0.25;
-    model.traverse((object) => {
-      if (!object.isMesh) return;
-      const materials = Array.isArray(object.material) ? object.material : [object.material];
-      for (const material of materials) {
-        material.wireframe = this.wireframe;
-        if (material.map) {
-          material.map.magFilter = THREE.NearestFilter;
-          material.map.minFilter = THREE.NearestFilter;
-        }
-      }
-    });
+    const height = prepareModel(model, { width: 4.3, height: 2.2, wireframe: this.wireframe });
+    model.position.y += Math.max(0.25, FLOOR + height / 2);
     if (this.model) {
       this.scene.remove(this.model);
-      this.disposeObject(this.model);
+      disposeObject(this.model);
     }
     this.model = model;
     this.scene.add(model);
@@ -159,30 +241,13 @@ export class WeaponViewer {
     });
   }
 
-  disposeObject(object) {
-    const geometries = new Set();
-    const materials = new Set();
-    const textures = new Set();
-    object.traverse((child) => {
-      if (!child.isMesh) return;
-      geometries.add(child.geometry);
-      for (const material of Array.isArray(child.material) ? child.material : [child.material]) {
-        materials.add(material);
-        for (const value of Object.values(material)) if (value?.isTexture) textures.add(value);
-      }
-    });
-    for (const texture of textures) texture.dispose();
-    for (const material of materials) material.dispose();
-    for (const geometry of geometries) geometry.dispose();
-  }
-
   dispose() {
     this.disposed = true;
     ++this.requestId;
     this.resizeObserver.disconnect();
     this.renderer.setAnimationLoop(null);
     this.controls.dispose();
-    this.disposeObject(this.scene);
+    disposeObject(this.scene);
     this.renderer.dispose();
     this.renderer.domElement.remove();
   }

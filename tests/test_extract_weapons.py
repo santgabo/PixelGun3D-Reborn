@@ -1,6 +1,6 @@
 import unittest
 
-from tools.extract_weapons import choose_primary, disambiguate, is_arm, slugify
+from tools.extract_weapons import audio_role, choose_primary, disambiguate, gltf_matrix, is_arm, slugify
 
 
 class WeaponClassificationTests(unittest.TestCase):
@@ -37,6 +37,20 @@ class WeaponClassificationTests(unittest.TestCase):
         ]
         disambiguate(weapons)
         self.assertEqual([item["name"] for item in weapons], ["Acid Cannon (tier 1)", "Acid Cannon (tier 3)"])
+
+    def test_sound_role_is_not_fooled_by_shot_or_fire_in_the_name(self):
+        self.assertEqual(audio_role("PlasmaShotgun_Empty"), "empty")
+        self.assertEqual(audio_role("firestorm_zoom_in"), "scope")
+        self.assertEqual(audio_role("fireball_spell_empty"), "empty")
+        self.assertEqual(audio_role("fireball_spell_shoot"), "shoot")
+        self.assertEqual(audio_role("Water_Rifle_Reoad"), "reload")
+        self.assertEqual(audio_role("chainsaw_action"), "other")
+
+    def test_unity_pose_is_mirrored_like_the_glb_vertices(self):
+        # Unity: +90° about Y and a shift along +X. The GLB reflects X, so the
+        # rotation turns the other way and the shift goes to -X.
+        unity = [[0, 0, 1, 2], [0, 1, 0, 3], [-1, 0, 0, 4], [0, 0, 0, 1]]
+        self.assertEqual(gltf_matrix(unity), [0, 0, 1, 0, 0, 1, 0, 0, -1, 0, 0, 0, -2, 3, 4, 1])
 
 
 if __name__ == "__main__":

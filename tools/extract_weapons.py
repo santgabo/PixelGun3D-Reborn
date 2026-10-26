@@ -3,7 +3,8 @@
 No vuelve a leer el APK. Usa el inventario, los prefabs weapons/weaponN,
 la localización I2 y los GLB ya convertidos. Los props de mapa (Knife_statue
 y similares), los brazos del jugador, las armas de enemigos y las de mech
-no entran.
+no entran. Cada GLB lleva en su nodo la pose de reposo del prefab (hueso ×
+bindpose), así todas las armas salen orientadas igual: cañón +Z, arriba +Y.
 """
 
 from __future__ import annotations
@@ -142,15 +143,97 @@ def is_effect(name):
 
 def audio_role(name):
     low = name.lower()
-    if "reload" in low:
+    # El orden importa: "PlasmaShotgun_Empty" o "firestorm_zoom_in" contienen
+    # "shot"/"fire" pero no son disparos.
+    if "reload" in low or "reoad" in low:
         return "reload"
-    if any(word in low for word in ("shoot", "shot", "fire")):
-        return "shoot"
     if "zoom" in low or "scope" in low:
         return "scope"
     if "empty" in low or "click" in low:
         return "empty"
+    if any(word in low for word in ("shoot", "shot", "fire")):
+        return "shoot"
     return "other"
+
+
+def mat_mul(a, b):
+    return [[sum(a[i][k] * b[k][j] for k in range(4)) for j in range(4)] for i in range(4)]
+
+
+def identity():
+    return [[float(i == j) for j in range(4)] for i in range(4)]
+
+
+def local_matrix(transform):
+    """Matriz local (fila mayor) de un Transform de Unity: T * R * S."""
+    q, p, s = transform.m_LocalRotation, transform.m_LocalPosition, transform.m_LocalScale
+    x, y, z, w = q.x, q.y, q.z, q.w
+    rotation = [
+        [1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+        [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+        [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)],
+    ]
+    scale, position = (s.x, s.y, s.z), (p.x, p.y, p.z)
+    return [
+        [rotation[i][j] * scale[j] for j in range(3)] + [position[i]] for i in range(3)
+    ] + [[0.0, 0.0, 0.0, 1.0]]
+
+
+def unity_matrix(value):
+    return [[float(getattr(value, f"e{row}{col}")) for col in range(4)] for row in range(4)]
+
+
+def gltf_matrix(matrix):
+    """Pasa una matriz de Unity al espacio del GLB (X reflejada), en orden de columnas."""
+    mirror = (-1.0, 1.0, 1.0, 1.0)
+    return [round(mirror[row] * matrix[row][col] * mirror[col], 6) + 0.0 for col in range(4) for row in range(4)]
+
+
+def rest_matrix(transform_id, transforms):
+    """Transformación del objeto respecto a la raíz del prefab (la raíz no cuenta)."""
+    matrix = identity()
+    while transform_id in transforms:
+        transform = transforms[transform_id]
+        father = getattr(transform, "m_Father", None)
+        father_id = getattr(father, "path_id", 0) if father is not None else 0
+        if not father_id:
+            break
+        matrix = mat_mul(local_matrix(transform), matrix)
+        transform_id = father_id
+    return matrix
+
+
+def cached_env(file_id, files, cache, root):
+    env = cache.get(file_id)
+    if env is None:
+        archive, logical = files[file_id]
+        env = UnityPy.load(str(root / "work/prepared" / archive / logical))
+        cache[file_id] = env
+    return env
+
+
+def bind_poses(mesh, owner_file, externals, files, cache, root):
+    target = owner_file if mesh.file_id == 0 else externals.get((owner_file, mesh.file_id))
+    if target is None:
+        return []
+    menv = cached_env(target, files, cache, root)
+    data = next((obj.read() for obj in menv.objects if obj.path_id == mesh.path_id and obj.type.name == "Mesh"), None)
+    return [unity_matrix(item) for item in getattr(data, "m_BindPose", None) or []]
+
+
+def part_matrix(kind, data, go_id, mesh, transforms, transform_of_go, owner_file, externals, files, cache, root):
+    """Pose de reposo de la malla en el prefab, en el espacio del GLB.
+
+    Una malla con piel se coloca con hueso * bindpose; el Transform de su
+    GameObject no interviene. Sin piel, manda el Transform del GameObject.
+    """
+    if kind == "SkinnedMeshRenderer":
+        poses = bind_poses(mesh, owner_file, externals, files, cache, root)
+        for index, bone in enumerate(getattr(data, "m_Bones", None) or []):
+            if index < len(poses) and bone.file_id == 0 and bone.path_id in transforms:
+                return gltf_matrix(mat_mul(rest_matrix(bone.path_id, transforms), poses[index]))
+    transform_id = transform_of_go.get(go_id)
+    return None if transform_id is None else gltf_matrix(rest_matrix(transform_id, transforms))
 
 
 def role_of(name):
@@ -349,7 +432,7 @@ def write_glb(path, document, binary):
     path.write_bytes(out)
 
 
-def localize_textures(src_glb, dst_glb, label, extras=None):
+def localize_textures(src_glb, dst_glb, label, extras=None, matrix=None):
     chunks = split_glb(src_glb.read_bytes())
     document = json.loads(chunks[0][1])
     binary = next((blob for kind, blob in chunks if kind == b"BIN\0"), b"")
@@ -369,6 +452,10 @@ def localize_textures(src_glb, dst_glb, label, extras=None):
         copied.append({"file": filename, "source_name": source.name})
     if document.get("nodes"):
         document["nodes"][0]["name"] = label
+        if matrix is not None:
+            for key in ("translation", "rotation", "scale"):
+                document["nodes"][0].pop(key, None)
+            document["nodes"][0]["matrix"] = matrix
     if document.get("meshes"):
         document["meshes"][0]["name"] = label
     if extras:
@@ -388,11 +475,7 @@ def main_texture(data, owner_file, env, externals, files, cache, root):
         mat_file = externals.get((owner_file, mat.file_id))
         if not mat_file:
             return None
-        menv = cache.get(mat_file)
-        if menv is None:
-            archive, logical = files[mat_file]
-            menv = UnityPy.load(str(root / "work/prepared" / archive / logical))
-            cache[mat_file] = menv
+        menv = cached_env(mat_file, files, cache, root)
     material = next((
         obj.read() for obj in menv.objects
         if obj.path_id == mat.path_id and obj.type.name == "Material"
@@ -479,9 +562,17 @@ def read_parts(path, owner_file, externals, mesh_journal, glb_of, root, files, c
     names = {}
     filters = {}
     renderers = []
+    transforms = {}
+    transform_of_go = {}
     for obj in env.objects:
         if obj.type.name == "GameObject":
             names[obj.path_id] = obj.read().m_Name or ""
+        elif obj.type.name == "Transform":
+            transform = obj.read()
+            transforms[obj.path_id] = transform
+            go = getattr(transform, "m_GameObject", None)
+            if go is not None:
+                transform_of_go[go.path_id] = obj.path_id
         elif obj.type.name == "MeshFilter":
             try:
                 data = obj.read()
@@ -494,7 +585,7 @@ def read_parts(path, owner_file, externals, mesh_journal, glb_of, root, files, c
         elif obj.type.name in ("SkinnedMeshRenderer", "MeshRenderer", "ParticleSystemRenderer"):
             renderers.append(obj)
 
-    def append(mesh, go_id, renderer_path_id, forced_role=None, main_tex=None):
+    def append(mesh, go_id, renderer_path_id, forced_role=None, main_tex=None, matrix=None):
         target = owner_file if mesh.file_id == 0 else externals.get((owner_file, mesh.file_id))
         if target is None:
             return
@@ -520,6 +611,7 @@ def read_parts(path, owner_file, externals, mesh_journal, glb_of, root, files, c
             "main_tex": main_tex,
             "source_glb": None if glb_rel is None else str(root / "exports/gltf" / glb_rel),
             "renderer_path_id": renderer_path_id,
+            "matrix": matrix,
         })
 
     parts = []
@@ -545,10 +637,18 @@ def read_parts(path, owner_file, externals, mesh_journal, glb_of, root, files, c
                 tex = main_texture(data, owner_file, env, externals, files, cache, root)
             except Exception:
                 tex = None
-        append(mesh, go_id, obj.path_id, role, tex)
+        matrix = part_matrix(
+            obj.type.name, data, go_id, mesh, transforms, transform_of_go,
+            owner_file, externals, files, cache, root,
+        )
+        append(mesh, go_id, obj.path_id, role, tex, matrix)
     for go_id, mesh in filters.items():
         if go_id not in used_gos:
-            append(mesh, go_id, 0)
+            matrix = part_matrix(
+                "MeshFilter", None, go_id, mesh, transforms, transform_of_go,
+                owner_file, externals, files, cache, root,
+            )
+            append(mesh, go_id, 0, matrix=matrix)
     return parts
 
 
@@ -558,8 +658,14 @@ def prepare_output(output):
         previous = json.loads(marker.read_text()) if marker.is_file() else {}
         if previous.get("schema") != SCHEMA:
             raise SystemExit(f"{output} ya tiene archivos que no son esta extracción")
-        shutil.rmtree(output)
-    output.mkdir(parents=True)
+        # Vaciar sin borrar la carpeta: `npm run dev` la publica y dejaría de
+        # servirla si se sustituye por otra.
+        for child in output.iterdir():
+            if child.is_dir() and not child.is_symlink():
+                shutil.rmtree(child)
+            else:
+                child.unlink()
+    output.mkdir(parents=True, exist_ok=True)
 
 
 def check_known(weapons):
@@ -606,7 +712,7 @@ def write_weapon_files(weapon, folder, output, bulk, texture_of):
     if primary and primary.get("source_glb"):
         primary["file"] = f"{weapon['slug']}.glb"
         primary["textures"] = localize_textures(
-            Path(primary["source_glb"]), folder / primary["file"], weapon["name"], extras,
+            Path(primary["source_glb"]), folder / primary["file"], weapon["name"], extras, primary.get("matrix"),
         )
         apply_main_tex(primary, folder, texture_of, bulk)
         used.add(primary["file"])
@@ -622,7 +728,7 @@ def write_weapon_files(weapon, folder, output, bulk, texture_of):
         used.add(filename)
         part["file"] = filename
         part["textures"] = localize_textures(
-            Path(part["source_glb"]), folder / filename, part["object_name"], extras,
+            Path(part["source_glb"]), folder / filename, part["object_name"], extras, part.get("matrix"),
         )
         apply_main_tex(part, folder, texture_of, bulk)
     icon = weapon.get("icon_src")
@@ -688,6 +794,8 @@ def build_record(weapon, folder, output):
         "folder": folder.relative_to(output).as_posix(),
         "model": model,
         "model_role": None if primary is None else primary.get("role"),
+        # El GLB lleva en su nodo la pose del prefab: cañón hacia +Z, arriba +Y.
+        "rest_pose": primary is not None and primary.get("matrix") is not None,
         "textures": textures,
         "texture_match": None if primary is None else primary.get("texture_match"),
         "icon": weapon.get("icon_rel"),
@@ -732,6 +840,7 @@ def dict_counts(records):
     counts, status = defaultdict(int), defaultdict(int)
     icons = sum(item["icon"] is not None for item in records)
     exact = sum(item.get("texture_match") == "renderer" for item in records)
+    posed = sum(bool(item.get("rest_pose")) for item in records)
     for item in records:
         counts[item["category"]] += 1
         status[item["status"]] += 1
@@ -740,6 +849,7 @@ def dict_counts(records):
         "by_status": dict(sorted(status.items())),
         "with_icon": icons,
         "texture_match_renderer": exact,
+        "with_rest_pose": posed,
     }
 
 
