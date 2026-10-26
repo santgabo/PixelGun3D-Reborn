@@ -17,3 +17,7 @@ __pycache__/
 !.env.example
 /.claude/settings.local.json
 /.pi/
+
+# Showroom Three.js
+/node_modules/
+/dist/

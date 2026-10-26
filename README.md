@@ -2,6 +2,26 @@
 
 Herramientas locales para inventariar y extraer **mallas estáticas, texturas y sonidos** del APK y el OBB suministrados. Sin recuperar esqueletos, animaciones, escenas ni el proyecto original de Unity.
 
+## Showroom 3D — Three.js
+
+Requisitos del visor: Node.js 20.19+ o 22.12+ y un navegador con WebGL. El extractor de Python sigue usando exclusivamente uv.
+
+```bash
+npm install
+npm run dev
+```
+
+Abrir `http://localhost:5173`. El showroom lee directamente `exports/weapons/catalog.json`: selección de modelos GLB con sus texturas, búsqueda por nombre, ID o alias, seis categorías, ordenación y paginación. Incluye cámara orbital con zoom, rotación automática, vista de malla, pantalla completa y reproducción del disparo original cuando existe. La interfaz se adapta a móviles; `/` lleva al buscador.
+
+Los botones **Modelo GLB** y **Textura PNG** descargan los dos archivos por separado. Guardarlos juntos, conservando sus nombres: el GLB referencia la textura PNG.
+
+```bash
+npm run build
+npm run preview
+```
+
+Vite publica solamente `exports/weapons/`, sin copiar las otras exportaciones. La compilación genera `dist/`, con la aplicación y sus recursos locales; no necesita CDN. Si faltan los assets, regenerarlos antes con `uv run --locked -m tools.extract_weapons` (véase `--help` para las opciones). Los recursos del juego y `dist/` no se versionan.
+
 ## Entorno: exclusivamente uv
 
 Requisitos: `uv` instalado. Python y dependencias del proyecto se gestionan mediante uv; no usar `pip`, activar manualmente un entorno ni invocar `.venv/bin/python`.
